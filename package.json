@@ -4,10 +4,6 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.5",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1",
     "express": "^4.17.0",
     "pg": "^7.11.0",
     "react": "^16.8.6",
@@ -17,9 +13,7 @@
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "sequelize": "^5.8.6",
-    "webpack": "^4.32.2",
-    "webpack-cli": "^3.3.2"
+    "sequelize": "^5.8.6"
   },
   "babel": {
     "presets": [
@@ -27,7 +21,14 @@
       "stage-2"
     ]
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2"
+  },
   "scripts": {
     "start": "node server.js",
     "postinstall": "npm run webpack",
