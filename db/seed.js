@@ -17,9 +17,6 @@ const breweriesList = csv.toObjects(breweriesCSV)
 const stylesList = csv.toObjects(stylesCSV)
 const categoriesList = csv.toObjects(categoriesCSV)
 
-// console.log(csv.toObjects(beerCSV)[1])
-// console.log(Object.keys(categoriesList[1]))
-
 connection
   .sync({
     force: true
@@ -80,4 +77,15 @@ connection
         })
       )
     )
+  })
+  .then(() => {
+    return beers.findAll({
+      where: {
+        id: 1
+      },
+      includes: [{ model: breweries }]
+    })
+  })
+  .then(result => {
+    result.map(t => console.log(t.get()))
   })
