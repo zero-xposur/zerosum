@@ -64,10 +64,20 @@ connection
   })
   .then(() => {
     return Promise.all(
-      categoriesList.map(category => {
+      categoriesList.map(category =>
         categories.create({
           cat_name: category.cat_name
         })
-      })
+      )
+    )
+  })
+  .then(() => {
+    return Promise.all(
+      stylesList.map(style =>
+        styles.create({
+          cat_id: style.cat_id,
+          style_name: style.style_name
+        })
+      )
     )
   })
