@@ -62,3 +62,12 @@ connection
       )
     )
   })
+  .then(() => {
+    return Promise.all(
+      categoriesList.map(category => {
+        categories.create({
+          cat_name: category.cat_name
+        })
+      })
+    )
+  })
