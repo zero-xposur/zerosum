@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize')
+const { Sequelize } = require('sequelize')
 
 const dbName = process.env.DATABASE_URL || 'postgres://localhost:5432/zerosum'
 
