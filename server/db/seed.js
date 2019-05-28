@@ -6,11 +6,11 @@ const breweriesCSV = require('./csv/breweries')
 const stylesCSV = require('./csv/styles')
 const categoriesCSV = require('./csv/categories')
 // models
-const users = require('./models/users')
-const beers = require('./models/beers')
-const breweries = require('./models/breweries')
-const categories = require('./models/categories')
-const styles = require('./models/styles')
+const Users = require('./models/users')
+const Beers = require('./models/beers')
+const Breweries = require('./models/breweries')
+const Categories = require('./models/categories')
+const Styles = require('./models/styles')
 // csv parsing
 const beersList = csv.toObjects(beerCSV)
 const breweriesList = csv.toObjects(breweriesCSV)
@@ -22,14 +22,14 @@ connection
     force: true
   })
   .then(() => {
-    return users.create({
+    return Users.create({
       name: 'testUser1'
     })
   })
   .then(() => {
     return Promise.all(
       beersList.map(beer =>
-        beers.create({
+        Beers.create({
           id: beer.id,
           brewery_id: beer.brewery_id,
           name: beer.name,
@@ -44,7 +44,7 @@ connection
   .then(() => {
     return Promise.all(
       breweriesList.map(brewery =>
-        breweries.create({
+        Breweries.create({
           name: brewery.name,
           address1: brewery.address1,
           address2: brewery.address2,
@@ -62,7 +62,7 @@ connection
   .then(() => {
     return Promise.all(
       categoriesList.map(category =>
-        categories.create({
+        Categories.create({
           cat_name: category.cat_name
         })
       )
@@ -71,7 +71,7 @@ connection
   .then(() => {
     return Promise.all(
       stylesList.map(style =>
-        styles.create({
+        Styles.create({
           cat_id: style.cat_id,
           style_name: style.style_name
         })
@@ -79,11 +79,11 @@ connection
     )
   })
   .then(() => {
-    return beers.findAll({
+    return Beers.findAll({
       where: {
         id: 1
       },
-      includes: [{ model: breweries }]
+      includes: [{ model: Breweries }]
     })
   })
   .then(result => {

@@ -1,5 +1,7 @@
 const { Sequelize, connection } = require('./connection')
 
+// associations
+
 const sync = () => {
   return new Promise((res, rej) => {
     connection

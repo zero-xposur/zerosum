@@ -1,6 +1,6 @@
 const { connection, Sequelize } = require('..')
 
-const breweries = connection.define('brewery', {
+const Breweries = connection.define('brewery', {
   name: Sequelize.TEXT,
   address1: Sequelize.TEXT,
   address2: Sequelize.TEXT,
@@ -13,4 +13,4 @@ const breweries = connection.define('brewery', {
   descript: Sequelize.TEXT
 })
 
-module.exports = breweries
+module.exports = Breweries

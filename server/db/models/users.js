@@ -1,7 +1,7 @@
 const { connection, Sequelize } = require('..')
 
-const user = connection.define('user', {
+const User = connection.define('user', {
   name: Sequelize.TEXT
 })
 
-module.exports = user
+module.exports = User
