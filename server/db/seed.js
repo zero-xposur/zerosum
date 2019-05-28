@@ -86,6 +86,6 @@ connection
       includes: [{ model: breweries }]
     })
   })
-  .then(result => {
-    result.map(t => console.log(t.get()))
-  })
+// .then(result => {
+//   result.map(t => console.log(t.get()))
+// })
