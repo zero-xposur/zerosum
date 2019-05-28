@@ -1,4 +1,4 @@
-const { connection } = require('./db')
+const { connection } = require('.')
 // csv
 const csv = require('jquery-csv')
 const beerCSV = require('./csv/beers')
@@ -6,11 +6,11 @@ const breweriesCSV = require('./csv/breweries')
 const stylesCSV = require('./csv/styles')
 const categoriesCSV = require('./csv/categories')
 // models
-const users = require('./models/users')
-const beers = require('./models/beers')
-const breweries = require('./models/breweries')
-const categories = require('./models/categories')
-const styles = require('./models/styles')
+const users = require('../../db/models/users')
+const beers = require('../../db/models/beers')
+const breweries = require('../../db/models/breweries')
+const categories = require('../../db/models/categories')
+const styles = require('../../db/models/styles')
 // csv parsing
 const beersList = csv.toObjects(beerCSV)
 const breweriesList = csv.toObjects(breweriesCSV)
