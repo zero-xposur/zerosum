@@ -1,4 +1,4 @@
-const { connection, Sequelize } = require('..')
+const { connection, Sequelize } = require('../connection')
 
 const Breweries = connection.define('brewery', {
   name: Sequelize.TEXT,

@@ -1,4 +1,4 @@
-const { connection, Sequelize } = require('..')
+const { connection, Sequelize } = require('../connection')
 
 const Beers = connection.define('beer', {
   // brewery_id: Sequelize.INTEGER,

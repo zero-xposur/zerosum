@@ -1,4 +1,4 @@
-const { connection, Sequelize } = require('..')
+const { connection, Sequelize } = require('../connection')
 
 const Styles = connection.define('style', {
   // cat_id: Sequelize.INTEGER,
