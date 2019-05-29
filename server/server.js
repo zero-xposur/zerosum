@@ -10,4 +10,6 @@ app.get('/', (req, res, next) =>
   res.sendFile(path.join(__dirname, 'index.html'))
 );
 
+app.use('/api', require('./routes'));
+
 module.exports = app;
