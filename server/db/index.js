@@ -8,7 +8,7 @@ const Users = require('./models/users')
 
 // associations
 Styles.belongsTo(Categories, { as: 'cat_id' })
-Categories.hasMany(Styles, { as: 'cad_id' })
+Categories.hasMany(Styles, { as: 'cat_id' })
 
 const sync = () => {
   return new Promise((res, rej) => {
