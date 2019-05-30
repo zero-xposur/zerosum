@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "express": "^4.17.0",
+    "jquery-csv": "^1.0.3",
     "pg": "^7.11.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -31,11 +32,13 @@
   },
   "scripts": {
     "start": "node server.js",
+    "sync": "node server/db/seed",
+    "seed": "psql zerosum < server/db/beerAppDatababeer.sql && psql zerosum < server/db/beerAppDataprices.sql",
+    "syncAndSeed": "npm run sync && npm run seed",
     "postinstall": "npm run webpack",
     "webpack": "webpack",
     "webpack:dev": "npm run webpack -- --mode=development --watch",
-    "start:dev": "npm run webpack:dev & nodemon server --ignore src/ --ignore dist/",
-    "seed": "psql zerosum < server/db/beerAppData"
+    "start:dev": "npm run webpack:dev & nodemon server --ignore src/ --ignore dist/"
   },
   "keywords": [],
   "author": "",
