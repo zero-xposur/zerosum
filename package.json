@@ -32,7 +32,9 @@
   },
   "scripts": {
     "start": "node server.js",
-    "seed": "node server/db/seed.js",
+    "sync": "node server/db/seed",
+    "seed": "psql zerosum < server/db/beerAppData.babeer.sql && psql zerosum < server/db/beerAppData.prices.sql",
+    "syncAndSeed": "npm run sync && npm run seed",
     "postinstall": "npm run webpack",
     "webpack": "webpack",
     "webpack:dev": "npm run webpack -- --mode=development --watch",
