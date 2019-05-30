@@ -5,9 +5,9 @@ import { rootReducer } from './reducers';
 
 // commented out until we have reducers
 
-// const store = createStore(
-//   rootReducer,
-//   applyMiddleware(thunkMiddleware, loggerMiddleware)
-// );
+const store = createStore(
+  rootReducer,
+  applyMiddleware(thunkMiddleware, loggerMiddleware)
+);
 
-// export default store;
+export default store;

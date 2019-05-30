@@ -34,7 +34,8 @@
     "postinstall": "npm run webpack",
     "webpack": "webpack",
     "webpack:dev": "npm run webpack -- --mode=development --watch",
-    "start:dev": "npm run webpack:dev & nodemon server --ignore src/ --ignore dist/"
+    "start:dev": "npm run webpack:dev & nodemon server --ignore src/ --ignore dist/",
+    "seed": "psql zerosum < server/db/beerAppData"
   },
   "keywords": [],
   "author": "",
