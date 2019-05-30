@@ -5,5 +5,5 @@ To start:
 ```
 createdb zerosum
 npm run start:dev
-npm run seed
+npm run syncAndSeed
 ```
