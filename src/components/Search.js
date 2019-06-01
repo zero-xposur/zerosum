@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getBeers } from '../reducers';
+import { getBeers } from '../reducers/search';
 
-class SearchBar extends Component {
+class Search extends Component {
   constructor() {
     super();
     this.state = {
@@ -25,6 +25,8 @@ class SearchBar extends Component {
   render() {
     return (
       <div>
+        <h1>Find that babeer!</h1>
+
         <input onChange={this.handleChange} />
         <button onClick={this.handleSubmit}>submit</button>
       </div>
@@ -39,4 +41,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   null,
   mapDispatchToProps
-)(SearchBar);
+)(Search);
