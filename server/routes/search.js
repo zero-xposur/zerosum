@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Babeers } = require('../db');
+const Babeers  = require('../../db/models/babeers');
 
 // GET :/api/search/:search
 router.get('/:search', (req, res, next) => {

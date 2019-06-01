@@ -3,7 +3,6 @@ const app = express();
 const path = require('path');
 const morgan = require('morgan');
 const session = require('express-session');
-const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
@@ -19,7 +18,12 @@ app.use(function(req, res, next) {
   next();
 });
 app.use(express.static(path.join(__dirname, '..', 'dist')));
-
+app.get('/', (req, res, next) =>
+  res.sendFile(path.join(__dirname, '../index.html'))
+);
+app.get('/privacy', (req, res, next) =>
+  res.sendFile(path.join(__dirname, '../privacy.html'))
+);
 // Session middleware
 app.use(session({
   secret: 'This is not a very secure secret...',
@@ -28,16 +32,6 @@ app.use(session({
 }));
 
 // authentication router
-
-app.use('/auth', require('./routes/user'));
-
-app.get('/', (req, res, next) =>
-  res.render(path.join(__dirname, '../index.html'), 
-  {user: undefined})
-);
-app.get('/privacy', (req, res, next) =>
-  res.sendFile(path.join(__dirname, '../privacy.html'))
-);
 
 app.use('/api', require('./routes'));
 

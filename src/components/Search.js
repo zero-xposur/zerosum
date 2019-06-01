@@ -7,6 +7,7 @@ class Search extends Component {
     super();
     this.state = {
       search: '',
+      beers: []
     };
   }
 
@@ -18,9 +19,9 @@ class Search extends Component {
     evt.preventDefault();
     this.props
       .searchBeers(this.state.search)
-      .then(response => console.log(response))
+      .then(response => this.setState({...this.state, beers: response.beers}))
       .then(() => this.props.history.push(`/search/${this.state.search}`));
-  };
+  }
 
   render() {
     return (
@@ -29,8 +30,19 @@ class Search extends Component {
 
         <input onChange={this.handleChange} />
         <button onClick={this.handleSubmit}>submit</button>
+        <ul>
+          {this.state && this.state.beers!==undefined? this.state.beers.map((beer)=>{return (
+            <li key={beer.id}>{beer.brewery} - {beer.name}</li>
+          )}):''}
+        </ul>
       </div>
     );
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    searchResults: state.beers
   }
 }
 
@@ -39,6 +51,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Search);

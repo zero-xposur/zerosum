@@ -5,7 +5,7 @@ catch(ex){
     console.log(ex);
 }
 const router = require('express').Router();
-const User = require('../db/models/users');
+const User = require('../../db/models/users');
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
 
