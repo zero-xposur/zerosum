@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getBeers } from '../reducers';
+import { getBeers } from '../reducers/search';
 
-class SearchBar extends Component {
+class Search extends Component {
   constructor() {
     super();
     this.state = {
       search: '',
+      beers: []
     };
   }
 
@@ -18,17 +19,30 @@ class SearchBar extends Component {
     evt.preventDefault();
     this.props
       .searchBeers(this.state.search)
-      .then(response => console.log(response))
+      .then(response => this.setState({...this.state, beers: response.beers}))
       .then(() => this.props.history.push(`/search/${this.state.search}`));
-  };
+  }
 
   render() {
     return (
       <div>
+        <h1>Find that babeer!</h1>
+
         <input onChange={this.handleChange} />
         <button onClick={this.handleSubmit}>submit</button>
+        <ul>
+          {this.state && this.state.beers!==undefined? this.state.beers.map((beer)=>{return (
+            <li key={beer.id}>{beer.brewery} - {beer.name}</li>
+          )}):''}
+        </ul>
       </div>
     );
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    searchResults: state.beers
   }
 }
 
@@ -37,6 +51,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
-)(SearchBar);
+)(Search);
