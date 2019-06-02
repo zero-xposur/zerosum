@@ -15,12 +15,12 @@ const Nav = ({location: {pathname}}) => {
     return (
         <ul className='nav nav-pills' style={{ marginBottom: '20px', marginTop: '10px' }}>
             {
-                userLinks.map(link=>
-                    (
+                userLinks.map(link=>{
+                    return (
                         <li key={link.to} className={`nav-item${ pathname === link.to ? ' active': ''}`}>
                             <Link to={link.to} className={`nav-link${ pathname === link.to ? ' active': ''}`}>{link.label}</Link>
                         </li>
-                    )
+                    )}
                 )
             }
         </ul>
