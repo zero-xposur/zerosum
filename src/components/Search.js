@@ -20,7 +20,7 @@ class Search extends Component {
     this.props
       .searchBeers(this.state.search)
       .then(response => this.setState({...this.state, beers: response.beers}))
-      .then(() => this.props.history.push(`/search/${this.state.search}`));
+      // .then(() => this.props.history.push(`/search/${this.state.search}`));
   }
 
   render() {
@@ -30,8 +30,10 @@ class Search extends Component {
 
         <input onChange={this.handleChange} />
         <button onClick={this.handleSubmit}>submit</button>
+        
         <ul>
-          {this.state && this.state.beers!==undefined? this.state.beers.map((beer)=>{return (
+          {this.state && this.state.beers!==undefined? this.state.beers.map((beer)=>{
+            return (
             <li key={beer.id}>{beer.brewery} - {beer.name}</li>
           )}):''}
         </ul>
