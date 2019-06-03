@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getBeers } from '../reducers/search';
+import { Link } from 'react-router-dom';
 
 class Search extends Component {
     constructor() {
@@ -38,7 +39,9 @@ class Search extends Component {
                         ? this.state.beers.map(beer => {
                               return (
                                   <li key={beer.id}>
-                                      {beer.brewery} - {beer.name}
+                                      <Link to={`/beer/${beer.id}`}>
+                                          {beer.brewery} - {beer.name}
+                                      </Link>
                                   </li>
                               );
                           })
