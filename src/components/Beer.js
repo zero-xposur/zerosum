@@ -16,7 +16,6 @@ const Beer = ({ match, beer, fetchBeer }) => {
     useEffect(() => {
         fetchBeer(match.params.beerId);
     }, []);
-    console.log(beer.searchBeer);
     let beerPage = beer.searchBeer;
     return (
         <div>

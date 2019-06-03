@@ -17,7 +17,6 @@ export const beerReducer = (state = {}, action) => {
 };
 
 export const getBeer = beerId => {
-    console.log('in getBeer');
     return dispatch => {
         return axios
             .get(`/api/beer/${beerId}`)
