@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
     Table,
@@ -32,13 +33,15 @@ const BeerList = props => {
     ];
 
     const desc = (a, b) => {
+        const first = a[orderBy] ? a[orderBy].toString() : '0';
+        const second = b[orderBy] ? b[orderBy].toString() : '0';
         if (order === 'desc') {
-            return a[orderBy].localeCompare(b[orderBy], undefined, {
+            return first.localeCompare(second, undefined, {
                 numeric: true,
                 sensitivity: 'base',
             });
         }
-        return -a[orderBy].localeCompare(b[orderBy], undefined, {
+        return -first.localeCompare(second, undefined, {
             numeric: true,
             sensitivity: 'base',
         });
@@ -50,12 +53,6 @@ const BeerList = props => {
             setOrder(order === 'desc' ? 'asc' : 'desc');
         }
         setOrderBy(column);
-
-        // .then(() =>
-        // setBeers(props.beers.sort((a, b) => {
-        //     return a[column] - b[column];
-        // })));
-        // console.log(beers);
     };
 
     return (
@@ -81,7 +78,12 @@ const BeerList = props => {
                         ? props.beers.sort(desc).map(beer => {
                               return (
                                   <TableRow key={beer.id}>
-                                      <TableCell>{beer.name}</TableCell>
+                                      <TableCell
+                                          component={Link}
+                                          to={`beer/${beer.id}`}
+                                      >
+                                          {beer.name}
+                                      </TableCell>
                                       <TableCell>{beer.brewery}</TableCell>
                                       <TableCell>{beer.style}</TableCell>
                                       <TableCell>

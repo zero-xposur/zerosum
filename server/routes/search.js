@@ -4,7 +4,7 @@ const vision = require('@google-cloud/vision');
 
 const client = new vision.ImageAnnotatorClient({
     projectId: 'beer-app-242313',
-    keyFilename: './utils/gCloudCred.json',
+    keyFilename: './gcred.json',
 });
 
 // GET :/api/search/:search
@@ -14,6 +14,7 @@ router.get('/:search', (req, res, next) => {
 
 // POST :/api/search/menu
 router.post('/menu', (req, res, next) => {
+  console.log(req.body.image)
     return client
         .documentTextDetection(req.body.image)
         .then(response => {

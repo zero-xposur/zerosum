@@ -2,3 +2,4 @@ node_modules
 dist
 sadBeer
 .env
+gcred.json

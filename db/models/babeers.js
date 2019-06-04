@@ -1,15 +1,19 @@
-const { connection, Sequelize } = require('../connection');
+const { connection } = require('../connection');
+const Sequelize = require('sequelize');
 
 const Babeers = connection.define('babeer', {
     name: Sequelize.TEXT,
     brewery: Sequelize.TEXT,
-    breweryId: Sequelize.TEXT,
+    breweryId: Sequelize.INTEGER,
     link: Sequelize.TEXT,
     style: Sequelize.TEXT,
     abv: Sequelize.DOUBLE,
-    ratings: Sequelize.TEXT,
-    score: Sequelize.TEXT,
+    ratings: Sequelize.INTEGER,
+    score: Sequelize.DOUBLE,
 });
+
+// COPY public.babeers (id, name, brewery, "breweryId", link, style, abv, ratings, score, "createdAt", "updatedAt") FROM stdin;
+// 1    1842	Plzeňský Prazdroj	1	https://www.beeradvocate.com/beer/profile/1/279167/	Bohemian Pilsener	4.40000000000000036	3	3.79999999999999982	2019-05-27 01:06:56.507-04	2019-05-27 01:06:56.507-04
 
 Babeers.getSearchVector = function() {
     return 'beerText';

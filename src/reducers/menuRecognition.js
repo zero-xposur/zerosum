@@ -17,8 +17,8 @@ export const menuReducer = (state = [], action) => {
 };
 
 export const getMenu = image => {
-    console.log(image);
     return dispatch => {
+        console.log(image);
         return axios.post(`/api/search/menu`, { image }).then(menu => {
             return dispatch(
                 gotMenu(menu.data[0].fullTextAnnotation.pages[0].blocks)
