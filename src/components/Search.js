@@ -1,58 +1,44 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { connect } from 'react-redux';
 import { getBeers } from '../reducers/search';
+import BeerList from './BeerList';
 
-class Search extends Component {
-  constructor() {
-    super();
-    this.state = {
-      search: '',
-      beers: []
+const Search = props => {
+    const [search, setSearch] = useState('');
+
+    const handleChange = ({ target }) => {
+        setSearch(target.value);
     };
-  }
 
-  handleChange = ({ target }) => {
-    this.setState({ search: target.value });
-  };
+    const handleSubmit = evt => {
+        evt.preventDefault();
+        console.log(props);
+        props.searchBeers(search);
+        // .then(() => this.props.history.push(`/search/${this.state.search}`)
+    };
 
-  handleSubmit = evt => {
-    evt.preventDefault();
-    this.props
-      .searchBeers(this.state.search)
-      .then(response => this.setState({...this.state, beers: response.beers}))
-      // .then(() => this.props.history.push(`/search/${this.state.search}`));
-  }
-
-  render() {
     return (
-      <div>
-        <h1>Find that babeer!</h1>
+        <div>
+            <h1>Find that babeer!</h1>
 
-        <input onChange={this.handleChange} />
-        <button onClick={this.handleSubmit}>submit</button>
-        
-        <ul>
-          {this.state && this.state.beers!==undefined? this.state.beers.map((beer)=>{
-            return (
-            <li key={beer.id}>{beer.brewery} - {beer.name}</li>
-          )}):''}
-        </ul>
-      </div>
+            <input onChange={handleChange} />
+            <button onClick={handleSubmit}>submit</button>
+            <BeerList beers={props.searchResults} />
+        </div>
     );
-  }
-}
+};
 
 const mapStateToProps = state => {
-  return {
-    searchResults: state.beers
-  }
-}
+    return {
+        searchResults: state.searchBeers,
+    };
+};
 
 const mapDispatchToProps = dispatch => ({
-  searchBeers: search => dispatch(getBeers(search)),
+    searchBeers: search => dispatch(getBeers(search)),
 });
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(Search);
