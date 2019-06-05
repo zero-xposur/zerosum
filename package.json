@@ -43,11 +43,10 @@
     "scripts": {
         "start:": "node server",
         "sync": "node db/seed",
-        "seed": "psql postgresql-spherical-74459 < db/beerAppDatababeer.sql && psql postgresql-spherical-74459 < db/beerAppDataprices.sql",
         "seed:dev": "psql zerosum < db/beerAppDatababeer.sql && psql zerosum < db/beerAppDataprices.sql",
         "syncAndSeed": "npm run sync && npm run seed",
         "syncAndSeed:dev": "npm run sync && npm run seed:dev",
-        "postinstall": "npm run webpack && npm run syncAndSeed",
+        "postinstall": "npm run webpack && npm run sync",
         "webpack": "webpack",
         "webpack:dev": "npm run webpack -- --mode=development --watch",
         "start:dev": "npm run webpack:dev & nodemon server --ignore src/ --ignore dist/"
