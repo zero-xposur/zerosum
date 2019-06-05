@@ -14,7 +14,7 @@ class Login extends Component{
     }
     onLogin(){
         this.props.login();
-        this.props.history.push('/search');
+        //this.props.history.push('/search');
         console.log('state is', this.state)
     }
     render(){
