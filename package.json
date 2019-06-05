@@ -42,11 +42,12 @@
         "webpack-cli": "3.3.2"
     },
     "scripts": {
-        "start": "node server.js",
+        "start": "node server",
         "sync": "node db/seed",
-        "seed": "psql zerosum < db/beerAppDatababeer.sql && psql zerosum < db/beerAppDataprices.sql",
+        "seed:dev": "psql zerosum < db/beerAppDatababeer.sql && psql zerosum < db/beerAppDataprices.sql",
         "syncAndSeed": "npm run sync && npm run seed",
-        "postinstall": "npm run webpack",
+        "syncAndSeed:dev": "npm run sync && npm run seed:dev",
+        "postinstall": "npm run webpack && npm run sync",
         "webpack": "webpack",
         "webpack:dev": "npm run webpack -- --mode=development --watch",
         "start:dev": "npm run webpack:dev & nodemon server --ignore src/ --ignore dist/"
