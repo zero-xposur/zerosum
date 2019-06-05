@@ -9,6 +9,7 @@ const router = require('express').Router();
 const User = require('../../db/models/users');
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
+const cors = require('cors');
 
 passport.use(
     new FacebookStrategy(
@@ -57,5 +58,19 @@ router.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
 });
+router.get(
+    '/facebook',
+    cors(),
+    passport.authenticate('facebook', { scope: ['user_friends'] })
+);
+
+router.get(
+    '/facebook/callback',
+    cors(),
+    passport.authenticate('facebook', {
+        successRedirect: '/#/search',
+        failureRedirect: '/login',
+    })
+);
 
 module.exports = router;
