@@ -41,7 +41,7 @@
         "webpack-cli": "3.3.2"
     },
     "scripts": {
-        "start:": "node server",
+        "start": "node server",
         "sync": "node db/seed",
         "seed:dev": "psql zerosum < db/beerAppDatababeer.sql && psql zerosum < db/beerAppDataprices.sql",
         "syncAndSeed": "npm run sync && npm run seed",
