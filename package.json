@@ -43,7 +43,7 @@
     "scripts": {
         "start:": "node server",
         "sync": "node db/seed",
-        "seed": "psql DATABASE_URL < db/beerAppDatababeer.sql && psql DATABASE_URL < db/beerAppDataprices.sql",
+        "seed": "psql postgresql-spherical-74459 < db/beerAppDatababeer.sql && psql postgresql-spherical-74459 < db/beerAppDataprices.sql",
         "seed:dev": "psql zerosum < db/beerAppDatababeer.sql && psql zerosum < db/beerAppDataprices.sql",
         "syncAndSeed": "npm run sync && npm run seed",
         "syncAndSeed:dev": "npm run sync && npm run seed:dev",
