@@ -17,6 +17,8 @@ const Search = props => {
         // .then(() => this.props.history.push(`/search/${this.state.search}`)
     };
 
+    console.log(props);
+
     return (
         <div>
             <h1>Find that babeer!</h1>

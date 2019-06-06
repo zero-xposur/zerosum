@@ -18,8 +18,15 @@ class MenuCapture extends Component {
 
     capture = () => {
         const img = this.webcam.getScreenshot();
-        console.log(img);
-        this.props.searchMenu(img).then(response => {
+
+        const regex = new RegExp(/^data:image\/(\w+);.*/);
+        const extension = regex.exec(img)[1];
+        const buffer = Buffer.from(
+            img.replace(/^data:image\/\w+;base64,/, ''),
+            'base64'
+        ).toString('base64');
+        console.log(buffer);
+        this.props.searchMenu(buffer).then(response => {
             console.log(response);
         });
     };

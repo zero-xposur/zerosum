@@ -14,14 +14,19 @@ router.get('/:search', (req, res, next) => {
 
 // POST :/api/search/menu
 router.post('/menu', (req, res, next) => {
-  console.log(req.body.image)
+    // const request = {
+    //     image: { content: req.body.image },
+    //     features: [],
+    //     imageContext: {},
+    // };
+    const image = { content: req.body.image };
     return client
-        .documentTextDetection(req.body.image)
+        .documentTextDetection({ image })
         .then(response => {
-            console.log(response[0].fullTextAnnotation.pages);
-            res.send(response);
+            console.log(response[0].fullTextAnnotation.pages[0].blocks);
+            res.send(response[0].fullTextAnnotation.pages[0].blocks);
         })
-        .catch(next);
+        .catch(err => console.error(err));
 });
 
 module.exports = router;
