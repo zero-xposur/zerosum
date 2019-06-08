@@ -8,7 +8,7 @@ import { getMenu, menuReducer } from './menuRecognition';
 
 const rootReducer = combineReducers({
     searchBeers: beersReducer,
-    searchUsers: userReducer,
+    user: userReducer,
     searchBeer: beerReducer,
     menuBeers: menuReducer,
 });
