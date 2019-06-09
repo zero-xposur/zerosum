@@ -50,8 +50,7 @@ class MenuCapture extends Component {
 
     takePhoto = () => {
         const config = {
-            sizeFactor: 0.4,
-            imageCompression: 0.9,
+            sizeFactor: 1,
         };
         console.log(this.state);
         let imgUri = this.cameraPhoto.getDataUri(config);
@@ -74,7 +73,7 @@ class MenuCapture extends Component {
                     <video
                         ref={this.videoRef}
                         autoPlay={true}
-                        style={{ width: '100%', height: 'auto' }}
+                        // style={{ width: '100%', height: 'auto' }}
                     />
                     <AppBar
                         position="fixed"
