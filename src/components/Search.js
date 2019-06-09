@@ -1,20 +1,20 @@
 import React, { Component, useState } from 'react';
 import { connect } from 'react-redux';
 import { getBeers } from '../reducers/search';
+
 import BeerList from './BeerList';
 
 const Search = props => {
     const [search, setSearch] = useState('');
 
     const handleChange = ({ target }) => {
+        console.log('props before login thunk is called', props);
         setSearch(target.value);
     };
 
     const handleSubmit = evt => {
         evt.preventDefault();
-        console.log(props);
         props.searchBeers(search);
-        // .then(() => this.props.history.push(`/search/${this.state.search}`)
     };
 
     console.log(props);
@@ -22,7 +22,6 @@ const Search = props => {
     return (
         <div>
             <h1>Find that babeer!</h1>
-
             <input onChange={handleChange} />
             <button onClick={handleSubmit}>submit</button>
             <BeerList beers={props.searchResults} />
@@ -32,12 +31,12 @@ const Search = props => {
 
 const mapStateToProps = state => {
     return {
-        searchResults: state.searchBeers,
+        searchResults: state.searchBeers
     };
 };
 
 const mapDispatchToProps = dispatch => ({
-    searchBeers: search => dispatch(getBeers(search)),
+    searchBeers: search => dispatch(getBeers(search))
 });
 
 export default connect(

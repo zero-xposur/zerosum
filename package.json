@@ -10,6 +10,7 @@
         "axios": "0.19.0",
         "body-parser": "1.19.0",
         "cookie-parser": "1.4.4",
+        "cors": "^2.8.5",
         "express": "4.17.0",
         "express-session": "1.16.1",
         "jquery-csv": "1.0.3",
@@ -42,11 +43,12 @@
         "webpack-cli": "3.3.2"
     },
     "scripts": {
-        "start": "node server.js",
-        "sync": "node db/seed",
-        "seed": "psql zerosum < db/beerAppDatababeer.sql && psql zerosum < db/beerAppDataprices.sql",
+        "start": "node server",
+        "sync": "node db/sync",
+        "seed:dev": "psql zerosum < db/beerAppDatababeer.sql && psql zerosum < db/beerAppDataprices.sql",
         "syncAndSeed": "npm run sync && npm run seed",
-        "postinstall": "npm run webpack",
+        "syncAndSeed:dev": "npm run sync && npm run seed:dev && node db/postSeed",
+        "postinstall": "npm run webpack && npm run sync",
         "webpack": "webpack",
         "webpack:dev": "npm run webpack -- --mode=development --watch",
         "start:dev": "npm run webpack:dev & nodemon server --ignore src/ --ignore dist/"

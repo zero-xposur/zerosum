@@ -5,6 +5,9 @@ const morgan = require('morgan');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 
+const cors = require('cors');
+
+app.use(cors());
 // app.use(express.json());
 
 // Use application-level middleware for common functionality, including
@@ -20,34 +23,29 @@ app.use(
         saveUninitialized: true,
     })
 );
-app.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept'
-    );
-    next();
-});
-
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   next();
+// });
 app.use(express.static(path.join(__dirname, '..', 'dist')));
 
 app.get('/', (req, res, next) =>
     res.sendFile(path.join(__dirname, '../index.html'))
 );
+
 app.get('/privacy', (req, res, next) =>
     res.sendFile(path.join(__dirname, '../privacy.html'))
 );
-// Session middleware
-app.use(
-    session({
-        secret: 'This is not a very secure secret...',
-        resave: false,
-        saveUninitialized: false,
-    })
-);
+
+// // Session middleware
+// app.use(session({
+//   secret: 'This is not a very secure secret...',
+//   resave: false,
+//   saveUninitialized: false
+// }));
 
 // authentication router
-
 app.use('/api', require('./routes'));
 
 // Handle 404s

@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import { Search, Nav, Login, Beer, MenuCapture } from './index.js';
-
+import { login } from '../reducers/user';
+import { connect } from 'react-redux';
 class App extends Component {
+
+    constructor(props){
+        super(props);
+    }
+
+    componentDidMount(){
+        this.props.searchUsers()
+        .then(()=>console.log('state user is',this.props.user));
+    }
     render() {
         return (
             <div>
@@ -23,4 +33,17 @@ class App extends Component {
     }
 }
 
-export default App;
+const mapStateToProps = state => {
+    return {
+        user: state.user
+    };
+};
+
+const mapDispatchToProps = dispatch => ({
+    searchUsers: () => dispatch(login()),
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(App);

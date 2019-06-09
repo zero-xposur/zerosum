@@ -17,7 +17,19 @@ export const userReducer = (state = {}, action) => {
 };
 
 export const login = () => dispatch => {
-    return axios.get('/api/auth/facebook')
-      .then(user => 
-            dispatch(setUser(user.data)))
-  };
+  console.log('in login thunk')
+    return axios.get('/api/auth/profile')
+      .then(user => {
+            console.log('user in login thunk', user.data);
+            dispatch(setUser(user.data));
+      });
+};
+
+export const logout = () => dispatch => {
+  console.log('in logout thunk')
+    return axios.get('/api/auth/logout')
+      .then(res => {
+            console.log('user in logout thunk');
+            dispatch(setUser({}));
+      });
+};
