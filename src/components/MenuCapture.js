@@ -24,17 +24,20 @@ class MenuCapture extends Component {
     }
     componentDidMount() {
         this.cameraPhoto = new CameraPhoto(this.videoRef.current);
-        this.startCamera(FACING_MODES.ENVIRONMENT);
+        this.startCamera(FACING_MODES.ENVIRONMENT, {
+            height: 1920,
+            width: 1080,
+        });
     }
 
     componentWillUnmount() {
         this.stopCamera();
     }
 
-    startCamera(facing) {
+    startCamera(facing, res) {
         console.log(this);
         this.cameraPhoto
-            .startCameraMaxResolution(facing)
+            .startCamera(facing, res)
             .then(() => {
                 let cameraSettings = this.cameraPhoto.getCameraSettings();
                 let { height, width } = cameraSettings;
