@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import Webcam from 'react-webcam';
 import {
     Container,
     AppBar,
@@ -14,49 +15,25 @@ import CameraPhoto, { FACING_MODES } from 'jslib-html5-camera-photo';
 class MenuCapture extends Component {
     constructor() {
         super();
-        this.cameraPhoto = null;
-        this.videoRef = React.createRef();
+        // this.cameraPhoto = null;
+        // this.videoRef = React.createRef();
         this.state = {
             imgUri: '',
-            height: 0,
-            width: 0,
+            // height: 0,
+            // width: 0,
         };
     }
-    componentDidMount() {
-        this.cameraPhoto = new CameraPhoto(this.videoRef.current);
-        this.startCamera(FACING_MODES.ENVIRONMENT, {
-            height: 1920,
-            width: 1080,
-        });
-    }
 
-    componentWillUnmount() {
-        this.stopCamera();
-    }
-
-    startCamera(facing, res) {
-        console.log(this);
-        this.cameraPhoto
-            .startCamera(facing, res)
-            .then(() => {
-                let cameraSettings = this.cameraPhoto.getCameraSettings();
-                let { height, width } = cameraSettings;
-                this.setState({ height, width });
-            })
-            .then(() => console.log('camera started'))
-            .catch(error => console.error('Camera not started', error));
-    }
-
-    stopCamera() {
-        this.cameraPhoto.stopCamera().then(() => console.log('camera stopped'));
-    }
+    setRef = webcam => {
+        this.webcam = webcam;
+    };
 
     takePhoto = () => {
-        const config = {
-            sizeFactor: 1,
-        };
-        console.log(this.state);
-        let imgUri = this.cameraPhoto.getDataUri(config);
+        // const config = {
+        //     sizeFactor: 1,
+        // };
+        // console.log(this.state);
+        let imgUri = this.webcam.getScreenshot();
         const buffer = Buffer.from(
             imgUri.replace(/^data:image\/\w+;base64,/, ''),
             'base64'
@@ -69,33 +46,112 @@ class MenuCapture extends Component {
     };
 
     render() {
+        const videoConstraints = {
+            // width: 1280,
+            // height: 1920,
+            facingMode: 'environment',
+        };
+
         return (
             <Fragment>
-                <CssBaseline />
                 <Container>
-                    <video
-                        ref={this.videoRef}
-                        autoPlay={true}
-                        style={{ width: '100%', height: 'auto' }}
+                    <Webcam
+                        videoConstraints={videoConstraints}
+                        audio={false}
+                        height={'80%'}
+                        ref={this.setRef}
+                        screenshotFormat="image/jpeg"
+                        width={'100%'}
                     />
-                    <AppBar
-                        position="fixed"
-                        color="primary"
-                        style={{ top: 'auto' }}
-                    >
-                        <Toolbar>
-                            <IconButton
-                                style={{ margin: 'auto' }}
-                                onClick={this.takePhoto}
-                            >
-                                <Camera fontSize="large" />
-                            </IconButton>
-                        </Toolbar>
-                    </AppBar>
                 </Container>
+
+                <AppBar
+                    position="fixed"
+                    color="primary"
+                    style={{ top: 'auto' }}
+                >
+                    <Toolbar>
+                        <IconButton
+                            style={{ margin: 'auto' }}
+                            onClick={this.takePhoto}
+                        >
+                            <Camera fontSize="large" />
+                        </IconButton>
+                    </Toolbar>
+                </AppBar>
             </Fragment>
         );
     }
+
+    // componentDidMount() {
+    //     this.cameraPhoto = new CameraPhoto(this.videoRef.current);
+    //     this.startCamera(FACING_MODES.ENVIRONMENT, {
+    //         height: 1920,
+    //         width: 1080,
+    //     });
+    // }
+    // componentWillUnmount() {
+    //     this.stopCamera();
+    // }
+    // startCamera(facing, res) {
+    //     console.log(this);
+    //     this.cameraPhoto
+    //         .startCamera(facing, res)
+    //         .then(() => {
+    //             let cameraSettings = this.cameraPhoto.getCameraSettings();
+    //             let { height, width } = cameraSettings;
+    //             this.setState({ height, width });
+    //         })
+    //         .then(() => console.log('camera started'))
+    //         .catch(error => console.error('Camera not started', error));
+    // }
+    // stopCamera() {
+    //     this.cameraPhoto.stopCamera().then(() => console.log('camera stopped'));
+    // }
+    // takePhoto = () => {
+    //     const config = {
+    //         sizeFactor: 1,
+    //     };
+    //     console.log(this.state);
+    //     let imgUri = this.cameraPhoto.getDataUri(config);
+    //     const buffer = Buffer.from(
+    //         imgUri.replace(/^data:image\/\w+;base64,/, ''),
+    //         'base64'
+    //     ).toString('base64');
+    //     console.log(buffer);
+    //     this.props.searchMenu(buffer).then(response => {
+    //         console.log(response);
+    //     });
+    //     this.setState({ imgUri });
+    // };
+    // render() {
+    //     return (
+    //         <Fragment>
+    //             <CssBaseline />
+    //             <Container>
+    //                 <video
+    //                     ref={this.videoRef}
+    //                     autoPlay={true}
+    //                     style={{ width: '100%', height: 'auto' }}
+    //                 />
+    //                 <AppBar
+    //                     position="fixed"
+    //                     color="primary"
+    //                     style={{ top: 'auto' }}
+    //                 >
+    //                     <Toolbar>
+    //                         <IconButton
+    //                             style={{ margin: 'auto' }}
+    //                             onClick={this.takePhoto}
+    //                         >
+    //                             <Camera fontSize="large" />
+    //                         </IconButton>
+    //                     </Toolbar>
+    //                 </AppBar>
+    //             </Container>
+    //         </Fragment>
+    //     );
+    // }
 }
 
 const mapDispatchToProps = dispatch => ({
