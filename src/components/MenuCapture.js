@@ -76,7 +76,7 @@ class MenuCapture extends Component {
                     <video
                         ref={this.videoRef}
                         autoPlay={true}
-                        // style={{ width: '100%', height: 'auto' }}
+                        style={{ width: '100%', height: 'auto' }}
                     />
                     <AppBar
                         position="fixed"
