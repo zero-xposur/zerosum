@@ -1,52 +1,97 @@
-import React, { Component } from 'react';
-import { Container } from '@material-ui/core';
-import Webcam from 'react-webcam';
+import React, { Component, Fragment } from 'react';
+import {
+    Container,
+    AppBar,
+    Toolbar,
+    IconButton,
+    CssBaseline,
+} from '@material-ui/core';
+import { Camera } from '@material-ui/icons';
 import { getMenu } from '../reducers';
 import { connect } from 'react-redux';
+import CameraPhoto, { FACING_MODES } from 'jslib-html5-camera-photo';
 
 class MenuCapture extends Component {
     constructor() {
         super();
+        this.cameraPhoto = null;
+        this.videoRef = React.createRef();
         this.state = {
-            image: {},
+            imgUri: '',
+            height: 0,
+            width: 0,
         };
     }
+    componentDidMount() {
+        this.cameraPhoto = new CameraPhoto(this.videoRef.current);
+        this.startCamera(FACING_MODES.ENVIRONMENT);
+    }
 
-    setRef = webcam => {
-        this.webcam = webcam;
-    };
+    componentWillUnmount() {
+        this.stopCamera();
+    }
 
-    capture = () => {
-        const img = this.webcam.getScreenshot();
+    startCamera(facing) {
+        console.log(this);
+        this.cameraPhoto
+            .startCameraMaxResolution(facing)
+            .then(() => {
+                let cameraSettings = this.cameraPhoto.getCameraSettings();
+                let { height, width } = cameraSettings;
+                this.setState({ height, width });
+            })
+            .then(() => console.log('camera started'))
+            .catch(error => console.error('Camera not started', error));
+    }
 
-        const regex = new RegExp(/^data:image\/(\w+);.*/);
-        const extension = regex.exec(img)[1];
+    stopCamera() {
+        this.cameraPhoto.stopCamera().then(() => console.log('camera stopped'));
+    }
+
+    takePhoto = () => {
+        const config = {
+            sizeFactor: 0.4,
+            imageCompression: 0.9,
+        };
+        console.log(this.state);
+        let imgUri = this.cameraPhoto.getDataUri(config);
         const buffer = Buffer.from(
-            img.replace(/^data:image\/\w+;base64,/, ''),
+            imgUri.replace(/^data:image\/\w+;base64,/, ''),
             'base64'
         ).toString('base64');
         console.log(buffer);
         this.props.searchMenu(buffer).then(response => {
             console.log(response);
         });
+        this.setState({ imgUri });
     };
 
     render() {
-        const videoConstraints = {
-            facingMode: 'environment',
-        };
         return (
-            <Container>
-                <Webcam
-                    videoConstraints={videoConstraints}
-                    audio={false}
-                    height={350}
-                    ref={this.setRef}
-                    screenshotFormat="image/jpeg"
-                    width={350}
-                />
-                <button onClick={this.capture}>photo</button>
-            </Container>
+            <Fragment>
+                <CssBaseline />
+                <Container>
+                    <video
+                        ref={this.videoRef}
+                        autoPlay={true}
+                        style={{ width: '100%', height: 'auto' }}
+                    />
+                    <AppBar
+                        position="fixed"
+                        color="primary"
+                        style={{ top: 'auto' }}
+                    >
+                        <Toolbar>
+                            <IconButton
+                                style={{ margin: 'auto' }}
+                                onClick={this.takePhoto}
+                            >
+                                <Camera fontSize="large" />
+                            </IconButton>
+                        </Toolbar>
+                    </AppBar>
+                </Container>
+            </Fragment>
         );
     }
 }

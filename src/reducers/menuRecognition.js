@@ -20,7 +20,7 @@ export const getMenu = image => {
     return dispatch => {
         console.log(image);
         return axios.post(`/api/search/menu`, { image }).then(menu => {
-            return dispatch(gotMenu(menu));
+            return dispatch(gotMenu(menu.data));
         });
     };
 };
