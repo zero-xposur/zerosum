@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
@@ -11,6 +11,9 @@ import {
     TableSortLabel,
     Typography,
     Paper,
+    Grid,
+    Container,
+    CssBaseline,
 } from '@material-ui/core';
 
 const BeerList = props => {
@@ -56,53 +59,117 @@ const BeerList = props => {
     };
 
     return (
-        <Paper>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        {labels.map(label => (
-                            <TableCell key={label.id}>
-                                <TableSortLabel
-                                    active={orderBy === label.id}
-                                    direction={order}
-                                    onClick={() => handleSort(label.id)}
-                                >
-                                    {label.label}
-                                </TableSortLabel>
-                            </TableCell>
-                        ))}
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {props.beers
-                        ? props.beers.sort(desc).map(beer => {
-                              return (
-                                  <TableRow key={beer.id}>
-                                      <TableCell
-                                          component={Link}
-                                          to={`beer/${beer.id}`}
-                                      >
+        <Fragment>
+            <CssBaseline />
+            {props.beers
+                ? props.beers.sort(desc).map(beer => {
+                      return (
+                          <Paper key={beer.id}>
+                              <Grid container style={{ textAlign: 'center' }}>
+                                  <Grid item xs={12} md={6} lg={2} xl={2}>
+                                      <Typography variant="h6">
                                           {beer.name}
-                                      </TableCell>
-                                      <TableCell>{beer.brewery}</TableCell>
-                                      <TableCell>{beer.style}</TableCell>
-                                      <TableCell>
+                                      </Typography>
+                                      <Typography variant="subtitle2">
+                                          {beer.brewery}
+                                      </Typography>
+                                  </Grid>
+                                  <Grid item xs={12} md={6} lg={2} xl={2}>
+                                      <Typography>{beer.style}</Typography>
+                                  </Grid>
+                                  <Grid item xs={12} md={6} lg={2} xl={2}>
+                                      <Typography>
+                                          ABV:{' '}
                                           {beer.abv === 'NaN'
                                               ? '?'
                                               : parseFloat(beer.abv).toFixed(1)}
-                                      </TableCell>
-                                      <TableCell>
+                                      </Typography>
+                                  </Grid>
+                                  <Grid item xs={12} md={6} lg={2} xl={2}>
+                                      <Typography>
                                           {parseFloat(beer.score).toFixed(2)}
-                                      </TableCell>
-                                      <TableCell>{beer.ratings}</TableCell>
-                                      <TableCell> --- </TableCell>
-                                  </TableRow>
-                              );
-                          })
-                        : null}
-                </TableBody>
-            </Table>
-        </Paper>
+                                      </Typography>
+                                      <Typography>
+                                          ({beer.ratings} ratings)
+                                      </Typography>
+                                  </Grid>
+                                  <Grid item xs={12} md={6} lg={2} xl={2}>
+                                      <Typography>-----</Typography>
+                                      <Typography>Your Rating</Typography>
+                                  </Grid>
+                              </Grid>
+                          </Paper>
+                          //   <TableRow key={beer.id}>
+                          //       <TableCell
+                          //           component={Link}
+                          //           to={`beer/${beer.id}`}
+                          //       >
+                          //           {beer.name}
+                          //       </TableCell>
+                          //       <TableCell>{beer.brewery}</TableCell>
+                          //       <TableCell>{beer.style}</TableCell>
+                          //       <TableCell>
+                          //           {beer.abv === 'NaN'
+                          //               ? '?'
+                          //               : parseFloat(beer.abv).toFixed(1)}
+                          //       </TableCell>
+                          //       <TableCell>
+                          //           {parseFloat(beer.score).toFixed(2)}
+                          //       </TableCell>
+                          //       <TableCell>{beer.ratings}</TableCell>
+                          //       <TableCell> --- </TableCell>
+                          //   </TableRow>
+                      );
+                  })
+                : null}
+        </Fragment>
+        // <Paper>
+        //     <Table>
+        //         <TableHead>
+        //             <TableRow>
+        //                 {labels.map(label => (
+        //                     <TableCell key={label.id}>
+        //                         <TableSortLabel
+        //                             active={orderBy === label.id}
+        //                             direction={order}
+        //                             onClick={() => handleSort(label.id)}
+        //                         >
+        //                             {label.label}
+        //                         </TableSortLabel>
+        //                     </TableCell>
+        //                 ))}
+        //             </TableRow>
+        //         </TableHead>
+        //         <TableBody>
+        //             {props.beers
+        //                 ? props.beers.sort(desc).map(beer => {
+        //                       return (
+        //                           <TableRow key={beer.id}>
+        //                               <TableCell
+        //                                   component={Link}
+        //                                   to={`beer/${beer.id}`}
+        //                               >
+        //                                   {beer.name}
+        //                               </TableCell>
+        //                               <TableCell>{beer.brewery}</TableCell>
+        //                               <TableCell>{beer.style}</TableCell>
+        //                               <TableCell>
+        //                                   {beer.abv === 'NaN'
+        //                                       ? '?'
+        //                                       : parseFloat(beer.abv).toFixed(1)}
+        //                               </TableCell>
+        //                               <TableCell>
+        //                                   {parseFloat(beer.score).toFixed(2)}
+        //                               </TableCell>
+        //                               <TableCell>{beer.ratings}</TableCell>
+        //                               <TableCell> --- </TableCell>
+        //                           </TableRow>
+        //                       );
+        //                   })
+        //                 : null}
+        //         </TableBody>
+        //     </Table>
+        // </Paper>
     );
 };
 

@@ -35,6 +35,7 @@ class MenuCapture extends Component {
 
         return (
             <Fragment>
+                <CssBaseline />
                 <Container>
                     <Webcam
                         videoConstraints={videoConstraints}
@@ -44,22 +45,21 @@ class MenuCapture extends Component {
                         screenshotFormat="image/jpeg"
                         width={'100%'}
                     />
+                    <AppBar
+                        position="static"
+                        color="primary"
+                        style={{ top: 'auto' }}
+                    >
+                        <Toolbar>
+                            <IconButton
+                                style={{ margin: 'auto' }}
+                                onClick={this.takePhoto}
+                            >
+                                <Camera fontSize="large" />
+                            </IconButton>
+                        </Toolbar>
+                    </AppBar>
                 </Container>
-
-                <AppBar
-                    position="fixed"
-                    color="primary"
-                    style={{ top: 'auto' }}
-                >
-                    <Toolbar>
-                        <IconButton
-                            style={{ margin: 'auto' }}
-                            onClick={this.takePhoto}
-                        >
-                            <Camera fontSize="large" />
-                        </IconButton>
-                    </Toolbar>
-                </AppBar>
             </Fragment>
         );
     }
