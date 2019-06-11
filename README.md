@@ -3,6 +3,7 @@
 Initilize db(once), or reseed.
 
 ```bash
+npm install
 createdb zerosum
 npm run syncAndSeed:dev
 ```
