@@ -12,7 +12,7 @@ import {
     IconButton,
     CssBaseline,
 } from '@material-ui/core';
-import { Camera } from '@material-ui/icons';
+import SearchIcon from '@material-ui/icons/Search';
 
 import BeerList from './BeerList';
 
@@ -33,9 +33,8 @@ const Search = props => {
 
     return (
         <Fragment>
-            <CssBaseline />
             <Container>
-                <AppBar position="static" style={{ margin: '1vh' }}>
+                <AppBar position="static" style={{ margin: '5 0 5 0' }}>
                     <Toolbar>
                         <Paper
                             style={{
@@ -55,13 +54,12 @@ const Search = props => {
                                 // inputProps={{ 'aria-label': 'Search Google Maps' }}
                             />
                             <IconButton onClick={handleSubmit}>
-                                <Camera />
+                                <SearchIcon />
                             </IconButton>
                         </Paper>
                     </Toolbar>
                 </AppBar>
 
-                <Paper />
                 <BeerList beers={props.searchResults} />
             </Container>
         </Fragment>

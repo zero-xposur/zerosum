@@ -16,6 +16,9 @@ import {
     CssBaseline,
 } from '@material-ui/core';
 
+import { Star, StarBorder } from '@material-ui/icons';
+import Rating from 'react-rating';
+
 const BeerList = props => {
     const [beers, setBeers] = React.useState([]);
     const [order, setOrder] = React.useState('desc');
@@ -39,12 +42,12 @@ const BeerList = props => {
         const first = a[orderBy] ? a[orderBy].toString() : '0';
         const second = b[orderBy] ? b[orderBy].toString() : '0';
         if (order === 'desc') {
-            return first.localeCompare(second, undefined, {
+            return -first.localeCompare(second, undefined, {
                 numeric: true,
                 sensitivity: 'base',
             });
         }
-        return -first.localeCompare(second, undefined, {
+        return first.localeCompare(second, undefined, {
             numeric: true,
             sensitivity: 'base',
         });
@@ -60,12 +63,21 @@ const BeerList = props => {
 
     return (
         <Fragment>
-            <CssBaseline />
+            {/* <CssBaseline /> */}
             {props.beers
                 ? props.beers.sort(desc).map(beer => {
                       return (
                           <Paper key={beer.id}>
-                              <Grid container style={{ textAlign: 'center' }}>
+                              <Grid
+                                  container
+                                  style={{
+                                      textAlign: 'center',
+                                      textDecoration: 'inherit',
+                                      color: 'inherit',
+                                  }}
+                                  component={Link}
+                                  to={`beer/${beer.id}`}
+                              >
                                   <Grid item xs={12} md={6} lg={2} xl={2}>
                                       <Typography variant="h6">
                                           {beer.name}
@@ -74,10 +86,24 @@ const BeerList = props => {
                                           {beer.brewery}
                                       </Typography>
                                   </Grid>
-                                  <Grid item xs={12} md={6} lg={2} xl={2}>
+                                  <Grid
+                                      item
+                                      xs={12}
+                                      md={6}
+                                      lg={2}
+                                      xl={2}
+                                      style={{ margin: '1vh' }}
+                                  >
                                       <Typography>{beer.style}</Typography>
                                   </Grid>
-                                  <Grid item xs={12} md={6} lg={2} xl={2}>
+                                  <Grid
+                                      item
+                                      xs={12}
+                                      md={6}
+                                      lg={2}
+                                      xl={2}
+                                      style={{ margin: '1vh' }}
+                                  >
                                       <Typography>
                                           ABV:{' '}
                                           {beer.abv === 'NaN'
@@ -87,7 +113,23 @@ const BeerList = props => {
                                   </Grid>
                                   <Grid item xs={12} md={6} lg={2} xl={2}>
                                       <Typography>
-                                          {parseFloat(beer.score).toFixed(2)}
+                                          <Rating
+                                              initialRating={parseFloat(
+                                                  beer.score
+                                              )}
+                                              emptySymbol={
+                                                  <StarBorder
+                                                      style={{ color: 'gold' }}
+                                                  />
+                                              }
+                                              fullSymbol={
+                                                  <Star
+                                                      style={{ color: 'gold' }}
+                                                  />
+                                              }
+                                              readonly={true}
+                                          />
+                                          {/* {parseFloat(beer.score).toFixed(2)} */}
                                       </Typography>
                                       <Typography>
                                           ({beer.ratings} ratings)

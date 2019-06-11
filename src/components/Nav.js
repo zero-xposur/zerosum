@@ -17,6 +17,10 @@ const Nav = props => {
             label: 'Menu Capture',
             to: '/menu',
         },
+        {
+            label: 'Discover',
+            to: '/discover',
+        },
     ];
     const [value, setValue] = React.useState(props.location.pathname);
 
