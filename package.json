@@ -48,7 +48,6 @@
         "start": "node server",
         "sync": "node db/sync",
         "seed:dev": "psql zerosum < db/beerAppDatababeer.sql && psql zerosum < db/beerAppDataprices.sql",
-        "syncAndSeed": "npm run sync && npm run seed",
         "syncAndSeed:dev": "npm run sync && npm run seed:dev && node db/postSeed",
         "postinstall": "npm run webpack && npm run sync",
         "webpack": "webpack",
