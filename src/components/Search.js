@@ -17,6 +17,8 @@ const Search = props => {
         props.searchBeers(search);
     };
 
+    console.log(props);
+
     return (
         <div>
             <h1>Find that babeer!</h1>

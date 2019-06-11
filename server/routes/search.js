@@ -14,14 +14,25 @@ router.get('/:search', (req, res, next) => {
 
 // POST :/api/search/menu
 router.post('/menu', (req, res, next) => {
-  console.log(req.body.image)
+    const image = { content: req.body.image };
+
     return client
-        .documentTextDetection(req.body.image)
+        .documentTextDetection({ image })
         .then(response => {
-            console.log(response[0].fullTextAnnotation.pages);
-            res.send(response);
+            const strArr = [];
+            response[0].fullTextAnnotation.pages[0].blocks.map(block =>
+                strArr.push(
+                    block.paragraphs.map(paragraph =>
+                        paragraph.words.map(word =>
+                            word.symbols.map(symbol => symbol.text).join('')
+                        )
+                    )
+                )
+            );
+            console.log(response[0].fullTextAnnotation.pages[0].blocks);
+            res.send(strArr);
         })
-        .catch(next);
+        .catch(err => console.error(err));
 });
 
 module.exports = router;
