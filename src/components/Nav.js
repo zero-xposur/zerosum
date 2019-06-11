@@ -1,47 +1,54 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Tabs, Tab } from '@material-ui/core';
 
-const Nav = ({ location: { pathname } }) => {
+const Nav = props => {
+    console.log(props);
     const userLinks = [
         {
-            label: 'Login',
+            label: 'login',
             to: '/login',
         },
         {
-            label: 'Search',
+            label: 'search',
             to: '/search',
         },
         {
             label: 'Menu Capture',
             to: '/menu',
         },
+        {
+            label: 'Discover',
+            to: '/discover',
+        },
     ];
+    const [value, setValue] = React.useState(props.location.pathname);
+
+    function handleChange(event, newValue) {
+        console.log(value);
+        setValue(newValue);
+    }
 
     return (
-        <ul
-            className="nav nav-pills"
-            style={{ marginBottom: '20px', marginTop: '10px' }}
+        <Tabs
+            value={value}
+            onChange={handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            centered
         >
             {userLinks.map(link => {
                 return (
-                    <li
-                        key={link.to}
-                        className={`nav-item${
-                            pathname === link.to ? ' active' : ''
-                        }`}
-                    >
-                        <Link
-                            to={link.to}
-                            className={`nav-link${
-                                pathname === link.to ? ' active' : ''
-                            }`}
-                        >
-                            {link.label}
-                        </Link>
-                    </li>
+                    <Tab
+                        key={link.label}
+                        component={Link}
+                        to={link.to}
+                        label={link.label}
+                        value={link.to}
+                    />
                 );
             })}
-        </ul>
+        </Tabs>
     );
 };
 

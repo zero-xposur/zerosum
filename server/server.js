@@ -4,9 +4,11 @@ const path = require('path');
 const morgan = require('morgan');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const compression = require('compression');
 
 const cors = require('cors');
 
+app.use(compression());
 app.use(cors());
 // app.use(express.json());
 
