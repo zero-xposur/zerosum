@@ -1,27 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Tabs, Tab } from '@material-ui/core';
-
+import { connect } from 'react-redux';
+const userLinks = [
+    {
+        label: 'login',
+        to: '/login',
+    },
+    {
+        label: 'search',
+        to: '/search',
+    },
+    {
+        label: 'Menu Capture',
+        to: '/menu',
+    },
+    {
+        label: 'Discover',
+        to: '/discover',
+    },
+];
 const Nav = props => {
-    console.log(props);
-    const userLinks = [
-        {
-            label: 'login',
-            to: '/login',
-        },
-        {
-            label: 'search',
-            to: '/search',
-        },
-        {
-            label: 'Menu Capture',
-            to: '/menu',
-        },
-        {
-            label: 'Discover',
-            to: '/discover',
-        },
-    ];
+    useEffect(() => {
+        if (props.user.user) {
+            userLinks[0].label = `Hello, ${props.user.user.displayName}`;
+        } else {
+            userLinks[0].label = 'Login';
+        }
+    }, [props]);
+
     const [value, setValue] = React.useState(props.location.pathname);
 
     function handleChange(event, newValue) {
@@ -52,4 +59,9 @@ const Nav = props => {
     );
 };
 
-export default Nav;
+const mapStateToProps = state => {
+    return {
+        user: state.user,
+    };
+};
+export default connect(mapStateToProps)(Nav);
