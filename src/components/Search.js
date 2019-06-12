@@ -29,6 +29,12 @@ const Search = props => {
         props.searchBeers(search);
     };
 
+    const keyPress = e => {
+        if (e.keyCode === 13) {
+            handleSubmit(e);
+        }
+    };
+
     console.log(props);
 
     return (
@@ -50,6 +56,7 @@ const Search = props => {
                                 // fullwidth={true}
                                 onChange={handleChange}
                                 style={{ marginLeft: 8, flex: 1 }}
+                                onKeyDown={keyPress}
 
                                 // inputProps={{ 'aria-label': 'Search Google Maps' }}
                             />
