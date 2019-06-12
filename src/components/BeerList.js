@@ -26,7 +26,7 @@ const BeerList = props => {
 
     useEffect(() => {
         setBeers(props.beers);
-    });
+    }, [beers, order, orderBy]);
 
     const labels = [
         { id: 'name', label: 'Beer' },
