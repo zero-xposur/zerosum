@@ -51,7 +51,7 @@ router.use(passport.session());
 
 router.get(
     '/facebook',
-      passport.authenticate('facebook', { scope: ['user_friends'] })
+      passport.authenticate('facebook', { scope: ['email', 'user_friends'] })
 );
 
 router.get('/facebook/callback', function(request, response, next) {
