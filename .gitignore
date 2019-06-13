@@ -3,3 +3,5 @@ dist
 sadBeer
 .env
 gcred.json
+server.cert
+server.key
