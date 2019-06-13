@@ -29,6 +29,12 @@ const Nav = props => {
         }
     }, [props]);
 
+    if (props.user.user) {
+        userLinks[0].label = `Hello, ${props.user.user.displayName}`;
+    } else {
+        userLinks[0].label = 'Login';
+    }
+
     const [value, setValue] = React.useState(props.location.pathname);
 
     function handleChange(event, newValue) {
