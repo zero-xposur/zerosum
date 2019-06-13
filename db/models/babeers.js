@@ -27,10 +27,10 @@ Babeers.addFullTextIndex = function() {
         return;
     }
 
-    var searchFields = ['name', 'brewery'];
-    var beer = this;
+    const searchFields = ['name', 'brewery'];
+    const beer = this;
 
-    var vectorName = beer.getSearchVector();
+    const vectorName = beer.getSearchVector();
     connection
         .query(
             'ALTER TABLE "' +
@@ -85,7 +85,7 @@ Babeers.search = function(query) {
         return;
     }
 
-    var beer = this;
+    const beer = this;
 
     query = connection.getQueryInterface().escape(query);
     console.log(query);
@@ -97,10 +97,24 @@ Babeers.search = function(query) {
             beer.getSearchVector() +
             "\" @@ plainto_tsquery('english', " +
             query +
-            ') limit 30',
+            ') ORDER BY link, id',
         { type: Sequelize.QueryTypes.SELECT },
         beer
     );
+};
+
+Babeers.searchStyles = function(query) {
+    console.log(query);
+    return Babeers.findAll({
+        where: {
+            style: query,
+            ratings: {
+                [Sequelize.Op.gt]: 100,
+            },
+        },
+        order: [['score', 'DESC']],
+        limit: 50,
+    });
 };
 
 module.exports = Babeers;
