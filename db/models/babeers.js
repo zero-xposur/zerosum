@@ -93,7 +93,7 @@ Babeers.search = function(query) {
     return connection.query(
         'SELECT DISTINCT ON (link) * FROM "' +
             beer.tableName +
-            '" WHERE "' +
+            '" WHERE ratings>2 AND "' +
             beer.getSearchVector() +
             "\" @@ plainto_tsquery('english', " +
             query +
