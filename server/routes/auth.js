@@ -3,7 +3,7 @@ try {
     if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET) {
         Object.assign(process.env, require('../../.env'));
         console.log('i am local');
-        _callbackURL = 'http://localhost:3000/api/auth/facebook/callback';
+        _callbackURL = 'https://localhost:3000/api/auth/facebook/callback';
     } else {
         _callbackURL =
             'https://zer0sum.herokuapp.com/api/auth/facebook/callback';
