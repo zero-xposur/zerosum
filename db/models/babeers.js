@@ -97,7 +97,7 @@ Babeers.search = function(query) {
             beer.getSearchVector() +
             "\" @@ plainto_tsquery('english', " +
             query +
-            ') limit 30',
+            ') ORDER BY link, id',
         { type: Sequelize.QueryTypes.SELECT },
         beer
     );

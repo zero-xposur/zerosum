@@ -6,21 +6,16 @@ import {
     Typography,
     Container,
 } from '@material-ui/core';
+import styles from './utils';
 
 const Discover = () => {
-    const styles = [
-        'IPA',
-        'Stout',
-        'Wheat Beer',
-        'Lager',
-        'Pilsner',
-        'Ale',
-        'Porter',
-    ];
+
+console.log(styles)
+
     return (
         <Container>
             <GridList cellHeight="auto">
-                {styles.map(style => (
+                {Object.keys(styles).map(style => (
                     <GridListTile key={style}>
                         <img
                             style={{ width: '100%', height: 'auto' }}
