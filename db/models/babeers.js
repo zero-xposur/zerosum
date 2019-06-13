@@ -93,11 +93,11 @@ Babeers.search = function(query) {
     return connection.query(
         'SELECT DISTINCT ON (link) * FROM "' +
             beer.tableName +
-            '" WHERE ratings > 2 and "' +
+            '" WHERE "' +
             beer.getSearchVector() +
             "\" @@ plainto_tsquery('english', " +
             query +
-            ') limit 30',
+            ') order by link, ratings desc',
         { type: Sequelize.QueryTypes.SELECT },
         beer
     );
