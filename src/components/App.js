@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
-import { Search, Nav, Login, Beer, MenuCapture, Discover } from './index.js';
+import {
+    Search,
+    Nav,
+    Login,
+    Beer,
+    MenuCapture,
+    Discover,
+    DiscoverList,
+} from './index.js';
 import { login } from '../reducers/user';
 import { connect } from 'react-redux';
 class App extends Component {
@@ -23,6 +31,11 @@ class App extends Component {
                     <Route exact path="/beer/:beerId" component={Beer} />
                     <Route exact path="/menu" component={MenuCapture} />
                     <Route exact path="/discover" component={Discover} />
+                    <Route
+                        exact
+                        path="/discover/:style"
+                        component={DiscoverList}
+                    />
                 </Switch>
             </Router>
         );

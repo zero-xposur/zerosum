@@ -1,4 +1,5 @@
 import React, { useEffect, Fragment } from 'react';
+import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
@@ -22,11 +23,14 @@ import Rating from 'react-rating';
 const BeerList = props => {
     const [beers, setBeers] = React.useState([]);
     const [order, setOrder] = React.useState('desc');
-    const [orderBy, setOrderBy] = React.useState('ratings');
+    const [orderBy, setOrderBy] = React.useState(
+        props.match.path.includes('discover') ? 'score' : 'ratings'
+    );
 
     useEffect(() => {
+        console.log('beerlist', props);
         setBeers(props.beers);
-    });
+    }, [props.beers]);
 
     const labels = [
         { id: 'name', label: 'Beer' },
@@ -38,7 +42,7 @@ const BeerList = props => {
         { id: 'yourRating', label: 'Your Rating' },
     ];
 
-    const desc = (a, b) => {
+    const sortFunc = (a, b) => {
         const first = a[orderBy] ? a[orderBy].toString() : '0';
         const second = b[orderBy] ? b[orderBy].toString() : '0';
         if (order === 'desc') {
@@ -65,7 +69,7 @@ const BeerList = props => {
         <Fragment>
             {/* <CssBaseline /> */}
             {props.beers
-                ? props.beers.sort(desc).map(beer => {
+                ? props.beers.sort(sortFunc).map(beer => {
                       return (
                           <Paper key={beer.id}>
                               <Grid
@@ -76,7 +80,7 @@ const BeerList = props => {
                                       color: 'inherit',
                                   }}
                                   component={Link}
-                                  to={`beer/${beer.id}`}
+                                  to={`/beer/${beer.id}`}
                               >
                                   <Grid item xs={12} md={6} lg={2} xl={2}>
                                       <Typography variant="h6">
@@ -215,4 +219,4 @@ const BeerList = props => {
     );
 };
 
-export default BeerList;
+export default withRouter(BeerList);
