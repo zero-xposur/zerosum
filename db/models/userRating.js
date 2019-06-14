@@ -3,6 +3,12 @@ const Sequelize = require('sequelize');
 
 const UserRating = connection.define('UserRating', {
     score: Sequelize.DOUBLE,
+    appearance: Sequelize.INTEGER,
+    aroma: Sequelize.INTEGER,
+    mouthfeel: Sequelize.INTEGER,
+    taste: Sequelize.INTEGER,
+    overall: Sequelize.INTEGER,
+    review: Sequelize.TEXT,
 });
 
 const Babeers = require('./babeers');
@@ -15,10 +21,13 @@ Babeers.hasMany(UserRating);
 
 // checks for score 0-5, if a user and beer exists.
 // creates or updates a rating
-UserRating.rate = (userId, babeerId, score) => {
-    if (score > 5 || score < 0) {
-        throw new Error('Score is not > 0 and < 5');
-    }
+UserRating.rate = (userId, babeerId, ratings, review) => {
+    Object.keys(ratings).map(rate => {
+        if (ratings[rate] > 5 || ratings[rate] < 1) {
+            throw new Error(`${rate} is not > 0 and <= 5.`);
+        }
+    });
+    let { appearance, aroma, mouthfeel, taste, overall } = ratings;
     return User.findByPk(userId)
         .then(foundUser => {
             if (!foundUser) throw new Error('No User Found!');
@@ -34,13 +43,25 @@ UserRating.rate = (userId, babeerId, score) => {
             }).then(foundUserRating => {
                 if (foundUserRating) {
                     return foundUserRating.update({
-                        score: score.toFixed(),
+                        // score: score.toFixed(),
+                        appearance,
+                        aroma,
+                        mouthfeel,
+                        taste,
+                        overall,
+                        review,
                     });
                 } else {
                     return UserRating.create({
-                        score: score.toFixed(),
+                        // score: score.toFixed(),
                         userId: userId,
                         babeerId: babeerId,
+                        appearance,
+                        aroma,
+                        mouthfeel,
+                        taste,
+                        overall,
+                        review,
                     });
                 }
             });
