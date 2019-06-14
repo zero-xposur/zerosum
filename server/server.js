@@ -31,21 +31,12 @@ app.use(
 //   next();
 // });
 app.use(express.static(path.join(__dirname, '..', 'dist')));
-
-app.get('/', (req, res, next) =>
-    res.sendFile(path.join(__dirname, '../index.html'))
-);
-
 app.get('/privacy', (req, res, next) =>
     res.sendFile(path.join(__dirname, '../privacy.html'))
 );
-
-// // Session middleware
-// app.use(session({
-//   secret: 'This is not a very secure secret...',
-//   resave: false,
-//   saveUninitialized: false
-// }));
+app.get('/', (req, res, next) =>
+    res.sendFile(path.join(__dirname, '../index.html'))
+);
 
 // authentication router
 app.use('/api', require('./routes'));
