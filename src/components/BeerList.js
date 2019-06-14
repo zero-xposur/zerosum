@@ -65,6 +65,16 @@ const BeerList = props => {
         setOrderBy(column);
     };
 
+    const setRating = newRating => {
+        console.log(newRating);
+        console.log(props);
+        // if (props.user) {
+        //     console.log('setuser');
+        // } else {
+        //     console.log('do nothing');
+        // }
+    };
+
     return (
         <Fragment>
             {/* <CssBaseline /> */}
@@ -140,7 +150,21 @@ const BeerList = props => {
                                       </Typography>
                                   </Grid>
                                   <Grid item xs={12} md={6} lg={2} xl={2}>
-                                      <Typography>-----</Typography>
+                                      <Typography>
+                                          <Rating
+                                              emptySymbol={
+                                                  <StarBorder
+                                                      style={{ color: 'gold' }}
+                                                  />
+                                              }
+                                              fullSymbol={
+                                                  <Star
+                                                      style={{ color: 'gold' }}
+                                                  />
+                                              }
+                                              onClick={setRating}
+                                          />
+                                      </Typography>
                                       <Typography>Your Rating</Typography>
                                   </Grid>
                               </Grid>
