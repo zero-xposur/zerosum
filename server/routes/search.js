@@ -29,7 +29,7 @@ router.post('/menu', (req, res, next) => {
                     )
                 )
             );
-            console.log(response[0].fullTextAnnotation.pages[0].blocks);
+            console.log(strArr);
             res.send(strArr);
         })
         .catch(err => console.error(err));
