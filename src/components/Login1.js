@@ -1,5 +1,4 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,30 +12,6 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
-const onLogin = () =>{
-    props.login()
-    .catch((error)=>console.log(error))
-}
-
-function LoginWithFacebook() {
-    const classes = useStyles();
-    return (
-      <Typography variant="body2" color="textSecondary" align="center">
-       
-        <Link color="inherit" href="/api/auth/facebook" onClick={onLogin}>
-        <button type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}>
-            Login with Facebook
-        </button>
-        </Link>
-       
-      </Typography>
-    );
-  }
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -63,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function Login(props) {
+export default function SignIn() {
   const classes = useStyles();
 
   return (
@@ -73,12 +48,8 @@ function Login(props) {
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Box mt={5}>
-         <LoginWithFacebook />
-         <Typography align='center'>OR</Typography>
-        </Box>
         <Typography component="h1" variant="h5">
-          Sign In/Create Account
+          Sign in
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
@@ -113,11 +84,10 @@ function Login(props) {
             variant="contained"
             color="primary"
             className={classes.submit}
-
           >
-            Submit
+            Sign In
           </Button>
-          {/* <Grid container>
+          <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
                 Forgot password?
@@ -128,18 +98,12 @@ function Login(props) {
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
-          </Grid> */}
+          </Grid>
         </form>
       </div>
+      <Box mt={5}>
+    
+      </Box>
     </Container>
   );
 }
-
-
-const mapDispatchToProps = dispatch => {
-    return {
-        login: () => dispatch(login()),
-    }
-} 
-
-export default connect(null, mapDispatchToProps)(Login);

@@ -34,6 +34,7 @@ app.use(express.static(path.join(__dirname, '..', 'dist')));
 app.get('/privacy', (req, res, next) =>
     res.sendFile(path.join(__dirname, '../privacy.html'))
 );
+
 app.get('/', (req, res, next) =>
     res.sendFile(path.join(__dirname, '../index.html'))
 );
