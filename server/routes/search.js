@@ -8,8 +8,8 @@ const client = new vision.ImageAnnotatorClient({
 });
 
 // GET :/api/search/:search
-router.get('/:search', (req, res, next) => {
-    return Babeers.search(req.params.search).then(beers => res.json(beers));
+router.get('/:search/:userId', (req, res, next) => {
+    return Babeers.search(req.params.search, req.params.userId).then(beers => res.json(beers));
 });
 
 // POST :/api/search/menu

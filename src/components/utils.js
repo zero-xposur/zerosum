@@ -153,4 +153,11 @@ const styles = {
     ],
 };
 
-module.exports = { styles };
+const getImageUrl = beerLink => {
+    if (!beerLink) return;
+    return `https://cdn.beeradvocate.com/im/beers/${
+        beerLink.split('/').slice(-2, -1)[0]
+    }.jpg`;
+};
+
+module.exports = { styles, getImageUrl };

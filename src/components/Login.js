@@ -86,7 +86,6 @@ function Login({ loginUser, createUser, history, fbLogin }) {
 
     const handleOnSignUp = event => {
         event.preventDefault();
-        console.log(email, password);
         createUser(email, password)
             .then(() => {
                 history.push('/search');

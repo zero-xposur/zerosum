@@ -42,7 +42,6 @@ export const localLogin = (email, password) => {
 };
 
 export const localCreate = (email, password) => {
-    console.log('careating', email, password);
     return dispatch => {
         return axios
             .post('/api/auth/login', { email, password })
