@@ -20,11 +20,14 @@ const userLinks = [
         to: '/discover',
     },
     {
-        label: 'Logout', to: '/logout'
+        label: 'Logout',
+        to: '/logout',
     },
 ];
 const Nav = props => {
     useEffect(() => {
+        console.log(props.user);
+
         if (props.user.user) {
             userLinks[0].label = `Hello, ${props.user.user.displayName}`;
         } else {
@@ -70,7 +73,7 @@ const Nav = props => {
 
 const mapStateToProps = state => {
     return {
-        user: state.user,
+        user: state,
     };
 };
 export default connect(mapStateToProps)(Nav);

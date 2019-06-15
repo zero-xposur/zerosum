@@ -37,7 +37,7 @@ passport.use(
 passport.serializeUser((user, done) => {
     var sessionUser = {
         name: user.name,
-        email: user.email,
+        // email: user.email,
         facebookId: user.id,
     };
     done(null, sessionUser);
@@ -71,26 +71,39 @@ router.get('/facebook/callback', function(request, response, next) {
                 return next(err);
             }
             request.session.user = user;
+            console.log('in fb login-what is the req.session', request.session.user)
             response.redirect('/#/search');
         });
     })(request, response, next);
 });
 
-router.get('/profile', function(req, res) {
+router.get('/profile', function(req, res, next) {
+    console.log('in profile route')
     if (req.session.userId) {
+        console.log('in profile route native login');
         User.findByPk(req.session.userId)
             .then(me => {
-                res.json(me)
+                delete me.password;
+                return res.json(me)
             })
             .catch(next);
     }
-    else res.status(404);
+    else if (req.session.user) {
+        console.log('in profile route- fb else if');
+        User.findOne({where: {facebookId: req.session.user.id}})
+            .then(me => {
+                delete me.password;
+                return res.json(me)
+            })
+            .catch(next);
+    } else {
+        res.status(404);
+    }
 });
-
 
 router.post('/login', (req, res, next) => {
     User.create(req.body)
-        .then((user) => {
+        .then(user => {
             req.session.userId = user.id;
             res.json(user);
         })
@@ -101,22 +114,20 @@ router.put('/login', (req, res, next) => {
     User.findOne({
         where: {
             email: req.body.email,
-            password: req.body.password
-        }
+            password: req.body.password,
+        },
     })
-    .then(user => {
-        if (user) {
-            req.session.userId = user.id;
-            res.json(user);
-        }
-        else {
-            const err = new Error('Incorrect user/password!');
-            err.status = 401;
-            next(err);
-        }
-    })
-    .catch(next);
-    
+        .then(user => {
+            if (user) {
+                req.session.userId = user.id;
+                res.json(user);
+            } else {
+                const err = new Error('Incorrect user/password!');
+                err.status = 401;
+                next(err);
+            }
+        })
+        .catch(next);
 });
 
 router.get('/logout', function(req, res) {
