@@ -8,6 +8,10 @@ const userLinks = [
         to: '/home',
     },
     {
+        label: 'Rated Beers',
+        to: '/ratedBeers',
+    },
+    {
         label: 'search',
         to: '/search',
     },
@@ -55,16 +59,17 @@ const guestLinks = [
     }
 ];
 const Nav = props => {
-    useEffect(() => {
-        console.log('in nav', props.user);
+    // useEffect(() => {
+    //     console.log('in nav', props.user);
 
-        if (props.user.name) {
-            userLinks[0].label = `Hello, ${props.user.name}`;
-        } else {
-            userLinks[0].label = 'Home';
-        }
-    }, [props]);
+    //     if (props.user.name) {
+    //         userLinks[0].label = `Hello, ${props.user.name}`;
+    //     } else {
+    //         userLinks[0].label = 'Home';
+    //     }
+    // }, [props]);
 
+    console.log('props user', props.user);
     if (props.user.name) {
         let links = userLinks;
         links[0].label = `Hello, ${props.user.name}`;
@@ -104,7 +109,7 @@ const Nav = props => {
 
 const mapStateToProps = state => {
     return {
-        user: state,
+        user: state.user,
     };
 };
 export default connect(mapStateToProps)(Nav);
