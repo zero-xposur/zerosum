@@ -20,6 +20,7 @@ import {
 import { Star, StarBorder } from '@material-ui/icons';
 import Rating from 'react-rating';
 import { getBeerListRating } from '../reducers/index';
+import SingleRating from './SingleRating';
 
 const BeerList = props => {
     const [beers, setBeers] = React.useState([]);
@@ -33,12 +34,12 @@ const BeerList = props => {
         setBeers(props.beers);
         // fetchBeerListRating()
 
-        if (props.user.user) {
-            props.beers.map(beer => {
-                props.fetchBeerListRating(props.user.user.id, beer.id);
-            });
-        }
-        console.log('userprops', props);
+        // if (props.user.user) {
+        //     props.beers.map(beer => {
+        //         props.fetchBeerListRating(props.user.user.id, beer.id);
+        //     });
+        // }
+        // console.log('userprops', props);
     }, [props.beers]);
 
     // useEffect(() => {
@@ -112,6 +113,22 @@ const BeerList = props => {
             {/* <CssBaseline /> */}
             {props.beers
                 ? props.beers.sort(sortFunc).map(beer => {
+                      //   let rating = undefined;
+                      //   console.log(props.beerListRating);
+                      //   if (Array.isArray(props.beerListRating)) {
+                      //       console.log(
+                      //           'ARRAY'
+                      //           //   props.beerListRating.find(element => element)
+                      //       );
+                      //   }
+
+                      // {
+                      //     props.length
+                      //     //   props.beerListRating.find(
+                      //     //       ele =>
+                      //     //           ele.babeerid === beer.id
+                      //     //   ).score
+                      // }
                       return (
                           <Paper key={beer.id}>
                               <Grid
@@ -186,8 +203,12 @@ const BeerList = props => {
                                       </Typography>
                                   </Grid>
                                   <Grid item xs={12} md={6} lg={2} xl={2}>
-                                      <Typography>
+                                      <SingleRating beer={beer} />
+                                      {/* <Typography>
                                           <Rating
+                                              initialRating={parseFloat(
+                                                  beer.score
+                                              )}
                                               emptySymbol={
                                                   <StarBorder
                                                       style={{
@@ -206,7 +227,7 @@ const BeerList = props => {
                                               readonly={true}
                                           />
                                       </Typography>
-                                      <Typography>Your Rating</Typography>
+                                      <Typography>Your Rating</Typography> */}
                                   </Grid>
                               </Grid>
                           </Paper>
@@ -296,12 +317,6 @@ const mapDispatchToProps = dispatch => ({
         return dispatch(getBeerListRating(fbId, beerId));
     },
 });
-
-// const mapDispatchToProps = dispatch => ({
-//     fetchBeer: id => {
-//         return dispatch(getBeer(id));
-//     },
-// });
 
 export default withRouter(
     connect(

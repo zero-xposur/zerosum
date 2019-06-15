@@ -7,12 +7,10 @@ const gotBeerListRating = beerListRating => ({
     beerListRating,
 });
 
-export const beerListRatingReducer = (state = [], action) => {
+export const beerListRatingReducer = (state = {}, action) => {
     switch (action.type) {
         case GOT_BEER_LIST_RATING:
-            return [...state, action.beerListRating];
-        // return { ...state, messages: [...state.messages, action.message] };
-
+            return action.beerListRating;
         default:
             return state;
     }
