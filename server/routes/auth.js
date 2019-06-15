@@ -77,11 +77,51 @@ router.get('/facebook/callback', function(request, response, next) {
 });
 
 router.get('/profile', function(req, res) {
-    res.send(req.session);
+    if (req.session.userId) {
+        User.findByPk(req.session.userId)
+            .then(me => {
+                res.json(me)
+            })
+            .catch(next);
+    }
+    else res.status(404);
+});
+
+
+router.post('/login', (req, res, next) => {
+    User.create(req.body)
+        .then((user) => {
+            req.session.userId = user.id;
+            res.json(user);
+        })
+        .catch(next);
+});
+
+router.put('/login', (req, res, next) => {
+    User.findOne({
+        where: {
+            email: req.body.email,
+            password: req.body.password
+        }
+    })
+    .then(user => {
+        if (user) {
+            req.session.userId = user.id;
+            res.json(user);
+        }
+        else {
+            const err = new Error('Incorrect user/password!');
+            err.status = 401;
+            next(err);
+        }
+    })
+    .catch(next);
+    
 });
 
 router.get('/logout', function(req, res) {
     req.logout();
+    req.session.destroy();
     res.status(204).end();
 });
 
