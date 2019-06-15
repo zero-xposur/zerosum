@@ -71,29 +71,31 @@ router.get('/facebook/callback', function(request, response, next) {
                 return next(err);
             }
             request.session.user = user;
-            console.log('in fb login-what is the req.session', request.session.user)
+            console.log(
+                'in fb login-what is the req.session',
+                request.session.user
+            );
             response.redirect('/#/search');
         });
     })(request, response, next);
 });
 
 router.get('/profile', function(req, res, next) {
-    console.log('in profile route')
+    console.log('in profile route');
     if (req.session.userId) {
         console.log('in profile route native login');
         User.findByPk(req.session.userId)
             .then(me => {
                 delete me.password;
-                return res.json(me)
+                return res.json(me);
             })
             .catch(next);
-    }
-    else if (req.session.user) {
+    } else if (req.session.user) {
         console.log('in profile route- fb else if');
-        User.findOne({where: {facebookId: req.session.user.id}})
+        User.findOne({ where: { facebookId: req.session.user.id } })
             .then(me => {
                 delete me.password;
-                return res.json(me)
+                return res.json(me);
             })
             .catch(next);
     } else {
@@ -102,6 +104,7 @@ router.get('/profile', function(req, res, next) {
 });
 
 router.post('/login', (req, res, next) => {
+    console.log(req.body);
     User.create(req.body)
         .then(user => {
             req.session.userId = user.id;

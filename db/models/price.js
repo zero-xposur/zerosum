@@ -1,5 +1,6 @@
 const { connection } = require('../connection');
 const Sequelize = require('sequelize');
+const Babeers = require('./babeers');
 
 const Price = connection.define('price', {
     name: Sequelize.TEXT,
@@ -10,6 +11,9 @@ const Price = connection.define('price', {
     description: Sequelize.TEXT,
     quantity: Sequelize.TEXT,
 });
+
+Price.belongsTo(Babeers);
+Babeers.hasMany(Price);
 
 // returns cleaned up Tags as an array
 Price.getTagsArray = tags => {

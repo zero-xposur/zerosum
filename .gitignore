@@ -5,4 +5,5 @@ sadBeer
 gcred.json
 server.cert
 server.key
+test/newprices
 postSeed2.js
