@@ -41,7 +41,6 @@ const Nav = props => {
 
     console.log('props user', props.user);
     if (props.user.name) {
-        console.log('in here');
         userLinks[0].label = `Hello, ${props.user.name}`;
     } else {
         userLinks[0].label = 'Home';
