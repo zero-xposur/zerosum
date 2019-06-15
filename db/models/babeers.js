@@ -1,6 +1,5 @@
 const { connection } = require('../connection');
 const Sequelize = require('sequelize');
-const UserRating = require('./userRating');
 
 const Babeers = connection.define('babeer', {
     name: Sequelize.TEXT,
@@ -117,8 +116,10 @@ Babeers.search = function(query, userId) {
 
     return connection.query(
         'SELECT DISTINCT ON (a.link) * FROM "' +
-            beer.tableName + ' a left join userratings b on a.id=babeersId ' +
-            '" WHERE a.ratings>2 AND b.id="' + userId +
+            beer.tableName +
+            ' a left join userratings b on a.id=babeersId ' +
+            '" WHERE a.ratings>2 AND b.id="' +
+            userId +
             beer.getSearchVector() +
             "\" @@ plainto_tsquery('english', " +
             query +
