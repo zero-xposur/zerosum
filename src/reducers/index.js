@@ -5,6 +5,7 @@ import { getBeer, beerReducer } from './beer';
 import { getMenu, menuReducer } from './menuRecognition';
 import { discoverBeers, discoverReducer } from './discover';
 import { beerListRatingReducer, getBeerListRating } from './beerListRating';
+import { userBeerRatingsReducer, getUserBeerRatings } from './userBeerRatings';
 
 const rootReducer = combineReducers({
     searchBeers: beersReducer,
@@ -13,6 +14,13 @@ const rootReducer = combineReducers({
     singleBeer: beerReducer,
     menuBeers: menuReducer,
     beerListRating: beerListRatingReducer,
+    userBeerRatings: userBeerRatingsReducer,
 });
 
-export { rootReducer, getMenu, discoverBeers, getBeerListRating };
+export {
+    rootReducer,
+    getMenu,
+    discoverBeers,
+    getBeerListRating,
+    getUserBeerRatings,
+};

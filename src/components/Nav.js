@@ -8,6 +8,10 @@ const userLinks = [
         to: '/home',
     },
     {
+        label: 'Rated Beers',
+        to: '/ratedBeers',
+    },
+    {
         label: 'search',
         to: '/search',
     },
