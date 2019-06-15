@@ -21,7 +21,7 @@ class SingleRating extends Component {
         this.setState(
             {
                 beer: this.props.beer,
-                userId: this.props.user.user.id,
+                userId: this.props.user.id,
             },
             console.log('realstate', this.state)
         );
