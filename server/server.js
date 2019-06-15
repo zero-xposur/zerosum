@@ -40,12 +40,6 @@ app.get('/', (req, res, next) =>
     res.sendFile(path.join(__dirname, '../index.html'))
 );
 
-
-
-app.get('/', (req, res, next) =>
-    res.sendFile(path.join(__dirname, '../index.html'))
-);
-
 // authentication router
 app.use('/api', require('./routes'));
 
