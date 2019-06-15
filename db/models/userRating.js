@@ -18,6 +18,7 @@ const User = require('./users');
 User.hasMany(UserRating);
 UserRating.belongsTo(User);
 Babeers.hasMany(UserRating);
+UserRating.belongsTo(Babeers);
 
 // can only review if userRating for that beer & user exists.
 UserRating.review = (userId, babeerId, review) => {};
