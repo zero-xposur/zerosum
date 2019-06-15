@@ -1,6 +1,6 @@
 import React, { Component, useState } from 'react';
 import { connect } from 'react-redux';
-import { localLogin } from '../reducers';
+import { localLogin, localCreate, login } from '../reducers';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,29 +14,6 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
-const onLogin = () => {
-    props.login().catch(error => console.log(error));
-};
-
-function LoginWithFacebook() {
-    const classes = useStyles();
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            <Link color="inherit" href="/api/auth/facebook" onClick={onLogin}>
-                <button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                >
-                    Login with Facebook
-                </button>
-            </Link>
-        </Typography>
-    );
-}
 
 const useStyles = makeStyles(theme => ({
     '@global': {
@@ -63,24 +40,56 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function Login(props) {
+function LoginWithFacebook({ fbLogin }) {
+    const onLogin = () => {
+        fbLogin().catch(error => console.log(error));
+    };
+    const classes = useStyles();
+    return (
+        <Typography variant="body2" color="textSecondary" align="center">
+            <Link color="inherit" href="/api/auth/facebook" onClick={onLogin}>
+                <button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                >
+                    Login with Facebook
+                </button>
+            </Link>
+        </Typography>
+    );
+}
+
+function Login({ loginUser, createUser, history, fbLogin }) {
     const classes = useStyles();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
-    const handleEmailChange = ({ target: { value } }) => setEmail(value);
+    const handleEmailChange = ({ target: { value } }) => {
+        setEmail(value);
+    };
     const handlePasswordChange = ({ target: { value } }) => setPassword(value);
 
     const handleOnSubmit = event => {
         event.preventDefault();
+
         loginUser(email, password)
             .then(() => {
-                console.log(location);
-                if (location.state && location.state.from)
-                    history.push('/checkout');
-                else history.push('/products');
+                history.push('/search');
+            })
+            .catch(ex => setErrorMessage(ex.response.data));
+    };
+
+    const handleOnSignUp = event => {
+        event.preventDefault();
+        console.log(email, password);
+        createUser(email, password)
+            .then(() => {
+                history.push('/search');
             })
             .catch(ex => setErrorMessage(ex.response.data));
     };
@@ -93,7 +102,7 @@ function Login(props) {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Box mt={5}>
-                    <LoginWithFacebook />
+                    <LoginWithFacebook fbLogin={fbLogin} />
                     <Typography align="center">OR</Typography>
                 </Box>
                 <Typography component="h1" variant="h5">
@@ -110,6 +119,8 @@ function Login(props) {
                         name="email"
                         autoComplete="email"
                         autoFocus
+                        value={email}
+                        onChange={handleEmailChange}
                     />
                     <TextField
                         variant="outlined"
@@ -121,6 +132,8 @@ function Login(props) {
                         type="password"
                         id="password"
                         autoComplete="current-password"
+                        value={password}
+                        onChange={handlePasswordChange}
                     />
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
@@ -132,8 +145,19 @@ function Login(props) {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        onClick={handleOnSubmit}
                     >
                         Submit
+                    </Button>
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                        onClick={handleOnSignUp}
+                    >
+                        Sign Up
                     </Button>
                     {/* <Grid container>
             <Grid item xs>
@@ -155,7 +179,9 @@ function Login(props) {
 
 const mapDispatchToProps = dispatch => {
     return {
-        login: () => dispatch(localLogin()),
+        fbLogin: () => dispatch(login()),
+        loginUser: (email, password) => dispatch(localLogin(email, password)),
+        createUser: (email, password) => dispatch(localCreate(email, password)),
     };
 };
 

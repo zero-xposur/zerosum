@@ -35,6 +35,16 @@ export const logout = () => dispatch => {
 export const localLogin = (email, password) => {
     return dispatch => {
         return axios
+            .put('/api/auth/login', { email, password })
+            .then(response => response.data)
+            .then(user => dispatch(setUser(user)));
+    };
+};
+
+export const localCreate = (email, password) => {
+    console.log('careating', email, password);
+    return dispatch => {
+        return axios
             .post('/api/auth/login', { email, password })
             .then(response => response.data)
             .then(user => dispatch(setUser(user)));
