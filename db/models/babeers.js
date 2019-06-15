@@ -1,6 +1,6 @@
 const { connection } = require('../connection');
 const Sequelize = require('sequelize');
-const UserRating = require('./userRatings');
+const UserRating = require('./userRating');
 
 const Babeers = connection.define('babeer', {
     name: Sequelize.TEXT,
