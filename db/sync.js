@@ -9,7 +9,11 @@ const { Babeers, Price, User, UserRating } = require('./models');
 connection
     .sync({ force: true })
     .then(() => Babeers.addFullTextIndex())
-    .then(() => User.create({ name: 'test' }));
+    .then(() => User.create({ name: 'test1' }))
+    .then(() => User.create({ name: 'test2' }))
+    .then(() => User.create({ name: 'test3' }))
+    .then(() => User.create({ name: 'test4' }))
+    .then(() => User.create({ name: 'test5' }));
 
 // old json
 // "seed": "psql zerosum < server/db/beerAppData.sql",
