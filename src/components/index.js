@@ -6,6 +6,7 @@ import Beer from './Beer';
 import MenuCapture from './MenuCapture';
 import Discover from './Discover';
 import DiscoverList from './DiscoverList';
+import Home from './Home';
 
 export {
     Search,
@@ -16,4 +17,5 @@ export {
     MenuCapture,
     Discover,
     DiscoverList,
+    Home,
 };

@@ -4,8 +4,8 @@ import { Tabs, Tab } from '@material-ui/core';
 import { connect } from 'react-redux';
 const userLinks = [
     {
-        label: 'login',
-        to: '/login',
+        label: 'home',
+        to: '/home',
     },
     {
         label: 'search',
@@ -19,20 +19,23 @@ const userLinks = [
         label: 'Discover',
         to: '/discover',
     },
+    {
+        label: 'Logout', to: '/logout'
+    },
 ];
 const Nav = props => {
     useEffect(() => {
         if (props.user.user) {
             userLinks[0].label = `Hello, ${props.user.user.displayName}`;
         } else {
-            userLinks[0].label = 'Login';
+            userLinks[0].label = 'Home';
         }
     }, [props]);
 
     if (props.user.user) {
         userLinks[0].label = `Hello, ${props.user.user.displayName}`;
     } else {
-        userLinks[0].label = 'Login';
+        userLinks[0].label = 'Home';
     }
 
     const [value, setValue] = React.useState(props.location.pathname);
