@@ -9,7 +9,7 @@ const rootReducer = combineReducers({
     searchBeers: beersReducer,
     discoveredBeers: discoverReducer,
     user: userReducer,
-    searchBeer: beerReducer,
+    singleBeer: beerReducer,
     menuBeers: menuReducer,
 });
 

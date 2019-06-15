@@ -17,7 +17,7 @@ const Beer = ({ match, beer, fetchBeer }) => {
     useEffect(() => {
         fetchBeer(match.params.beerId);
     }, []);
-    let beerPage = beer.searchBeer;
+    let beerPage = beer.singleBeer;
     return (
         <div>
             <img src={getImageUrl(beerPage.link)} />
