@@ -9,7 +9,9 @@ const client = new vision.ImageAnnotatorClient({
 
 // GET :/api/search/:search
 router.get('/:search/:userId', (req, res, next) => {
-    return Babeers.search(req.params.search, req.params.userId).then(beers => res.json(beers));
+    return Babeers.search(req.params.search, req.params.userId).then(beers =>
+        res.json(beers)
+    );
 });
 
 router.get('/:search', (req, res, next) => {
@@ -28,12 +30,20 @@ router.post('/menu', (req, res, next) => {
                 strArr.push(
                     block.paragraphs.map(paragraph =>
                         paragraph.words.map(word =>
-                            word.symbols.map(symbol => symbol.text).join('')
+                            word.symbols.map(symbol =>
+                                (symbol.property.detectedBreak
+                                    ? symbol.text + '/n'
+                                    : symbol.text
+                                ).join('')
+                            )
                         )
                     )
                 )
             );
-            console.log(strArr);
+            console.log(
+                response[0].fullTextAnnotation.pages[0].blocks[0].paragraphs[0]
+                    .words[0].property.detectedBreak
+            );
             res.send(strArr);
         })
         .catch(err => console.error(err));

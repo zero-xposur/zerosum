@@ -103,33 +103,30 @@ Babeers.search = function(query) {
     );
 };
 
-// Babeers.search = function(query, userId) {
-//     if (connection.options.dialect !== 'postgres') {
-//         console.log('Search is only implemented on POSTGRES database');
-//         return;
-//     }
+Babeers.searchWithUser = function(query, userId) {
+    if (connection.options.dialect !== 'postgres') {
+        console.log('Search is only implemented on POSTGRES database');
+        return;
+    }
 
-//     const beer = this;
+    const beer = this;
 
-//     query = connection.getQueryInterface().escape(query);
-//     console.log(query);
+    query = connection.getQueryInterface().escape(query);
+    console.log(query);
 
-//     return connection.query(
-//         'SELECT DISTINCT ON (link) * FROM "' +
-//             beer.tableName +
-//             ' left join "UserRatings" on ("' +
-//             beer.tableName +
-//             '"."id" = "UserRatings"."babeersId" ' +
-//             '" WHERE a.ratings>2 AND b.id="' +
-//             userId +
-//             beer.getSearchVector() +
-//             "\" @@ plainto_tsquery('english', " +
-//             query +
-//             ') ORDER BY a.link, a.id, a.ratings desc',
-//         { type: Sequelize.QueryTypes.SELECT },
-//         beer
-//     );
-// };
+    return connection.query(
+        'SELECT DISTINCT ON (a.link) * FROM babeers a left join "UserRatings" b on a.id=b."babeerId" ' +
+            'WHERE a.ratings>2 AND b."userId"=' +
+            userId +
+            ' AND "' +
+            beer.getSearchVector() +
+            "\" @@ plainto_tsquery('english', " +
+            query +
+            ') ORDER BY a.link, a.id, a.ratings desc',
+        { type: Sequelize.QueryTypes.SELECT },
+        beer
+    );
+};
 
 Babeers.searchStyles = function(query) {
     console.log(query);
