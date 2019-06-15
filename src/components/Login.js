@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component, useState } from 'react';
+import { connect } from 'react-redux';
+import { localLogin } from '../reducers';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,110 +15,127 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-const onLogin = () =>{
-    props.login()
-    .catch((error)=>console.log(error))
-}
+const onLogin = () => {
+    props.login().catch(error => console.log(error));
+};
 
 function LoginWithFacebook() {
     const classes = useStyles();
     return (
-      <Typography variant="body2" color="textSecondary" align="center">
-       
-        <Link color="inherit" href="/api/auth/facebook" onClick={onLogin}>
-        <button type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}>
-            Login with Facebook
-        </button>
-        </Link>
-       
-      </Typography>
+        <Typography variant="body2" color="textSecondary" align="center">
+            <Link color="inherit" href="/api/auth/facebook" onClick={onLogin}>
+                <button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                >
+                    Login with Facebook
+                </button>
+            </Link>
+        </Typography>
     );
-  }
+}
 
 const useStyles = makeStyles(theme => ({
-  '@global': {
-    body: {
-      backgroundColor: theme.palette.common.white,
+    '@global': {
+        body: {
+            backgroundColor: theme.palette.common.white,
+        },
     },
-  },
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', 
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
+    paper: {
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+        width: '100%',
+        marginTop: theme.spacing(1),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
 }));
 
 function Login(props) {
-  const classes = useStyles();
+    const classes = useStyles();
 
-  return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Box mt={5}>
-         <LoginWithFacebook />
-         <Typography align='center'>OR</Typography>
-        </Box>
-        <Typography component="h1" variant="h5">
-          Sign In/Create Account
-        </Typography>
-        <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
-          >
-            Submit
-          </Button>
-          {/* <Grid container>
+    const handleEmailChange = ({ target: { value } }) => setEmail(value);
+    const handlePasswordChange = ({ target: { value } }) => setPassword(value);
+
+    const handleOnSubmit = event => {
+        event.preventDefault();
+        loginUser(email, password)
+            .then(() => {
+                console.log(location);
+                if (location.state && location.state.from)
+                    history.push('/checkout');
+                else history.push('/products');
+            })
+            .catch(ex => setErrorMessage(ex.response.data));
+    };
+
+    return (
+        <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <div className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                    <LockOutlinedIcon />
+                </Avatar>
+                <Box mt={5}>
+                    <LoginWithFacebook />
+                    <Typography align="center">OR</Typography>
+                </Box>
+                <Typography component="h1" variant="h5">
+                    Sign In/Create Account
+                </Typography>
+                <form className={classes.form} noValidate>
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="email"
+                        label="Email Address"
+                        name="email"
+                        autoComplete="email"
+                        autoFocus
+                    />
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+                    />
+                    <FormControlLabel
+                        control={<Checkbox value="remember" color="primary" />}
+                        label="Remember me"
+                    />
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                    >
+                        Submit
+                    </Button>
+                    {/* <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
                 Forgot password?
@@ -129,17 +147,19 @@ function Login(props) {
               </Link>
             </Grid>
           </Grid> */}
-        </form>
-      </div>
-    </Container>
-  );
+                </form>
+            </div>
+        </Container>
+    );
 }
-
 
 const mapDispatchToProps = dispatch => {
     return {
-        login: () => dispatch(login()),
-    }
-} 
+        login: () => dispatch(localLogin()),
+    };
+};
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(
+    null,
+    mapDispatchToProps
+)(Login);
