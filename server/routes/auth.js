@@ -90,14 +90,14 @@ router.get('/profile', function(req, res, next) {
                 return res.json(me)
             })
             .catch(next);
+    } else {
+        res.status(404);
     }
-    else res.status(404);
 });
-
 
 router.post('/login', (req, res, next) => {
     User.create(req.body)
-        .then((user) => {
+        .then(user => {
             req.session.userId = user.id;
             res.json(user);
         })
@@ -108,22 +108,20 @@ router.put('/login', (req, res, next) => {
     User.findOne({
         where: {
             email: req.body.email,
-            password: req.body.password
-        }
+            password: req.body.password,
+        },
     })
-    .then(user => {
-        if (user) {
-            req.session.userId = user.id;
-            res.json(user);
-        }
-        else {
-            const err = new Error('Incorrect user/password!');
-            err.status = 401;
-            next(err);
-        }
-    })
-    .catch(next);
-    
+        .then(user => {
+            if (user) {
+                req.session.userId = user.id;
+                res.json(user);
+            } else {
+                const err = new Error('Incorrect user/password!');
+                err.status = 401;
+                next(err);
+            }
+        })
+        .catch(next);
 });
 
 router.get('/logout', function(req, res) {
