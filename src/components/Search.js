@@ -26,7 +26,9 @@ const Search = props => {
 
     const handleSubmit = evt => {
         evt.preventDefault();
-        props.searchBeers(search);
+        const userId = (props.user && props.user.id)? props.user.id:null;
+        console.log('userId in search component', props.user);
+        props.searchBeers({search, userId});
     };
 
     const keyPress = e => {
