@@ -19,6 +19,7 @@ import {
 
 import { Star, StarBorder } from '@material-ui/icons';
 import Rating from 'react-rating';
+import { getBeerListRating } from '../reducers/index';
 
 const BeerList = props => {
     const [beers, setBeers] = React.useState([]);
@@ -28,9 +29,39 @@ const BeerList = props => {
     );
 
     useEffect(() => {
-        console.log('beerlist', props);
+        // console.log('beerlist', props);
         setBeers(props.beers);
+        // fetchBeerListRating()
+
+        if (props.user.user) {
+            props.beers.map(beer => {
+                props.fetchBeerListRating(props.user.user.id, beer.id);
+            });
+        }
+        console.log('userprops', props);
     }, [props.beers]);
+
+    // useEffect(() => {
+    //     console.log('beerListRating:', props);
+    // }, [props.user.user]);
+    // if (props.user.user) {
+    //     console.log('user:', props.user.user.id);
+    //     props.fetchBeerListRating(
+    //         props.user.user.id,
+    //         beer.id
+    //     );
+    //     console.log('props', props);
+    // }
+    // user stuff for ratings
+    // if (props.user.user) {
+    //     console.log(props.user.user);
+
+    //     // userLinks[0].label = `Hello, ${props.user.user.displayName}`;
+    // } else {
+    //     console.log('no user');
+    //     userId = 0;
+    //     // userLinks[0].label = 'Login';
+    // }
 
     const labels = [
         { id: 'name', label: 'Beer' },
@@ -65,15 +96,16 @@ const BeerList = props => {
         setOrderBy(column);
     };
 
-    const setRating = newRating => {
-        console.log(newRating);
-        console.log(props);
-        // if (props.user) {
-        //     console.log('setuser');
-        // } else {
-        //     console.log('do nothing');
-        // }
-    };
+    // // ratings
+    // const setRating = newRating => {
+    //     console.log(newRating);
+    //     console.log(props);
+    //     // if (props.user) {
+    //     //     console.log('setuser');
+    //     // } else {
+    //     //     console.log('do nothing');
+    //     // }
+    // };
 
     return (
         <Fragment>
@@ -133,12 +165,16 @@ const BeerList = props => {
                                               )}
                                               emptySymbol={
                                                   <StarBorder
-                                                      style={{ color: 'gold' }}
+                                                      style={{
+                                                          color: 'gold',
+                                                      }}
                                                   />
                                               }
                                               fullSymbol={
                                                   <Star
-                                                      style={{ color: 'gold' }}
+                                                      style={{
+                                                          color: 'gold',
+                                                      }}
                                                   />
                                               }
                                               readonly={true}
@@ -154,15 +190,20 @@ const BeerList = props => {
                                           <Rating
                                               emptySymbol={
                                                   <StarBorder
-                                                      style={{ color: 'gold' }}
+                                                      style={{
+                                                          color: 'gold',
+                                                      }}
                                                   />
                                               }
                                               fullSymbol={
                                                   <Star
-                                                      style={{ color: 'gold' }}
+                                                      style={{
+                                                          color: 'gold',
+                                                      }}
                                                   />
                                               }
-                                              onClick={setRating}
+                                              //   onClick={setRating}
+                                              readonly={true}
                                           />
                                       </Typography>
                                       <Typography>Your Rating</Typography>
@@ -243,4 +284,28 @@ const BeerList = props => {
     );
 };
 
-export default withRouter(BeerList);
+const mapStateToProps = state => {
+    return {
+        user: state.user,
+        beerRating: state.beerListRating,
+    };
+};
+
+const mapDispatchToProps = dispatch => ({
+    fetchBeerListRating: (fbId, beerId) => {
+        return dispatch(getBeerListRating(fbId, beerId));
+    },
+});
+
+// const mapDispatchToProps = dispatch => ({
+//     fetchBeer: id => {
+//         return dispatch(getBeer(id));
+//     },
+// });
+
+export default withRouter(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(BeerList)
+);
