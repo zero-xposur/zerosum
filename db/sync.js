@@ -9,11 +9,41 @@ const { Babeers, Price, User, UserRating } = require('./models');
 connection
     .sync({ force: true })
     .then(() => Babeers.addFullTextIndex())
-    .then(() => User.create({ name: 'test1' }))
-    .then(() => User.create({ name: 'test2' }))
-    .then(() => User.create({ name: 'test3' }))
-    .then(() => User.create({ name: 'test4' }))
-    .then(() => User.create({ name: 'test5' }));
+    .then(() =>
+        User.create({
+            name: 'test1',
+            email: '123a@email.com',
+            password: 'abcd',
+        })
+    )
+    .then(() =>
+        User.create({
+            name: 'test2',
+            email: '123b@email.com',
+            password: 'abcd',
+        })
+    )
+    .then(() =>
+        User.create({
+            name: 'test3',
+            email: '123c@email.com',
+            password: 'abcd',
+        })
+    )
+    .then(() =>
+        User.create({
+            name: 'test4',
+            email: '123d@email.com',
+            password: 'abcd',
+        })
+    )
+    .then(() =>
+        User.create({
+            name: 'test5',
+            email: '123e@email.com',
+            password: 'abcd',
+        })
+    );
 
 // old json
 // "seed": "psql zerosum < server/db/beerAppData.sql",
