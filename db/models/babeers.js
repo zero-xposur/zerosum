@@ -79,31 +79,7 @@ Babeers.addFullTextIndex = function() {
         .catch(console.log);
 };
 
-// Babeers.search = function(query) {
-//     if (connection.options.dialect !== 'postgres') {
-//         console.log('Search is only implemented on POSTGRES database');
-//         return;
-//     }
-
-//     const beer = this;
-
-//     query = connection.getQueryInterface().escape(query);
-//     console.log(query);
-
-//     return connection.query(
-//         'SELECT DISTINCT ON (link) * FROM "' +
-//             beer.tableName +
-//             '" WHERE ratings>2 AND "' +
-//             beer.getSearchVector() +
-//             "\" @@ plainto_tsquery('english', " +
-//             query +
-//             ') ORDER BY link, id, ratings desc',
-//         { type: Sequelize.QueryTypes.SELECT },
-//         beer
-//     );
-// };
-
-Babeers.search = function(query, userId) {
+Babeers.search = function(query) {
     if (connection.options.dialect !== 'postgres') {
         console.log('Search is only implemented on POSTGRES database');
         return;
@@ -115,8 +91,32 @@ Babeers.search = function(query, userId) {
     console.log(query);
 
     return connection.query(
-        'SELECT DISTINCT ON (a.link) * FROM babeers a left join userratings b on a.id=b.babeerId ' +
-            'WHERE a.ratings>2 AND b.id=' + userId + ' AND "' 
+        'SELECT DISTINCT ON (link) * FROM "' +
+            beer.tableName +
+            '" WHERE ratings>2 AND "' +
+            beer.getSearchVector() +
+            "\" @@ plainto_tsquery('english', " +
+            query +
+            ') ORDER BY link, id, ratings desc',
+        { type: Sequelize.QueryTypes.SELECT },
+        beer
+    );
+};
+
+Babeers.searchWithUser = function(query, userId) {
+    if (connection.options.dialect !== 'postgres') {
+        console.log('Search is only implemented on POSTGRES database');
+        return;
+    }
+
+    const beer = this;
+
+    query = connection.getQueryInterface().escape(query);
+    console.log(query);
+
+    return connection.query(
+        'SELECT DISTINCT ON (a.link) * FROM babeers a left join "UserRatings" b on a.id=b."babeerId" ' +
+            'WHERE a.ratings>2 AND b."userId"=' + userId + ' AND "' 
             +
             beer.getSearchVector() +
             "\" @@ plainto_tsquery('english', " +

@@ -18,8 +18,16 @@ export const beersReducer = (state = [], action) => {
 
 export const getBeers = ({search, userId}) => {
   return dispatch => {
-    return axios
+    if(userId){
+      return axios
       .get(`/api/search/${search}/${userId}`)
       .then(response => dispatch(gotBeers(response.data)));
+    }
+    else{
+      return axios
+      .get(`/api/search/${search}`)
+      .then(response => dispatch(gotBeers(response.data)));
+    }
+    
   };
 };
