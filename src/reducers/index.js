@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { getBeers, beersReducer } from './search';
-import { login, userReducer } from './user';
+import { login, userReducer, localLogin, localCreate } from './user';
 import { getBeer, beerReducer } from './beer';
 import { getMenu, menuReducer } from './menuRecognition';
 import { discoverBeers, discoverReducer } from './discover';
@@ -15,4 +15,12 @@ const rootReducer = combineReducers({
     beerListRating: beerListRatingReducer,
 });
 
-export { rootReducer, getMenu, discoverBeers, getBeerListRating };
+export {
+    rootReducer,
+    getMenu,
+    discoverBeers,
+    localLogin,
+    localCreate,
+    login,
+    getBeerListRating,
+};

@@ -116,8 +116,9 @@ Babeers.searchWithUser = function(query, userId) {
 
     return connection.query(
         'SELECT DISTINCT ON (a.link) * FROM babeers a left join "UserRatings" b on a.id=b."babeerId" ' +
-            'WHERE a.ratings>2 AND b."userId"=' + userId + ' AND "' 
-            +
+            'WHERE a.ratings>2 AND b."userId"=' +
+            userId +
+            ' AND "' +
             beer.getSearchVector() +
             "\" @@ plainto_tsquery('english', " +
             query +
