@@ -58,7 +58,8 @@ router.get('/:fbId/:beerId', (req, res, next) => {
                 },
             }).then(result => {
                 if (!result) {
-                    throw new Error('no rating from that user for that beer');
+                    res.json(null);
+                    // throw new Error('no rating from that user for that beer');
                 }
                 return res.json(result);
             });
