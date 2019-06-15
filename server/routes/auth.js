@@ -76,11 +76,18 @@ router.get('/facebook/callback', function(request, response, next) {
     })(request, response, next);
 });
 
-router.get('/profile', function(req, res) {
+router.get('/profile', function(req, res, next) {
     if (req.session.userId) {
         User.findByPk(req.session.userId)
             .then(me => {
-                res.json(me)
+                return res.json(me)
+            })
+            .catch(next);
+    }
+    else if (req.session.user) {
+        User.findOne({where: {facebookid: req.session.user.facebookId}})
+            .then(me => {
+                return res.json(me)
             })
             .catch(next);
     }
