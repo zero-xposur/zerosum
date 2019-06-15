@@ -18,13 +18,10 @@ class SingleRating extends Component {
         // this.onLogin = this.onLogin.bind(this);
     }
     componentDidMount() {
-        this.setState(
-            {
-                beer: this.props.beer,
-                userId: this.props.user.id,
-            },
-            console.log('realstate', this.state)
-        );
+        this.setState({
+            beer: this.props.beer,
+            userId: this.props.user.id,
+        });
     }
     // onLogin() {
     //     this.props.login().catch(error => console.log(error));
