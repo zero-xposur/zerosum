@@ -1,6 +1,6 @@
-import React, { Component, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { localLogin, localCreate, login } from '../reducers';
+import { localLogin, localCreate, login, logout } from '../reducers';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -62,12 +62,20 @@ function LoginWithFacebook({ fbLogin }) {
     );
 }
 
-function Login({ loginUser, createUser, history, fbLogin }) {
+function Login({ loginUser, createUser, history, location, fbLogin, doLogout}) {
     const classes = useStyles();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+
+    useEffect(()=>{
+        // console.log('history changed', location.pathname)
+        if(location.pathname==='/logout'){
+            console.log('calling the logout thunk from Login')
+            doLogout(history);
+        } 
+    },[location.pathname])
 
     const handleEmailChange = ({ target: { value } }) => {
         setEmail(value);
@@ -93,8 +101,9 @@ function Login({ loginUser, createUser, history, fbLogin }) {
             .catch(ex => setErrorMessage(ex.response.data));
     };
 
-    return (
-        <Container component="main" maxWidth="xs">
+    return (<div>
+    {location.pathname==='/login'? 
+        (<Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
@@ -158,21 +167,11 @@ function Login({ loginUser, createUser, history, fbLogin }) {
                     >
                         Sign Up
                     </Button>
-                    {/* <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid> */}
                 </form>
             </div>
         </Container>
+        ) : (null)}
+        </div>
     );
 }
 
@@ -181,6 +180,7 @@ const mapDispatchToProps = dispatch => {
         fbLogin: () => dispatch(login()),
         loginUser: (email, password) => dispatch(localLogin(email, password)),
         createUser: (email, password) => dispatch(localCreate(email, password)),
+        doLogout: (history) => dispatch(logout(history)),
     };
 };
 

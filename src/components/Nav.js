@@ -4,7 +4,7 @@ import { Tabs, Tab } from '@material-ui/core';
 import { connect } from 'react-redux';
 const userLinks = [
     {
-        label: 'home',
+        label: 'Home',
         to: '/home',
     },
     {
@@ -20,9 +20,39 @@ const userLinks = [
         to: '/discover',
     },
     {
+        label: 'Beer Buddies',
+        to: '/social',
+    },
+    {
         label: 'Logout',
         to: '/logout',
     },
+];
+const guestLinks = [
+    {
+        label: 'Home',
+        to: '/home',
+    },
+    {
+        label: 'Login',
+        to: '/login',
+    },
+    {
+        label: 'search',
+        to: '/search',
+    },
+    {
+        label: 'Menu Capture',
+        to: '/menu',
+    },
+    {
+        label: 'Discover',
+        to: '/discover',
+    },
+    {
+        label: 'Beer Buddies',
+        to: '/social',
+    }
 ];
 const Nav = props => {
     useEffect(() => {
@@ -36,9 +66,10 @@ const Nav = props => {
     }, [props]);
 
     if (props.user.name) {
-        userLinks[0].label = `Hello, ${props.user.name}`;
+        let links = userLinks;
+        links[0].label = `Hello, ${props.user.name}`;
     } else {
-        userLinks[0].label = 'Home';
+        let links = guestLinks;
     }
 
     const [value, setValue] = React.useState(props.location.pathname);
