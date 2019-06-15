@@ -12,6 +12,10 @@ router.get('/:search/:userId', (req, res, next) => {
     return Babeers.search(req.params.search, req.params.userId).then(beers => res.json(beers));
 });
 
+router.get('/:search', (req, res, next) => {
+    return Babeers.search(req.params.search).then(beers => res.json(beers));
+});
+
 // POST :/api/search/menu
 router.post('/menu', (req, res, next) => {
     const image = { content: req.body.image };
