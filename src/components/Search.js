@@ -1,6 +1,8 @@
 import React, { Component, useState, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { getBeers } from '../reducers/search';
+import { login } from '../reducers/user';
+
 import {
     Container,
     AppBar,
@@ -26,7 +28,7 @@ const Search = props => {
 
     const handleSubmit = evt => {
         evt.preventDefault();
-        const userId = (props.user && props.user.id)? props.user.id:null;
+        const userId = props.user && props.user.id? props.user.id:null;
         console.log('userId in search component', props.user);
         props.searchBeers({search, userId});
     };
@@ -78,6 +80,7 @@ const Search = props => {
 const mapStateToProps = state => {
     return {
         searchResults: state.searchBeers,
+        user: state.user,
     };
 };
 

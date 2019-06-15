@@ -37,7 +37,7 @@ passport.use(
 passport.serializeUser((user, done) => {
     var sessionUser = {
         name: user.name,
-        email: user.email,
+        // email: user.email,
         facebookId: user.id,
     };
     done(null, sessionUser);
@@ -71,16 +71,29 @@ router.get('/facebook/callback', function(request, response, next) {
                 return next(err);
             }
             request.session.user = user;
+            console.log('in fb login-what is the req.session', request.session.user)
             response.redirect('/#/search');
         });
     })(request, response, next);
 });
 
 router.get('/profile', function(req, res, next) {
-    if (req.session.userId || req.session.user) {
+    console.log('in profile route')
+    if (req.session.userId) {
+        console.log('in profile route native login');
         User.findByPk(req.session.userId)
             .then(me => {
-                return res.json(me);
+                delete me.password;
+                return res.json(me)
+            })
+            .catch(next);
+    }
+    else if (req.session.user) {
+        console.log('in profile route- fb else if');
+        User.findOne({where: {facebookId: req.session.user.id}})
+            .then(me => {
+                delete me.password;
+                return res.json(me)
             })
             .catch(next);
     } else {

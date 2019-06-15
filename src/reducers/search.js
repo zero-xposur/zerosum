@@ -16,10 +16,10 @@ export const beersReducer = (state = [], action) => {
   }
 };
 
-export const getBeers = search => {
+export const getBeers = ({search, userId}) => {
   return dispatch => {
     return axios
-      .get(`/api/search/${search}`)
+      .get(`/api/search/${search}/${userId}`)
       .then(response => dispatch(gotBeers(response.data)));
   };
 };
