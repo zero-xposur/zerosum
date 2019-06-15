@@ -8,7 +8,8 @@ import {
     MenuCapture,
     Discover,
     DiscoverList,
-    Home
+    Home,
+    MenuCaptureList,
 } from './index.js';
 import { login } from '../reducers/user';
 import { connect } from 'react-redux';
@@ -24,7 +25,7 @@ class App extends Component {
             .then(() => console.log('state user is', this.props.user));
     }
     render() {
-        const user=this.props.user;
+        const user = this.props.user;
         return (
             <Router>
                 {/* <Route path="/" render={(({location})=>Nav({location}, {user}))} /> */}
@@ -42,7 +43,12 @@ class App extends Component {
                         component={DiscoverList}
                     />
                     <Route exact path="/logout" component={Login} />
-                    <Route component={Home}/>
+                    <Route
+                        exact
+                        path="/menuresults"
+                        component={MenuCaptureList}
+                    />
+                    <Route component={Home} />
                 </Switch>
             </Router>
         );

@@ -24,7 +24,7 @@ class MenuCapture extends Component {
         ).toString('base64');
         console.log(buffer);
         this.props.searchMenu(buffer).then(response => {
-            console.log(response);
+            this.props.history.push('/menuresults');
         });
     };
 
