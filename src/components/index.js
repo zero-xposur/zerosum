@@ -8,6 +8,7 @@ import Discover from './Discover';
 import DiscoverList from './DiscoverList';
 import Home from './Home';
 import RatedBeers from './RatedBeers';
+import Social from './Social';
 
 export {
     Search,
@@ -20,4 +21,5 @@ export {
     DiscoverList,
     Home,
     RatedBeers,
+    Social
 };

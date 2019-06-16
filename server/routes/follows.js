@@ -3,7 +3,7 @@ const Follow = require('../../db/models/follow');
 
 //GET all my followers
 
-router.get('/', (req, res, next) => {
+router.get('/followers', (req, res, next) => {
     if(req.session.user.id || req.session.userId){
         let followee=req.session.userId?req.session.userId:req.session.user.id;
         Follow.findAll({where: {followeeId: followee}})
@@ -13,7 +13,7 @@ router.get('/', (req, res, next) => {
 
 //GET all the people I am following
 
-router.get('/', (req, res, next) => {
+router.get('/followee', (req, res, next) => {
     if(req.session.user.id || req.session.userId){
         let follower=req.session.userId?req.session.userId:req.session.user.id;
         Follow.findAll({where: {followerId: follower}})
