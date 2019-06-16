@@ -10,6 +10,7 @@ import {
     DiscoverList,
     Home,
     MenuCaptureList,
+    RatedBeers,
 } from './index.js';
 import { login } from '../reducers/user';
 import { connect } from 'react-redux';
@@ -32,6 +33,7 @@ class App extends Component {
                 <Route path="/" component={Nav} />
                 <Switch>
                     <Route exact path="/home" component={Home} />
+                    <Route exact path="/ratedBeers" component={RatedBeers} />
                     <Route exact path="/search" component={Search} />
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/beer/:beerId" component={Beer} />

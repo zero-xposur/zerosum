@@ -1,11 +1,11 @@
 const router = require('express').Router();
 const { User, UserRating, Babeers } = require('../../db/models');
 
-router.get('/:fbId', (req, res, next) => {
+router.get('/:userId', (req, res, next) => {
     console.log('single user ratings route hit', req.params);
     return User.findOne({
         where: {
-            facebookId: req.params.fbId,
+            id: req.params.userId,
         },
     })
         .then(user => {

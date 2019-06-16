@@ -24,11 +24,13 @@ export const login = () => dispatch => {
     });
 };
 
-export const logout = () => dispatch => {
+export const logout = (history) => dispatch => {
     console.log('in logout thunk');
     return axios.get('/api/auth/logout').then(res => {
         console.log('user in logout thunk');
-        dispatch(setUser({}));
+        return dispatch(setUser({}));
+    }).then(()=>{
+        history.push('/home')
     });
 };
 
