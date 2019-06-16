@@ -6,7 +6,7 @@ try {
         _callbackURL = 'https://localhost:3000/api/auth/facebook/callback';
     } else {
         _callbackURL =
-            'https://zer0sum.herokuapp.com/api/auth/facebook/callback';
+            'https://beer-friends.herokuapp.com/api/auth/facebook/callback';
     }
 } catch (ex) {
     console.log(ex);
