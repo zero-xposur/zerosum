@@ -59,7 +59,7 @@ UserRating.findMyRatedBeers = userId => {
 };
 
 UserRating.userCorrelation = (ratedBeerList, userId) => {
-    // ratedbeerlist:[{babeerId:number, score:number}, ...{}]
+    // ratedbeerlist:[{babeerId:number, score:number}, ...{}], userid: number
     // returns a single value
 };
 
