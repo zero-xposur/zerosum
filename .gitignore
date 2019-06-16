@@ -7,3 +7,4 @@ server.cert
 server.key
 test/newprices
 postSeed2.js
+postSeed3.js
