@@ -55,7 +55,7 @@
         "webpack": "webpack",
         "webpack:dev": "npm run webpack -- --mode=development --watch",
         "start:dev": "npm run webpack:dev & nodemon server --ignore src/ --ignore dist/",
-        "heroku": "git push heroku dev:master && heroku pg:reset --confirm zer0sum && heroku pg:push zerosum DATABASE_URL --app zer0sum"
+        "heroku": "git push heroku dev:master && heroku pg:reset --confirm beer-friends && heroku pg:push zerosum DATABASE_URL --app beer-friends"
     },
     "keywords": [],
     "author": "",
