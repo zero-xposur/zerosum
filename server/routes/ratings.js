@@ -1,6 +1,14 @@
 const router = require('express').Router();
 const { User, UserRating, Babeers } = require('../../db/models');
 
+router.post('/addrating', (req, res, next) => {
+    const { userId, beerId, ratings } = req.body;
+    console.log(userId, beerId, ratings);
+    return UserRating.rate(userId, beerId, ratings).then(rating =>
+        res.send(rating)
+    );
+});
+
 router.get('/:userId', (req, res, next) => {
     console.log('single user ratings route hit', req.params);
     return User.findOne({

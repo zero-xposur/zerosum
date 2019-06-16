@@ -23,3 +23,15 @@ export const getUserBeerRatings = userId => {
             .then(response => dispatch(gotUserBeerRatings(response.data)));
     };
 };
+
+export const rateBeer = (userId, beerId, ratings) => {
+    return dispatch => {
+        return axios.post(`/api/ratings/addrating`, {
+            userId,
+            beerId,
+            ratings,
+        });
+        // .then(() => axios.get(`/api/ratings/${userId}`))
+        // .then(response => dispatch(getUserBeerRatings(response.data)));
+    };
+};

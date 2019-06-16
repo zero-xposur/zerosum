@@ -9,6 +9,7 @@ import DiscoverList from './DiscoverList';
 import Home from './Home';
 import MenuCaptureList from './MenuCaptureList';
 import RatedBeers from './RatedBeers';
+import Review from './Review';
 import Social from './Social';
 
 export {
@@ -23,5 +24,6 @@ export {
     Home,
     MenuCaptureList,
     RatedBeers,
-    Social
+    Review,
+    Social,
 };
