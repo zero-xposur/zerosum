@@ -9,9 +9,13 @@ import {
     Grid,
     Container,
     CardMedia,
+    ExpansionPanel,
+    ExpansionPanelSummary,
+    ExpansionPanelDetails,
 } from '@material-ui/core';
-import { Star, StarBorder } from '@material-ui/icons';
+import { Star, StarBorder, ExpandMore } from '@material-ui/icons';
 import Rating from 'react-rating';
+import { Review } from './index';
 
 const mapStateToProps = beer => {
     return { beer };
@@ -29,6 +33,8 @@ const Beer = ({ match, beer, fetchBeer }) => {
         console.log(beer);
     }, []);
     let beerPage = beer.singleBeer;
+    let user = beer.user;
+    console.log(user);
     return (
         // <div>
         //     <h1>{beerPage.name}</h1>
@@ -62,14 +68,14 @@ const Beer = ({ match, beer, fetchBeer }) => {
                                 marginLeft: 'auto',
                                 marginRight: 'auto',
                                 // alignContent: 'center',
-                                height: '70vh',
+                                height: '60vh',
                             }}
                             src={getImageUrl(beerPage.link)}
                         />
                         {/* </Card> */}
                     </Grid>
                     <Grid
-                        style={{ padding: '5%' }}
+                        style={{ padding: '5%', textAlign: 'center' }}
                         item
                         xs={12}
                         md={6}
@@ -83,17 +89,6 @@ const Beer = ({ match, beer, fetchBeer }) => {
                         >
                             {beerPage.name}
                         </Typography>
-                        <Typography
-                            style={{ textAlign: 'center' }}
-                            variant="h5"
-                        >
-                            {beerPage.brewery}
-                        </Typography>
-                        <div>
-                            <Typography style={{ textAlign: 'justify' }}>
-                                {beerPage.style} {beerPage.abv}% ABV
-                            </Typography>
-                        </div>
                         <Rating
                             initialRating={parseFloat(beerPage.score)}
                             emptySymbol={
@@ -113,14 +108,44 @@ const Beer = ({ match, beer, fetchBeer }) => {
                             readonly={true}
                         />
                         <Typography>({beerPage.ratings} ratings)</Typography>
+                        <Typography
+                            style={{ textAlign: 'center' }}
+                            variant="h5"
+                        >
+                            {beerPage.brewery}
+                        </Typography>
+                        <Typography
+                            component="div"
+                            style={{ textAlign: 'center' }}
+                        >
+                            {beerPage.style}
+                        </Typography>
+                        <Typography
+                            component="div"
+                            style={{ textAlign: 'center' }}
+                        >
+                            {beerPage.abv}% ABV
+                        </Typography>
                         <Typography>
                             {beerPage.prices
-                                ? beerPage.prices[0].description
+                                ? beerPage.prices[0]
+                                    ? `Description: ${
+                                          beerPage.prices[0].description
+                                      }`
+                                    : null
                                 : null}
                         </Typography>
-                        {/* </Card> */}
                     </Grid>
+                    {/* </Card> */}
                 </Grid>
+                <ExpansionPanel styles={{ width: '100%' }}>
+                    <ExpansionPanelSummary expandIcon={<ExpandMore />}>
+                        <Typography>Your Review</Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <Review userId={user.id} beerId={beerPage.id} />
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
             </Paper>
         </Container>
     );

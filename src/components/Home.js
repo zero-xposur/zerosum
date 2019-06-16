@@ -20,7 +20,8 @@ const useStyles = makeStyles({
     width: '100%',
     maxWidth: 1000,
     textAlign: "center",
-  },
+    backgroundImage: `url(${"https://cdn.pixabay.com/photo/2014/01/28/15/08/beer-253791_640.jpg"})`
+  }
 });
 
 function Home(props){
@@ -28,10 +29,11 @@ function Home(props){
     const user = props.user;
     return(
         <div className={classes.root}>
-                <Grid container justify = "center">
-                    <Typography variant="h1" component="h2" gutterBottom>
-                        <Link href='/#/search'>Discover beers and breweries 
-                              with Beer Buddies
+
+                <Grid container justify = "center" spacing={50}>
+                    <Typography variant="h1" component="h1" gutterBottom>
+                        <Link  href='/#/search'>Discover Beers and Breweries 
+                              with Beer Friends
                         </Link></Typography>
                     {!user.id&&(<Link href='/#/login' ><Button>Login to rate a beer</Button></Link>)}
 

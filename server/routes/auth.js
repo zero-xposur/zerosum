@@ -103,6 +103,24 @@ router.get('/profile', function(req, res, next) {
     }
 });
 
+router.get('/search/:query', (req, res, next) => {
+    if(req.session.user.id || req.session.userId){
+        return Promise.all([
+            User.findAll({ where: { name: { [Op.iLike]: `%${req.params.query}%` }}}),
+            User.findAll({ where: {email: { [Op.iLike]: `%${req.params.query}%` }}})
+        ])
+        .then((users)=>{
+            if(users.length>0){
+                let result = users[0].concat(users[1]);
+                return res.json(result)
+            }
+            else{
+                return res.json('No user found with this name. Send them a link to beer friends!')
+            }
+        })
+    }
+})
+
 router.post('/login', (req, res, next) => {
     console.log(req.body);
     User.create(req.body)
