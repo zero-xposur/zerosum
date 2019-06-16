@@ -52,10 +52,6 @@ const guestLinks = [
     {
         label: 'Discover',
         to: '/discover',
-    },
-    {
-        label: 'Beer Buddies',
-        to: '/social',
     }
 ];
 const Nav = props => {
