@@ -29,9 +29,11 @@ function Home(props){
     return(
         <div className={classes.root}>
                 <Grid container justify = "center">
-                    <Typography variant="h1" component="h2" gutterBottom>Discover beers and breweries 
-                    with Beer Buddies</Typography>
-                    {user.id&&(<Link href='/#/login' ><Button>Login to rate a beer</Button></Link>)}
+                    <Typography variant="h1" component="h2" gutterBottom>
+                        <Link href='/#/search'>Discover beers and breweries 
+                              with Beer Buddies
+                        </Link></Typography>
+                    {!user.id&&(<Link href='/#/login' ><Button>Login to rate a beer</Button></Link>)}
 
                 </Grid>
         </div>
