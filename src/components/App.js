@@ -9,6 +9,7 @@ import {
     Discover,
     DiscoverList,
     Home,
+    MenuCaptureList,
     RatedBeers,
 } from './index.js';
 import { login } from '../reducers/user';
@@ -44,6 +45,11 @@ class App extends Component {
                         component={DiscoverList}
                     />
                     <Route exact path="/logout" component={Login} />
+                    <Route
+                        exact
+                        path="/menuresults"
+                        component={MenuCaptureList}
+                    />
                     <Route component={Home} />
                 </Switch>
             </Router>

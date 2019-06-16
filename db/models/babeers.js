@@ -142,4 +142,28 @@ Babeers.searchStyles = function(query) {
     });
 };
 
+Babeers.searchMenu = function(query) {
+    if (connection.options.dialect !== 'postgres') {
+        console.log('Search is only implemented on POSTGRES database');
+        return;
+    }
+
+    const beer = this;
+
+    query = connection.getQueryInterface().escape(query);
+    console.log(query);
+
+    return connection.query(
+        'SELECT * FROM "' +
+            beer.tableName +
+            '" WHERE "' +
+            beer.getSearchVector() +
+            "\" @@ plainto_tsquery('english', " +
+            query +
+            ') ORDER BY ratings desc LIMIT 1',
+        { type: Sequelize.QueryTypes.SELECT },
+        beer
+    );
+};
+
 module.exports = Babeers;

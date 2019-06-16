@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Babeers = require('../../db/models/babeers');
+const Price = require('../../db/models/Price');
 
 // GET :/api/beer/:search
 router.get('/:id', (req, res, next) => {
@@ -7,6 +8,7 @@ router.get('/:id', (req, res, next) => {
         where: {
             id: req.params.id,
         },
+        include: [{ model: Price }],
     }).then(beer => res.json(beer));
 });
 

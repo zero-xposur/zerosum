@@ -7,6 +7,7 @@ import MenuCapture from './MenuCapture';
 import Discover from './Discover';
 import DiscoverList from './DiscoverList';
 import Home from './Home';
+import MenuCaptureList from './MenuCaptureList';
 import RatedBeers from './RatedBeers';
 
 export {
@@ -19,5 +20,6 @@ export {
     Discover,
     DiscoverList,
     Home,
+    MenuCaptureList,
     RatedBeers,
 };
