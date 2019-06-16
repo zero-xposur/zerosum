@@ -28,7 +28,6 @@ class App extends Component {
         const user = this.props.user;
         return (
             <Router>
-                {/* <Route path="/" render={(({location})=>Nav({location}, {user}))} /> */}
                 <Route path="/" component={Nav} />
                 <Switch>
                     <Route exact path="/home" component={Home} />
