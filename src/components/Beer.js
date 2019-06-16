@@ -10,8 +10,8 @@ import {
     Container,
     CardMedia,
 } from '@material-ui/core';
-import { Star, StarBorder } from '@material-ui/icons'
-import Rating from 'react-rating'
+import { Star, StarBorder } from '@material-ui/icons';
+import Rating from 'react-rating';
 
 const mapStateToProps = beer => {
     return { beer };
@@ -77,34 +77,47 @@ const Beer = ({ match, beer, fetchBeer }) => {
                         xl={6}
                     >
                         {/* <Card style={{ height: '100%', margin: '1%' }}> */}
-                        <Typography style={{textAlign: 'center'}} variant='h2'>{beerPage.name}</Typography>
-                        <Typography style={{textAlign: 'center'}} variant='h5'>{beerPage.brewery}</Typography>
-                        <div>
-                        <Typography style={{textAlign: 'justify'}}>{beerPage.style} {beerPage.abv}% ABV</Typography>
-                        <Rating
-                                              initialRating={parseFloat(
-                                                  beerPage.score
-                                              )}
-                                              emptySymbol={
-                                                  <StarBorder
-                                                      style={{
-                                                          color: 'gold',
-                                                      }}
-                                                  />
-                                              }
-                                              fullSymbol={
-                                                  <Star
-                                                      style={{
-                                                          color: 'gold',
-                                                      }}
-                                                  />
-                                              }
-                                              readonly={true}
-                                          />
-                        <Typography>
-                            ({beerPage.ratings} ratings)
+                        <Typography
+                            style={{ textAlign: 'center' }}
+                            variant="h2"
+                        >
+                            {beerPage.name}
                         </Typography>
-                        <Typography>{beerPage.prices ? beerPage.prices[0].description : null}</Typography>
+                        <Typography
+                            style={{ textAlign: 'center' }}
+                            variant="h5"
+                        >
+                            {beerPage.brewery}
+                        </Typography>
+                        <div>
+                            <Typography style={{ textAlign: 'justify' }}>
+                                {beerPage.style} {beerPage.abv}% ABV
+                            </Typography>
+                        </div>
+                        <Rating
+                            initialRating={parseFloat(beerPage.score)}
+                            emptySymbol={
+                                <StarBorder
+                                    style={{
+                                        color: 'gold',
+                                    }}
+                                />
+                            }
+                            fullSymbol={
+                                <Star
+                                    style={{
+                                        color: 'gold',
+                                    }}
+                                />
+                            }
+                            readonly={true}
+                        />
+                        <Typography>({beerPage.ratings} ratings)</Typography>
+                        <Typography>
+                            {beerPage.prices
+                                ? beerPage.prices[0].description
+                                : null}
+                        </Typography>
                         {/* </Card> */}
                     </Grid>
                 </Grid>
