@@ -38,5 +38,5 @@ git push heroku dev:master
 
 ```bash
 heroku addons:create heroku-postgresql:hobby-dev #free postgres db
-heroku pg:push zerosum DATABASE_URL --app zer0sum
+heroku pg:push zerosum DATABASE_URL --app beer-friends
 ```
