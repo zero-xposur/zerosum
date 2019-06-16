@@ -15,10 +15,10 @@ const userLinks = [
         label: 'search',
         to: '/search',
     },
-    {
-        label: 'Menu Capture',
-        to: '/menu',
-    },
+    // {
+    //     label: 'Menu Capture',
+    //     to: '/menu',
+    // },
     {
         label: 'Discover',
         to: '/discover',
@@ -45,10 +45,10 @@ const guestLinks = [
         label: 'search',
         to: '/search',
     },
-    {
-        label: 'Menu Capture',
-        to: '/menu',
-    },
+    // {
+    //     label: 'Menu Capture',
+    //     to: '/menu',
+    // },
     {
         label: 'Discover',
         to: '/discover',
