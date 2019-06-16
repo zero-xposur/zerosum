@@ -46,17 +46,9 @@ function LoginWithFacebook({ fbLogin }) {
     };
     const classes = useStyles();
     return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            <Link color="inherit" href="/api/auth/facebook" onClick={onLogin}>
-                <button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                >
+        <Typography  color="textSecondary" align="center">
+            <Link color="inherit" component="h1" variant="h5" href="/api/auth/facebook" onClick={onLogin}>
                     Login with Facebook
-                </button>
             </Link>
         </Typography>
     );
