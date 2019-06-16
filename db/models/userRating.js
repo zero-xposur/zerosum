@@ -23,8 +23,8 @@ UserRating.review = (userId, babeerId, review) => {};
 // creates or updates a rating
 UserRating.rate = (userId, babeerId, ratings) => {
     Object.keys(ratings).map(rate => {
-        if (ratings[rate] > 5 || ratings[rate] < 1) {
-            throw new Error(`${rate} is not > 0 and <= 5.`);
+        if (ratings[rate] > 5 || ratings[rate] < 0) {
+            throw new Error(`${rate} is not >= 0 and <= 5.`);
         }
     });
     let { appearance, aroma, mouthfeel, taste, overall } = ratings;
