@@ -4,24 +4,46 @@ import {
     AppBar,
     Toolbar,
     Typography,
+    Link,
     InputBase,
     TextField,
     Paper,
     Button,
     CssBaseline,
+    Grid,
 } from '@material-ui/core';
+import { connect } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
 
-export default function Home(){
-    
+const useStyles = makeStyles({
+  root: {
+    width: '100%',
+    maxWidth: 1000,
+    textAlign: "center",
+  },
+});
+
+function Home(props){
+    const classes = useStyles();
+    const user = props.user;
     return(
-        <Container>
-            <a href='/#/login' ><Button>Login to rate the beer you are holding</Button></a>  
-            <h3> OR </h3>
-            <h3>Search for any beer or brewery </h3>
-            <h3>by scanning the beer menu in front of you </h3>
-            <h3>or scanning the beer you are holding</h3>
-            <h3>or just explore the top rated beers and breweries </h3>
-        </Container>
+        <div className={classes.root}>
+                <Grid container justify = "center">
+                    <Typography variant="h1" component="h2" gutterBottom>
+                        <Link href='/#/search'>Discover beers and breweries 
+                              with Beer Buddies
+                        </Link></Typography>
+                    {!user.id&&(<Link href='/#/login' ><Button>Login to rate a beer</Button></Link>)}
 
+                </Grid>
+        </div>
     )
 }
+
+const mapStateToProps = state => {
+    return {
+        user: state.user,
+    };
+};
+
+export default connect(mapStateToProps)(Home);

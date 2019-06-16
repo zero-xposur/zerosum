@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { getBeers, beersReducer } from './search';
-import { login, userReducer, localLogin, localCreate } from './user';
+import { login, userReducer, localLogin, localCreate,logout } from './user';
 import { getBeer, beerReducer } from './beer';
 import { getMenu, menuReducer } from './menuRecognition';
 import { discoverBeers, discoverReducer } from './discover';
@@ -26,4 +26,5 @@ export {
     localLogin,
     localCreate,
     login,
+    logout
 };

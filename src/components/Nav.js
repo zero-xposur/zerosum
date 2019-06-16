@@ -4,7 +4,7 @@ import { Tabs, Tab } from '@material-ui/core';
 import { connect } from 'react-redux';
 const userLinks = [
     {
-        label: 'home',
+        label: 'Home',
         to: '/home',
     },
     {
@@ -24,26 +24,54 @@ const userLinks = [
         to: '/discover',
     },
     {
+        label: 'Beer Buddies',
+        to: '/social',
+    },
+    {
         label: 'Logout',
         to: '/logout',
     },
 ];
+const guestLinks = [
+    {
+        label: 'Home',
+        to: '/home',
+    },
+    {
+        label: 'Login',
+        to: '/login',
+    },
+    {
+        label: 'search',
+        to: '/search',
+    },
+    {
+        label: 'Menu Capture',
+        to: '/menu',
+    },
+    {
+        label: 'Discover',
+        to: '/discover',
+    }
+];
 const Nav = props => {
-    // useEffect(() => {
-    //     console.log('in nav', props.user);
+    let links=[];
+    useEffect(() => {
+        console.log('in nav', props.user);
 
-    //     if (props.user.name) {
-    //         userLinks[0].label = `Hello, ${props.user.name}`;
-    //     } else {
-    //         userLinks[0].label = 'Home';
-    //     }
-    // }, [props]);
+        if (props.user.name) {
+            userLinks[0].label = `Hello, ${props.user.name}`;
+        } else {
+            userLinks[0].label = 'Home';
+        }
+    }, [props]);
 
     console.log('props user', props.user);
     if (props.user.name) {
-        userLinks[0].label = `Hello, ${props.user.name}`;
+        links = userLinks;
+        links[0].label = `Hello, ${props.user.name}`;
     } else {
-        userLinks[0].label = 'Home';
+         links = guestLinks;
     }
 
     const [value, setValue] = React.useState(props.location.pathname);
@@ -61,7 +89,7 @@ const Nav = props => {
             textColor="primary"
             centered
         >
-            {userLinks.map(link => {
+            {links.map(link => {
                 return (
                     <Tab
                         key={link.label}
