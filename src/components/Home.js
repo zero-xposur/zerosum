@@ -28,17 +28,18 @@ function Home(props){
     const classes = useStyles();
     const user = props.user;
     return(
-        <div className={classes.root}>
-
-                <Grid container justify = "center" spacing={50}>
+        <Container className={classes.root}>
+                
+                <Grid container justify = "center" >
+                    <Grid item >
                     <Typography variant="h1" component="h1" gutterBottom>
                         <Link  href='/#/search'>Discover Beers and Breweries 
                               with Beer Friends
                         </Link></Typography>
                     {!user.id&&(<Link href='/#/login' ><Button>Login to rate a beer</Button></Link>)}
-
+                    </Grid>
                 </Grid>
-        </div>
+        </Container>
     )
 }
 
