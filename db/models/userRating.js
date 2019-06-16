@@ -14,10 +14,111 @@ const UserRating = connection.define('UserRating', {
 const Babeers = require('./babeers');
 const User = require('./users');
 
-// associations
+// // associations
+// User.hasMany(UserRating);
+// UserRating.belongsTo(User);
+// Babeers.hasMany(UserRating);
+// UserRating.belongsTo(Babeers);
 
 // can only review if userRating for that beer & user exists.
 UserRating.review = (userId, babeerId, review) => {};
+
+// sequelize where array
+// Tag.findAll({
+//     where: {
+//         id: [1,2,3,4]
+//     }
+// }).then(...)
+
+// sequelize operators
+const seqOp = Sequelize.Op;
+
+const correlation = (a, b) => 1 - Math.abs((a - b) / 4);
+
+UserRating.findMyRatedBeers = userId => {
+    return (
+        // check if userid exists
+        User.findByPk(userId)
+            .then(user => {
+                if (!user) throw new Error('Rated beers: No User Found!');
+                return user;
+            })
+            // find all the beers i have rated, then find all other users
+            .then(user => {
+                // returns an array of objects {beerid, score}
+                return UserRating.findAll({
+                    where: {
+                        userId: user.id,
+                    },
+                    attributes: ['babeerId', 'score'],
+                    raw: true,
+                });
+                // .map(result => result.babeerId);
+            })
+    );
+};
+
+UserRating.userCorrelation = (ratedBeerList, userId) => {
+    // ratedbeerlist:[{babeerId:number, score:number}, ...{}]
+    // returns a single value
+};
+
+UserRating.beerBuddies = userId => {
+    return (
+        UserRating.findMyRatedBeers(userId)
+            // find all other users base off of beers i have rated
+            .then(async myRatedBeerList => {
+                // return original user's rated beer list and a list of users that have rated beers that i rated
+                return {
+                    myRatedBeerList,
+                    usersList: await UserRating.findAll({
+                        where: {
+                            userId: {
+                                [seqOp.or]: myRatedBeerList.map(
+                                    result => result.babeerId
+                                ),
+                            },
+                        },
+                        attributes: ['userId'],
+                        raw: true,
+                    }).map(result => result.userId),
+                };
+            })
+
+            .then(({ myRatedBeerList, usersList }) => {
+                // returns a unique list of users that have rated the beers i rated
+                return {
+                    myRatedBeerList,
+                    uniqueUserList: usersList.reduce((accu, current) => {
+                        if (!accu.includes(current)) {
+                            accu.push(current);
+                        }
+                        return accu;
+                    }, []),
+                };
+            })
+
+            // now need to compute correlation for each user
+            // find the ratedbeerlist of each user, filter against original user's ratedbeerlist.
+            .then(async ({ myRatedBeerList, uniqueUserList }) => {
+                // expect result to be userlist:[{userid:1, correlation:value},{},{}]
+
+                return {
+                    myRatedBeerList,
+                    correlatedUserList: uniqueUserList.map(() => {}),
+                };
+            })
+            .then(result => console.log(result))
+            .catch(er => {
+                console.error(er);
+            })
+    );
+};
+// Tag.findAll({
+//     where: {
+//         id: [1,2,3,4]
+//     }
+// }).then(...)
 
 // checks for score 0-5, if a user and beer exists.
 // creates or updates a rating
