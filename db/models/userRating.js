@@ -123,7 +123,7 @@ UserRating.tasteBuddies = userId => {
                     myRatedBeerList,
                     usersList: await UserRating.findAll({
                         where: {
-                            userId: {
+                            babeerId: {
                                 [seqOp.or]: myRatedBeerList.map(
                                     result => result.babeerId
                                 ),
