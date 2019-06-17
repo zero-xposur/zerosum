@@ -69,10 +69,10 @@ UserRating.userCorrelation = async (ratedBeerList, userId) => {
     const ratedBeerListBeersOnly = ratedBeerList.map(beer => beer.babeerId);
 
     // filter userRatedBeers for ones that exist in ratedBeerList
+    userRatedBeers = userRatedBeers.filter(beer => {
+        return ratedBeerListBeersOnly.includes(beer.babeerId);
+    });
 
-    userRatedBeers.filter(beer =>
-        ratedBeerListBeersOnly.includes(beer.babeerId)
-    );
     // find correlation for each userRatedBeer
     const correlatedList = userRatedBeers.reduce((accu, current) => {
         accu.push({
@@ -190,103 +190,112 @@ UserRating.rate = (userId, babeerId, ratings) => {
         }
     });
     let { appearance, aroma, mouthfeel, taste, overall } = ratings;
-    return User.findByPk(userId)
-        .then(foundUser => {
-            if (!foundUser) throw new Error('No User Found!');
-            return Babeers.findByPk(babeerId);
-        })
-        .then(foundBeer => {
-            if (!foundBeer) throw new Error('No Beer Found!');
-            return UserRating.findOne({
-                where: {
-                    userId: userId,
-                    babeerId: babeerId,
-                },
-            }).then(foundUserRating => {
-                if (foundUserRating) {
-                    // update rating
-                    // find rating sum, remove old average, add new average. re average.
-                    const avgRating =
-                        Object.values(ratings).reduce(
-                            (accu, current) => accu + current,
-                            0
-                        ) / 5;
-                    const oldAverageRating =
-                        (foundUserRating.appearance +
-                            foundUserRating.aroma +
-                            foundUserRating.mouthfeel +
-                            foundUserRating.taste +
-                            foundUserRating.overall) /
-                        5;
-                    const newScore =
-                        (foundBeer.score * foundBeer.ratings -
-                            oldAverageRating +
-                            avgRating) /
-                        foundBeer.ratings;
-                    console.log(
-                        `old avg: ${oldAverageRating}, newScore: ${newScore}, avgRating: ${avgRating}`
-                    );
-                    return foundBeer
-                        .update({
-                            score: newScore.toFixed(2),
-                        })
-                        .then(() =>
-                            foundUserRating.update({
-                                score: avgRating,
-                                appearance,
-                                aroma,
-                                mouthfeel,
-                                taste,
-                                overall,
-                            })
+    return (
+        User.findByPk(userId)
+            //look for user
+            .then(foundUser => {
+                if (!foundUser) throw new Error('No User Found!');
+                return Babeers.findByPk(babeerId);
+            })
+            .then(foundBeer => {
+                // look for beer, make sure it exists.
+                if (!foundBeer) throw new Error('No Beer Found!');
+                return UserRating.findOne({
+                    // look for a userrating for that beer & user
+                    where: {
+                        userId: userId,
+                        babeerId: babeerId,
+                    },
+                }).then(foundUserRating => {
+                    if (foundUserRating) {
+                        // update rating
+                        // find rating sum, remove old average, add new average. re average.
+                        const avgRating =
+                            Object.values(ratings).reduce(
+                                (accu, current) => accu + current,
+                                0
+                            ) / 5;
+                        const oldAverageRating =
+                            (foundUserRating.appearance +
+                                foundUserRating.aroma +
+                                foundUserRating.mouthfeel +
+                                foundUserRating.taste +
+                                foundUserRating.overall) /
+                            5;
+                        const newScore =
+                            (foundBeer.score * foundBeer.ratings -
+                                oldAverageRating +
+                                avgRating) /
+                            foundBeer.ratings;
+                        console.log(
+                            `old avg: ${oldAverageRating}, newScore: ${newScore}, avgRating: ${avgRating}`
                         );
-                } else {
-                    // create rating
-                    // factor in new average to current babeer.score
-                    console.log(
-                        'foundbeer :',
-                        foundBeer.ratings,
-                        foundBeer.score
-                    );
-
-                    const avgRating =
-                        Object.values(ratings).reduce(
-                            (accu, current) => accu + current,
-                            0
-                        ) / 5;
-
-                    const newRatings = foundBeer.ratings + 1;
-                    const newScore =
-                        (foundBeer.score * foundBeer.ratings + avgRating) /
-                        newRatings;
-                    // console.log(newScore);
-                    // old babbeerid1, score 3.8, ratings 3
-                    // new score should be 3.3, ratings 4. userRating score = 1.8 average
-                    return foundBeer
-                        .update({
-                            ratings: newRatings,
-                            score: newScore.toFixed(2),
-                        })
-                        .then(() =>
-                            UserRating.create({
-                                score: avgRating.toFixed(2),
-                                userId: userId,
-                                babeerId: babeerId,
-                                appearance,
-                                aroma,
-                                mouthfeel,
-                                taste,
-                                overall,
-                            })
+                        return (
+                            foundBeer
+                                // update the beer's rating
+                                .update({
+                                    score: parseFloat(newScore.toFixed(2)),
+                                })
+                                .then(() =>
+                                    //update the userrating also
+                                    foundUserRating.update({
+                                        score: avgRating,
+                                        appearance,
+                                        aroma,
+                                        mouthfeel,
+                                        taste,
+                                        overall,
+                                    })
+                                )
                         );
-                }
-            });
-        })
-        .catch(er => {
-            // console.log(er);
-            console.error(er);
-            // throw new Error(er.message);
-        });
+                    } else {
+                        // create rating
+                        // factor in new average to current babeer.score
+                        console.log(
+                            'foundbeer :',
+                            foundBeer.ratings,
+                            foundBeer.score
+                        );
+
+                        const avgRating =
+                            Object.values(ratings).reduce(
+                                (accu, current) => accu + current,
+                                0
+                            ) / 5;
+
+                        const newRatings = foundBeer.ratings + 1;
+                        const newScore =
+                            (foundBeer.score * foundBeer.ratings + avgRating) /
+                            newRatings;
+                        // console.log(newScore);
+                        // old babbeerid1, score 3.8, ratings 3
+                        // new score should be 3.3, ratings 4. userRating score = 1.8 average
+                        return foundBeer
+                            .update({
+                                ratings: newRatings,
+                                score: newScore.toFixed(2),
+                            })
+                            .then(() =>
+                                UserRating.create({
+                                    score: avgRating.toFixed(2),
+                                    userId: userId,
+                                    babeerId: babeerId,
+                                    appearance,
+                                    aroma,
+                                    mouthfeel,
+                                    taste,
+                                    overall,
+                                })
+                            );
+                    }
+                });
+            })
+            .catch(er => {
+                // console.log(er);
+                console.error(er);
+                // throw new Error(er.message);
+            })
+    );
 };
 
 module.exports = UserRating;
