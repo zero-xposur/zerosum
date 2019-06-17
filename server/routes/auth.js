@@ -86,7 +86,7 @@ router.get('/profile', function(req, res, next) {
     console.log('in profile route');
     if (req.session.userId) {
         console.log('in profile route native login');
-        User.findByPk(req.session.userId)
+        User.findByPk(req.session.userId, include)
             .then(me => {
                 delete me.password;
                 return res.json(me);
@@ -110,13 +110,6 @@ router.get('/search/:query', (req, res, next) => {
     if(req.session.user.id || req.session.userId){
         console.log('test1')
 
-        // try {
-        //     User.findAll({ where: { name: { [Op.iLike]: `${req.params.query}` }} })
-        // } catch(e) {
-        //     console.log('Went wrong with like query')
-        //     console.error(e)
-        // }
-        
         return User.findAll({ where: {[Op.or]: [{ name: { [Op.iLike]: `%${req.params.query}%` }}, 
                                                { email: { [Op.iLike]: `%${req.params.query}%` }}]}})
                 .then((users)=>{
@@ -128,7 +121,6 @@ router.get('/search/:query', (req, res, next) => {
                         return res.json('No user found with this name. Send them a link to beer friends!')
                     }
                 })
-                // .catch((error)=>console.log('error msg is: ', error))
     }
 })
 

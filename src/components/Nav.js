@@ -69,7 +69,8 @@ const Nav = props => {
     console.log('props user', props.user);
     if (props.user.name) {
         links = userLinks;
-        links[0].label = `Hello, ${props.user.name}`;
+        links[0].label = `Hello, ${props.user.name}    
+            Followers (${props.user.followers? props.user.followers.length: 0}) Following (${props.user.followees? props.user.followees.length:0})`;
     } else {
          links = guestLinks;
     }

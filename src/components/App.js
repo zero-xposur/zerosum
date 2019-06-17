@@ -21,11 +21,11 @@ class App extends Component {
         super(props);
     }
 
-    componentDidMount() {
-        this.props
-            .searchUsers()
+    componentDidMount(){
+        this.props.searchUsers()
             .then(() => console.log('state user is', this.props.user));
     }
+
     render() {
         const user = this.props.user;
         return (
