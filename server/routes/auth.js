@@ -1,3 +1,5 @@
+const { Op } = require('sequelize')
+
 let _callbackURL = '';
 try {
     if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET) {
@@ -6,7 +8,7 @@ try {
         _callbackURL = 'https://localhost:3000/api/auth/facebook/callback';
     } else {
         _callbackURL =
-            'https://zer0sum.herokuapp.com/api/auth/facebook/callback';
+            'https://beer-friends.herokuapp.com/api/auth/facebook/callback';
     }
 } catch (ex) {
     console.log(ex);
@@ -104,20 +106,29 @@ router.get('/profile', function(req, res, next) {
 });
 
 router.get('/search/:query', (req, res, next) => {
+    console.log('test0')
     if(req.session.user.id || req.session.userId){
-        return Promise.all([
-            User.findAll({ where: { name: { [Op.iLike]: `%${req.params.query}%` }}}),
-            User.findAll({ where: {email: { [Op.iLike]: `%${req.params.query}%` }}})
-        ])
-        .then((users)=>{
-            if(users.length>0){
-                let result = users[0].concat(users[1]);
-                return res.json(result)
-            }
-            else{
-                return res.json('No user found with this name. Send them a link to beer friends!')
-            }
-        })
+        console.log('test1')
+
+        // try {
+        //     User.findAll({ where: { name: { [Op.iLike]: `${req.params.query}` }} })
+        // } catch(e) {
+        //     console.log('Went wrong with like query')
+        //     console.error(e)
+        // }
+        
+        return User.findAll({ where: {[Op.or]: [{ name: { [Op.iLike]: `%${req.params.query}%` }}, 
+                                               { email: { [Op.iLike]: `%${req.params.query}%` }}]}})
+                .then((users)=>{
+                    if(users.length>0){
+                        console.log('users from express route',users)
+                        return res.json(users)
+                    }
+                    else{
+                        return res.json('No user found with this name. Send them a link to beer friends!')
+                    }
+                })
+                // .catch((error)=>console.log('error msg is: ', error))
     }
 })
 

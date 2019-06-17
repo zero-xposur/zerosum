@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Babeers = require('../../db/models/babeers');
-const Price = require('../../db/models/Price');
+const Price = require('../../db/models/price');
 
 // GET :/api/beer/:search
 router.get('/:id', (req, res, next) => {

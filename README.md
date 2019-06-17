@@ -16,7 +16,7 @@ npm run start:dev
 
 # Heroku
 
-Deployment: https://zer0sum.herokuapp.com
+Deployment: https://beer-friends.herokuapp.com
 
 ```bash
 npm run heroku:dev #for fast deploy
@@ -34,7 +34,7 @@ npm run heroku:dev #for fast deploy
 git push heroku dev:master
 ```
 
-2.  Seed heroku db from local db. Heroku tables must be empty before being `push`ed, run `heroku pg:reset --confirm zer0sum` to empty tables. This will push your full zerosum db to heroku db. if you are using a free heroku postgres db (_hobby-dev_), ensure total record count is **< 10,000**.
+2.  Seed heroku db from local db. Heroku tables must be empty before being `push`ed, run `heroku pg:reset --confirm beer-friends` to empty tables. This will push your full zerosum db to heroku db. if you are using a free heroku postgres db (_hobby-dev_), ensure total record count is **< 10,000**.
 
 ```bash
 heroku addons:create heroku-postgresql:hobby-dev #free postgres db
