@@ -24,6 +24,8 @@ const rootReducer = combineReducers({
 });
 
 export {
+    getBeer,
+    getBeers,
     rootReducer,
     getMenu,
     discoverBeers,
