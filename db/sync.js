@@ -11,35 +11,35 @@ connection
     .then(() => Babeers.addFullTextIndex())
     .then(() =>
         User.create({
-            name: 'test1',
+            name: 'Archie',
             email: '123a@email.com',
             password: 'abcd',
         })
     )
     .then(() =>
         User.create({
-            name: 'test2',
+            name: 'Betty',
             email: '123b@email.com',
             password: 'abcd',
         })
     )
     .then(() =>
         User.create({
-            name: 'test3',
+            name: 'Veronica',
             email: '123c@email.com',
             password: 'abcd',
         })
     )
     .then(() =>
         User.create({
-            name: 'test4',
+            name: 'Jughead',
             email: '123d@email.com',
             password: 'abcd',
         })
     )
     .then(() =>
         User.create({
-            name: 'test5',
+            name: 'test',
             email: '123e@email.com',
             password: 'abcd',
         })
