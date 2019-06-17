@@ -17,11 +17,16 @@ import { login, getUserBeerRatings } from '../reducers';
 import { connect } from 'react-redux';
 
 class App extends Component {
+    constructor(props) {
+        super(props);
+    }
+
     componentDidMount() {
         this.props
             .searchUsers()
             .then(() => this.props.getUserRatings(this.props.user.id));
     }
+
     render() {
         return (
             <Router>

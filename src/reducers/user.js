@@ -42,10 +42,24 @@ export const userReducer = (state = {}, action) => {
 
 export const login = () => dispatch => {
     console.log('in login thunk');
-    return axios.get('/api/auth/profile').then(user => {
-        console.log('user in login thunk', user.data);
-        dispatch(setUser(user.data));
-    });
+    return axios.get('/api/auth/profile')
+                .then((user)=>{
+                    dispatch(setUser(user.data))
+                    return user.data.id
+                })
+                .then((id)=>{
+                    axios
+                        .get(`/api/follows/followers/${id}`)
+                        .then((response)=>response.data)
+                        .then((followers)=>dispatch(setFollowers(followers)));
+                    return id;
+                })
+                .then((id)=>{
+                    axios
+                        .get(`/api/follows/followees/${id}`)
+                        .then((response)=>response.data)
+                        .then((followees)=>dispatch(setFollowees(followees)));
+                })  
 };
 
 export const logout = (history) => dispatch => {
@@ -63,7 +77,23 @@ export const localLogin = (email, password) => {
         return axios
             .put('/api/auth/login', { email, password })
             .then(response => response.data)
-            .then(user => dispatch(setUser(user)));
+            .then((user)=>{
+                dispatch(setUser(user))
+                return user.id
+            })
+            .then((id)=>{
+                axios
+                    .get(`/api/follows/followers/${id}`)
+                    .then((response)=>response.data)
+                    .then((followers)=>dispatch(setFollowers(followers)));
+                return id;
+            })
+            .then((id)=>{
+                axios
+                    .get(`/api/follows/followees/${id}`)
+                    .then((response)=>response.data)
+                    .then((followees)=>dispatch(setFollowees(followees)));
+            })  
     };
 };
 
@@ -72,23 +102,40 @@ export const localCreate = (email, password) => {
         return axios
             .post('/api/auth/login', { email, password })
             .then(response => response.data)
-            .then(user => dispatch(setUser(user)));
+            .then((user)=>{
+                dispatch(setUser(user))
+                return user.id
+            })
+            .then((id)=>{
+                axios
+                    .get(`/api/follows/followers/${id}`)
+                    .then((response)=>response.data)
+                    .then((followers)=>dispatch(setFollowers(followers)));
+                return id;
+            })
+            .then((id)=>{
+                axios
+                    .get(`/api/follows/followees/${id}`)
+                    .then((response)=>response.data)
+                    .then((followees)=>dispatch(setFollowees(followees)));
+            })  
     };
 };
 
-export const findAllFollowers = () => {
+export const findAllFollowers = (id) => {
+    console.log('in findallfollowers')
     return dispatch => {
         return axios
-            .get('/api/follows/followers')
+            .get(`/api/follows/followers/${id}`)
             .then((response)=>response.data)
             .then((followers)=>dispatch(setFollowers(followers)));
     }
 }
 
-export const findAllFollowees = () => {
+export const findAllFollowees = (id) => {
     return dispatch => {
         return axios
-            .get('/api/follows/followee')
+            .get(`/api/follows/followees/${id}`)
             .then((response)=>response.data)
             .then((followees)=>dispatch(setFollowees(followees)));
     }
@@ -100,5 +147,15 @@ export const searchUsers = (search) => {
             .get(`/api/auth/search/${search}`)
             .then((response)=>response.data)
             .then((searchedUsers)=>dispatch(setSearchedUsers(searchedUsers)));
+    }
+}
+
+export const follow = (userId, id) => {
+    return dispatch => {
+        return axios
+            .post(`/api/follows/${userId}/${id}`)
+            .then(()=>axios.get(`/api/follows/followees/${id}`))
+            .then((response)=>response.data)
+            .then((followees)=>dispatch(setFollowees(followees)));
     }
 }
