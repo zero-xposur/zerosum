@@ -145,6 +145,7 @@ UserRating.beerBuddies = userId => {
             // find the ratedbeerlist of each user, filter against original user's ratedbeerlist.
             .then(({ myRatedBeerList, uniqueUserList }) => {
                 // expect result to be userlist:[{userid:1, correlation:value},{},{}]
+
                 return Promise.all(
                     uniqueUserList.map(async user => {
                         let correlated = await UserRating.userCorrelation(
@@ -162,8 +163,13 @@ UserRating.beerBuddies = userId => {
                             bestBeers: bestUntriedBeers,
                         };
                     })
+                    // .sort((a, b) => b.correlation - a.correlation)
                 );
             })
+            .then(result =>
+                // sort results by correlation
+                result.sort((a, b) => b.correlation - a.correlation)
+            )
             .catch(er => {
                 console.error(er);
             })
