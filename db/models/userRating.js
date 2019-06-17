@@ -60,7 +60,7 @@ UserRating.findMyRatedBeers = userId => {
 
 UserRating.userCorrelation = async (ratedBeerList, userId) => {
     // ratedBeerList:[{babeerId:number, score:number}, ...{}], userid: number
-    // returns a single value
+    // returns correlation & precision
     // find list of rated beer by user, filter for ones that exist in ratedBeerList, find correlation for each. average all values
     let userRatedBeers = await UserRating.findMyRatedBeers(userId);
 
