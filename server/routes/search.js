@@ -22,59 +22,71 @@ router.get('/:search', (req, res, next) => {
 router.post('/menu', (req, res, next) => {
     const image = { content: req.body.image };
 
-    return (
-        client
-            .documentTextDetection({ image })
-            .then(response => {
-                const strArr = [];
-                response[0].fullTextAnnotation.pages[0].blocks.map(block =>
-                    strArr.push(
-                        block.paragraphs.map(paragraph =>
+    return client
+        .documentTextDetection({ image })
+        .then(response => {
+            const strArr = [];
+            response[0].fullTextAnnotation.pages[0].blocks.map(block =>
+                strArr.push(
+                    block.paragraphs
+                        .map(paragraph =>
                             paragraph.words.map(word =>
                                 word.symbols
-                                    .map(symbol =>
-                                        symbol.property.detectedBreak ===
-                                        'LINE_BREAK'
-                                            ? symbol.text + '/n'
-                                            : symbol.text
-                                    )
+                                    .map(symbol => {
+                                        console.log(
+                                            symbol.property.detectedBreak
+                                        );
+                                        return symbol.property
+                                            ? symbol.property.detectedBreak
+                                                ? symbol.property.detectedBreak
+                                                      .type !== 'SPACE'
+                                                    ? symbol.text + '&&&&'
+                                                    : symbol.text
+                                                : symbol.text
+                                            : symbol.text;
+                                    })
                                     .join('')
                             )
                         )
-                    )
-                );
-                const foundBeers = [];
-                strArr.map(block =>
-                    block.map(beer => foundBeers.push(beer.join(' ')))
-                );
+                        .flat()
+                        .join(' ')
+                        .split('&&&&')
+                )
+            );
+            const foundBeers = [];
+            strArr.map(block => block.map(beer => foundBeers.push(beer)));
 
-                return Promise.all(
-                    foundBeers.map(beer => {
-                        return Babeers.searchMenu(beer);
-                    })
-                );
-            })
-            .then(beers => {
-                const returnBeers = beers.map(beer => beer[0]);
-                res.send(returnBeers);
-            })
-            // .then(beers => console.log(beers))
-            .catch(err => console.error(err))
-    );
+            const promAll = async ps => {
+                const results = [];
+                let count = 0;
+                for (const p of ps) {
+                    try {
+                        results[count] = await p;
+                        count++;
+                    } catch (e) {
+                        console.log(e);
+                    }
+                }
+                return results;
+            };
+
+            return promAll(
+                foundBeers.map(beer => {
+                    return Babeers.searchMenu(beer)
+                        .then(resp => {
+                            console.log(resp);
+                            return resp;
+                        })
+                        .catch(e => {
+                            console.error(e);
+                        });
+                })
+            );
+        })
+        .then(beers => {
+            const returnBeers = beers.map(beer => beer[0]);
+            res.send(returnBeers);
+        });
 });
 
 module.exports = router;
-
-// .then(babeer => {
-//     const sortFunc = (a, b) => {
-//         const first = a.ratings.toString();
-//         const second = b.ratings.toString();
-//         return -first.localeCompare(second, undefined, {
-//             numeric: true,
-//             sensitivity: 'base',
-//         });
-//     };
-// })
-
-//     babeer.sort(sortFunc);
-//     return babeer[0];

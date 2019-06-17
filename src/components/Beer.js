@@ -5,10 +5,8 @@ import { getImageUrl } from './utils';
 import {
     Typography,
     Paper,
-    Card,
     Grid,
     Container,
-    CardMedia,
     ExpansionPanel,
     ExpansionPanelSummary,
     ExpansionPanelDetails,
@@ -17,8 +15,12 @@ import { Star, StarBorder, ExpandMore } from '@material-ui/icons';
 import Rating from 'react-rating';
 import { Review } from './index';
 
-const mapStateToProps = beer => {
-    return { beer };
+const mapStateToProps = state => {
+    return {
+        beer: state.singleBeer,
+        user: state.user,
+        userReviews: state.userBeerRatings,
+    };
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -27,23 +29,17 @@ const mapDispatchToProps = dispatch => ({
     },
 });
 
-const Beer = ({ match, beer, fetchBeer }) => {
+const Beer = ({ match, beer, user, userReviews, fetchBeer }) => {
     useEffect(() => {
         fetchBeer(match.params.beerId);
         console.log(beer);
     }, []);
-    let beerPage = beer.singleBeer;
-    let user = beer.user;
+
+    let beerPage = beer;
+    const yourReview = userReviews.find(review => review.babeerId === beer.id);
+
     console.log(user);
     return (
-        // <div>
-        //     <h1>{beerPage.name}</h1>
-        //     <h2>{beerPage.brewery}</h2>
-        //     <h4>
-        //         Score: {beerPage.score}, Ratings: {beerPage.ratings}
-        //     </h4>
-        //     <h5>{beerPage.style}</h5>
-        // </div>
         <Container>
             <Paper>
                 <Grid container>
@@ -55,13 +51,6 @@ const Beer = ({ match, beer, fetchBeer }) => {
                         lg={6}
                         xl={6}
                     >
-                        {/* <Card> */}
-                        {/* <CardMedia
-                                style={{ height: '80vh', width: '100%' }}
-                                src={getImageUrl(beerPage.link)}
-                                image={getImageUrl(beerPage.link)}
-                                title={beerPage.name}
-                            /> */}
                         <img
                             style={{
                                 display: 'block',
@@ -136,11 +125,12 @@ const Beer = ({ match, beer, fetchBeer }) => {
                                 : null}
                         </Typography>
                     </Grid>
-                    {/* </Card> */}
                 </Grid>
                 <ExpansionPanel styles={{ width: '100%' }}>
                     <ExpansionPanelSummary expandIcon={<ExpandMore />}>
-                        <Typography>Your Review</Typography>
+                        <Typography>
+                            {yourReview ? 'Your Review' : 'Add Your Review'}
+                        </Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                         <Review userId={user.id} beerId={beerPage.id} />

@@ -75,8 +75,8 @@ const BeerList = props => {
     ];
 
     const sortFunc = (a, b) => {
-        const first = a[orderBy] ? a[orderBy].toString() : '0';
-        const second = b[orderBy] ? b[orderBy].toString() : '0';
+        const first = a ? (a[orderBy] ? a[orderBy].toString() : '0') : '0';
+        const second = b ? (b[orderBy] ? b[orderBy].toString() : '0') : '0';
         if (order === 'desc') {
             return -first.localeCompare(second, undefined, {
                 numeric: true,
@@ -129,7 +129,7 @@ const BeerList = props => {
                       //     //           ele.babeerid === beer.id
                       //     //   ).score
                       // }
-                      return (
+                      return !beer ? null : (
                           <Paper key={beer.id}>
                               <Grid
                                   container
@@ -231,77 +231,10 @@ const BeerList = props => {
                                   </Grid>
                               </Grid>
                           </Paper>
-                          //   <TableRow key={beer.id}>
-                          //       <TableCell
-                          //           component={Link}
-                          //           to={`beer/${beer.id}`}
-                          //       >
-                          //           {beer.name}
-                          //       </TableCell>
-                          //       <TableCell>{beer.brewery}</TableCell>
-                          //       <TableCell>{beer.style}</TableCell>
-                          //       <TableCell>
-                          //           {beer.abv === 'NaN'
-                          //               ? '?'
-                          //               : parseFloat(beer.abv).toFixed(1)}
-                          //       </TableCell>
-                          //       <TableCell>
-                          //           {parseFloat(beer.score).toFixed(2)}
-                          //       </TableCell>
-                          //       <TableCell>{beer.ratings}</TableCell>
-                          //       <TableCell> --- </TableCell>
-                          //   </TableRow>
                       );
                   })
                 : null}
         </Fragment>
-        // <Paper>
-        //     <Table>
-        //         <TableHead>
-        //             <TableRow>
-        //                 {labels.map(label => (
-        //                     <TableCell key={label.id}>
-        //                         <TableSortLabel
-        //                             active={orderBy === label.id}
-        //                             direction={order}
-        //                             onClick={() => handleSort(label.id)}
-        //                         >
-        //                             {label.label}
-        //                         </TableSortLabel>
-        //                     </TableCell>
-        //                 ))}
-        //             </TableRow>
-        //         </TableHead>
-        //         <TableBody>
-        //             {props.beers
-        //                 ? props.beers.sort(desc).map(beer => {
-        //                       return (
-        //                           <TableRow key={beer.id}>
-        //                               <TableCell
-        //                                   component={Link}
-        //                                   to={`beer/${beer.id}`}
-        //                               >
-        //                                   {beer.name}
-        //                               </TableCell>
-        //                               <TableCell>{beer.brewery}</TableCell>
-        //                               <TableCell>{beer.style}</TableCell>
-        //                               <TableCell>
-        //                                   {beer.abv === 'NaN'
-        //                                       ? '?'
-        //                                       : parseFloat(beer.abv).toFixed(1)}
-        //                               </TableCell>
-        //                               <TableCell>
-        //                                   {parseFloat(beer.score).toFixed(2)}
-        //                               </TableCell>
-        //                               <TableCell>{beer.ratings}</TableCell>
-        //                               <TableCell> --- </TableCell>
-        //                           </TableRow>
-        //                       );
-        //                   })
-        //                 : null}
-        //         </TableBody>
-        //     </Table>
-        // </Paper>
     );
 };
 

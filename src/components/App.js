@@ -13,7 +13,7 @@ import {
     RatedBeers,
     Social,
 } from './index.js';
-import { login } from '../reducers/user';
+import { login, getUserBeerRatings } from '../reducers';
 import { connect } from 'react-redux';
 
 class App extends Component {
@@ -21,13 +21,13 @@ class App extends Component {
         super(props);
     }
 
-    componentDidMount(){
-        this.props.searchUsers()
-            .then(() => console.log('state user is', this.props.user));
+    componentDidMount() {
+        this.props
+            .searchUsers()
+            .then(() => this.props.getUserRatings(this.props.user.id));
     }
 
     render() {
-        const user = this.props.user;
         return (
             <Router>
                 <Route path="/" component={Nav} />
@@ -66,6 +66,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     searchUsers: () => dispatch(login()),
+    getUserRatings: userId => dispatch(getUserBeerRatings(userId)),
 });
 
 export default connect(
