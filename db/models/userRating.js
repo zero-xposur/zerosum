@@ -140,7 +140,7 @@ UserRating.tasteBuddies = userId => {
                 return {
                     myRatedBeerList,
                     uniqueUserList: usersList.reduce((accu, current) => {
-                        if (!accu.includes(current)) {
+                        if (!accu.includes(current) && current !== userId) {
                             accu.push(current);
                         }
                         return accu;
