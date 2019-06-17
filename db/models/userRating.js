@@ -33,7 +33,16 @@ UserRating.review = (userId, babeerId, review) => {};
 // sequelize operators
 const seqOp = Sequelize.Op;
 
-const correlation = (a, b) => 1 - Math.abs((a - b) / 4);
+const correlate = (a, b) => 1 - Math.abs((a - b) / 4);
+const correlation = (a, b) => {
+    const result = [];
+    result.push(correlate(a.appearance, b.appearance));
+    result.push(correlate(a.aroma, b.aroma));
+    result.push(correlate(a.mouthfeel, b.mouthfeel));
+    result.push(correlate(a.taste, b.taste));
+    result.push(correlate(a.overall, b.overall));
+    return result.reduce((accu, current) => accu + current, 0) / 5;
+};
 
 UserRating.findMyRatedBeers = userId => {
     // returns [{babeerId, score}]
@@ -51,7 +60,6 @@ UserRating.findMyRatedBeers = userId => {
                     where: {
                         userId: user.id,
                     },
-                    attributes: ['babeerId', 'score'],
                     raw: true,
                 });
             })
@@ -78,10 +86,10 @@ UserRating.userCorrelation = async (ratedBeerList, userId) => {
         accu.push({
             babeerId: current.babeerId,
             correlation: correlation(
-                current.score,
+                current,
                 ratedBeerList.find(beer => {
                     return beer.babeerId === current.babeerId;
-                }).score
+                })
             ),
         });
         return accu;
@@ -154,17 +162,17 @@ UserRating.tasteBuddies = userId => {
                 // expect result to be userlist:[{userid:1, correlation:value},{},{}]
 
                 return Promise.all(
-                    uniqueUserList.map(async user => {
+                    uniqueUserList.map(async otherUserId => {
                         let correlated = await UserRating.userCorrelation(
                             myRatedBeerList,
-                            user
+                            otherUserId
                         );
                         let bestUntriedBeers = await UserRating.bestBeers(
                             userId,
-                            user
+                            otherUserId
                         );
                         return {
-                            userId: user,
+                            userId: otherUserId,
                             correlation: correlated.result,
                             precision: correlated.sameBeerCount,
                             bestBeers: bestUntriedBeers,
