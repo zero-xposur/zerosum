@@ -61,7 +61,7 @@ UserRating.findMyRatedBeers = userId => {
                         userId: user.id,
                     },
                     include: [{ model: Babeers }],
-                    raw: true,
+                    // raw: true,
                 });
             })
     );
@@ -243,9 +243,9 @@ UserRating.rate = (userId, babeerId, ratings) => {
                                 oldAverageRating +
                                 avgRating) /
                             foundBeer.ratings;
-                        console.log(
-                            `old avg: ${oldAverageRating}, newScore: ${newScore}, avgRating: ${avgRating}`
-                        );
+                        // console.log(
+                        //     `old avg: ${oldAverageRating}, newScore: ${newScore}, avgRating: ${avgRating}`
+                        // );
                         return (
                             foundBeer
                                 // update the beer's rating
