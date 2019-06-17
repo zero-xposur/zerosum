@@ -136,7 +136,7 @@ UserRating.tasteBuddies = userId => {
             })
 
             .then(({ myRatedBeerList, usersList }) => {
-                // returns a unique list of users that have rated the beers i rated
+                // returns a unique list of users not including self that have rated the beers i rated
                 return {
                     myRatedBeerList,
                     uniqueUserList: usersList.reduce((accu, current) => {
