@@ -34,17 +34,19 @@ const RatedBeers = props => {
                             {user.name}
                             <div />
                             Correlation:
-                            {(user.correlation * 100).toFixed(2)}% Matches:
+                            <b>{(user.correlation * 100).toFixed(2)}%</b>{' '}
+                            Matches:
                             {user.precision}
                             <div />
                             Their recommended beers for you!
                             <ol>
                                 {user.bestBeers.map(beer => {
                                     return (
-                                        <li key={beer.id}>
-                                            {beer.babeer.name} Rating:
-                                            {beer.babeer.score} Their Rating:
-                                            {beer.score}
+                                        <li type="a" key={beer.id}>
+                                            {beer.babeer.name}, {user.name}{' '}
+                                            rated it a <b>{beer.score}</b>.
+                                            Global rating:
+                                            {beer.babeer.score}
                                         </li>
                                     );
                                 })}
