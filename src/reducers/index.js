@@ -32,4 +32,5 @@ export {
     login,
     logout,
     rateBeer,
+    getBeer,
 };

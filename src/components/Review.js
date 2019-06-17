@@ -3,15 +3,9 @@ import Rating from 'react-rating';
 import { connect } from 'react-redux';
 import { Container, Typography, Button } from '@material-ui/core';
 import { Star, StarBorder } from '@material-ui/icons';
-import { rateBeer } from '../reducers';
+import { rateBeer, getUserBeerRatings } from '../reducers';
 
-const Review = ({ beerId, userId, addNewReview }) => {
-    // const [appearance, setAppearance] = React.useState(4);
-    // const [aroma, setAroma] = React.useState(0);
-    // const [mouthfeel, setMouthfeel] = React.useState(0);
-    // const [taste, setTaste] = React.useState(0);
-    // const [overall, setOverall] = React.useState(0);
-
+const Review = ({ beerId, userId, addNewReview, getUserReviews }) => {
     useEffect(() => {}, []);
 
     const ratings = {
@@ -23,13 +17,14 @@ const Review = ({ beerId, userId, addNewReview }) => {
     };
 
     const clickHandler = (rating, cat) => {
-        // setAppearance(rating);
         ratings[cat] = rating;
-        console.log(ratings);
     };
 
     const submitReview = () => {
         addNewReview(userId, beerId, ratings);
+        // .then(() =>
+        //     getUserReviews(userId)
+        // );
     };
 
     return (
@@ -147,6 +142,9 @@ const Review = ({ beerId, userId, addNewReview }) => {
 const mapDispatchToProps = dispatch => ({
     addNewReview: (userId, beerId, ratings) => {
         return dispatch(rateBeer(userId, beerId, ratings));
+    },
+    getUserReviews: userId => {
+        return dispatch(getUserBeerRatings(userId));
     },
 });
 
