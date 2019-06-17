@@ -53,14 +53,39 @@ UserRating.findMyRatedBeers = userId => {
                     attributes: ['babeerId', 'score'],
                     raw: true,
                 });
-                // .map(result => result.babeerId);
             })
     );
 };
 
-UserRating.userCorrelation = (ratedBeerList, userId) => {
-    // ratedbeerlist:[{babeerId:number, score:number}, ...{}], userid: number
+UserRating.userCorrelation = async (ratedBeerList, userId) => {
+    // ratedBeerList:[{babeerId:number, score:number}, ...{}], userid: number
     // returns a single value
+    // find list of rated beer by user, filter for ones that exist in ratedBeerList, find correlation for each. average all values
+    let userRatedBeers = await UserRating.findMyRatedBeers(userId);
+
+    // filter ratedBeerList for ones that exist in ratedBeerList
+
+    const ratedBeerListBeersOnly = ratedBeerList.map(beer => beer.babeerId);
+
+    // filter userRatedBeers for ones that exist in ratedBeerList
+
+    userRatedBeers.filter(beer =>
+        ratedBeerListBeersOnly.includes(beer.babeerId)
+    );
+    // find correlation for each userRatedBeer
+    const correlatedList = userRatedBeers.reduce((accu, current) => {
+        accu.push({
+            babeerId: current.babeerId,
+            correlation: correlation(current.score, 1),
+        });
+        return accu;
+    }, []);
+    const correalted =
+        correlatedList.reduce(
+            (accu, current) => accu + current.correlation,
+            0
+        ) / correlatedList.length;
+    return correalted;
 };
 
 UserRating.beerBuddies = userId => {
@@ -100,13 +125,19 @@ UserRating.beerBuddies = userId => {
 
             // now need to compute correlation for each user
             // find the ratedbeerlist of each user, filter against original user's ratedbeerlist.
-            .then(async ({ myRatedBeerList, uniqueUserList }) => {
+            .then(({ myRatedBeerList, uniqueUserList }) => {
                 // expect result to be userlist:[{userid:1, correlation:value},{},{}]
-
-                return {
-                    myRatedBeerList,
-                    correlatedUserList: uniqueUserList.map(() => {}),
-                };
+                return Promise.all(
+                    uniqueUserList.map(async user => {
+                        return {
+                            userId: user,
+                            correlation: await UserRating.userCorrelation(
+                                myRatedBeerList,
+                                user
+                            ),
+                        };
+                    })
+                );
             })
             .then(result => console.log(result))
             .catch(er => {
