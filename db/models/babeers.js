@@ -153,17 +153,19 @@ Babeers.searchMenu = function(query) {
     query = connection.getQueryInterface().escape(query);
     console.log(query);
 
-    return connection.query(
-        'SELECT * FROM "' +
-            beer.tableName +
-            '" WHERE "' +
-            beer.getSearchVector() +
-            "\" @@ plainto_tsquery('english', " +
-            query +
-            ') ORDER BY ratings desc LIMIT 1',
-        { type: Sequelize.QueryTypes.SELECT },
-        beer
-    );
+    return connection
+        .query(
+            'SELECT * FROM "' +
+                beer.tableName +
+                '" WHERE "' +
+                beer.getSearchVector() +
+                "\" @@ plainto_tsquery('english', " +
+                query +
+                ') ORDER BY ratings desc LIMIT 1',
+            { type: Sequelize.QueryTypes.SELECT },
+            beer
+        )
+        .catch(e => console.log(e));
 };
 
 module.exports = Babeers;
