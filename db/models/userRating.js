@@ -60,6 +60,7 @@ UserRating.findMyRatedBeers = userId => {
                     where: {
                         userId: user.id,
                     },
+                    include: [{ model: Babeers }],
                     raw: true,
                 });
             })
