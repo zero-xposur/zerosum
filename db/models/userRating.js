@@ -36,6 +36,7 @@ const seqOp = Sequelize.Op;
 const correlation = (a, b) => 1 - Math.abs((a - b) / 4);
 
 UserRating.findMyRatedBeers = userId => {
+    // returns [{babeerId, score}]
     return (
         // check if userid exists
         User.findByPk(userId)
@@ -80,12 +81,29 @@ UserRating.userCorrelation = async (ratedBeerList, userId) => {
         });
         return accu;
     }, []);
-    const correalted =
-        correlatedList.reduce(
-            (accu, current) => accu + current.correlation,
-            0
-        ) / correlatedList.length;
-    return correalted;
+    const result = parseFloat(
+        (
+            correlatedList.reduce(
+                (accu, current) => accu + current.correlation,
+                0
+            ) / correlatedList.length
+        ).toFixed(4)
+    );
+    return { result: result, sameBeerCount: correlatedList.length };
+};
+
+UserRating.bestBeers = async (myUserId, theirUserId, bestBeerCount = 3) => {
+    // returns the top bestBeerCount of beers from theirUserId beer list not ony myUserId beer list
+    const myBeerList = await UserRating.findMyRatedBeers(myUserId);
+    const theirBeerList = await UserRating.findMyRatedBeers(theirUserId);
+    const result = theirBeerList.filter(theirBeer =>
+        myBeerList.map(beer => beer.babeerId).includes(theirBeer.babeerId)
+    );
+    // sort by highest score
+    result.sort((a, b) => b.score - a.score);
+    // only send best N beers
+    while (result.length > bestBeerCount) result.pop();
+    return result;
 };
 
 UserRating.beerBuddies = userId => {
@@ -129,17 +147,23 @@ UserRating.beerBuddies = userId => {
                 // expect result to be userlist:[{userid:1, correlation:value},{},{}]
                 return Promise.all(
                     uniqueUserList.map(async user => {
+                        let correlated = await UserRating.userCorrelation(
+                            myRatedBeerList,
+                            user
+                        );
+                        let bestUntriedBeers = await UserRating.bestBeers(
+                            userId,
+                            user
+                        );
                         return {
                             userId: user,
-                            correlation: await UserRating.userCorrelation(
-                                myRatedBeerList,
-                                user
-                            ),
+                            correlation: correlated.result,
+                            precision: correlated.sameBeerCount,
+                            bestBeers: bestUntriedBeers,
                         };
                     })
                 );
             })
-            .then(result => console.log(result))
             .catch(er => {
                 console.error(er);
             })
