@@ -86,7 +86,7 @@ router.get('/profile', function(req, res, next) {
     console.log('in profile route');
     if (req.session.userId) {
         console.log('in profile route native login');
-        User.findByPk(req.session.userId, include)
+        User.findByPk(req.session.userId)
             .then(me => {
                 delete me.password;
                 return res.json(me);
