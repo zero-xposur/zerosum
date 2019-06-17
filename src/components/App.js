@@ -12,6 +12,7 @@ import {
     MenuCaptureList,
     RatedBeers,
     Social,
+    TasteBuddies,
 } from './index.js';
 import { login, getUserBeerRatings } from '../reducers';
 import { connect } from 'react-redux';
@@ -40,6 +41,11 @@ class App extends Component {
                     <Route exact path="/menu" component={MenuCapture} />
                     <Route exact path="/discover" component={Discover} />
                     <Route exact path="/social" component={Social} />
+                    <Route
+                        exact
+                        path="/tasteBuddies"
+                        component={TasteBuddies}
+                    />
                     <Route
                         exact
                         path="/discover/:style"
