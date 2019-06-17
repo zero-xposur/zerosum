@@ -11,7 +11,7 @@ import MenuCaptureList from './MenuCaptureList';
 import RatedBeers from './RatedBeers';
 import Review from './Review';
 import Social from './Social';
-import ShowReview from './showReview';
+import ShowReview from './ShowReview';
 
 export {
     Search,
