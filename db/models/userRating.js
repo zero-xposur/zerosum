@@ -102,8 +102,9 @@ UserRating.bestBeers = async (myUserId, theirUserId, bestBeerCount = 3) => {
     // returns the top bestBeerCount of beers from theirUserId beer list not ony myUserId beer list
     const myBeerList = await UserRating.findMyRatedBeers(myUserId);
     const theirBeerList = await UserRating.findMyRatedBeers(theirUserId);
-    const result = theirBeerList.filter(theirBeer =>
-        myBeerList.map(beer => beer.babeerId).includes(theirBeer.babeerId)
+    const result = theirBeerList.filter(
+        theirBeer =>
+            !myBeerList.map(beer => beer.babeerId).includes(theirBeer.babeerId)
     );
     // sort by highest score
     result.sort((a, b) => b.score - a.score);
