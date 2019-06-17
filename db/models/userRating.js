@@ -106,7 +106,7 @@ UserRating.bestBeers = async (myUserId, theirUserId, bestBeerCount = 3) => {
     return result;
 };
 
-UserRating.beerBuddies = userId => {
+UserRating.tasteBuddies = userId => {
     return (
         UserRating.findMyRatedBeers(userId)
             // find all other users base off of beers i have rated
