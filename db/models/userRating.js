@@ -156,12 +156,12 @@ UserRating.tasteBuddies = userId => {
                     }, []),
                 };
             })
+            // add name to unique User List
 
             // now need to compute correlation for each user
             // find the ratedbeerlist of each user, filter against original user's ratedbeerlist.
             .then(({ myRatedBeerList, uniqueUserList }) => {
                 // expect result to be userlist:[{userid:1, correlation:value},{},{}]
-
                 return Promise.all(
                     uniqueUserList.map(async otherUserId => {
                         let correlated = await UserRating.userCorrelation(
@@ -172,8 +172,15 @@ UserRating.tasteBuddies = userId => {
                             userId,
                             otherUserId
                         );
+                        let userName = await User.findOne({
+                            where: { id: otherUserId },
+                            attributes: ['name'],
+                            raw: true,
+                            // attributes: ['userId'],
+                        });
                         return {
                             userId: otherUserId,
+                            name: userName.name,
                             correlation: correlated.result,
                             precision: correlated.sameBeerCount,
                             bestBeers: bestUntriedBeers,
