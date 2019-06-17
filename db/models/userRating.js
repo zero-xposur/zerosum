@@ -73,14 +73,20 @@ UserRating.userCorrelation = async (ratedBeerList, userId) => {
         return ratedBeerListBeersOnly.includes(beer.babeerId);
     });
 
-    // find correlation for each userRatedBeer
+    // find correlation for each userRatedBeer & ratedBeerList
     const correlatedList = userRatedBeers.reduce((accu, current) => {
         accu.push({
             babeerId: current.babeerId,
-            correlation: correlation(current.score, 1),
+            correlation: correlation(
+                current.score,
+                ratedBeerList.find(beer => {
+                    return beer.babeerId === current.babeerId;
+                }).score
+            ),
         });
         return accu;
     }, []);
+
     const result = parseFloat(
         (
             correlatedList.reduce(
