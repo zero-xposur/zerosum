@@ -3,12 +3,12 @@
     "name": "Beer Buddies",
     "icons": [
         {
-            "src": "/icon.jpeg",
+            "src": "/icon.png",
             "sizes": "192x192",
-            "type": "image/jpeg"
+            "type": "image/png"
         }
     ],
-    "start_url": "/#/home",
+    "start_url": "./index.html",
     "background_color": "#e05a47",
     "theme_color": "#e05a47",
     "display": "standalone"
