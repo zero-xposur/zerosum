@@ -10,6 +10,7 @@ import {
     getUserBeerRatings,
     rateBeer,
 } from './userBeerRatings';
+import { tasteBuddiesReducer, getTasteBuddies } from './tasteBuddies';
 
 const rootReducer = combineReducers({
     searchBeers: beersReducer,
@@ -19,9 +20,12 @@ const rootReducer = combineReducers({
     menuBeers: menuReducer,
     beerListRating: beerListRatingReducer,
     userBeerRatings: userBeerRatingsReducer,
+    tasteBuddies: tasteBuddiesReducer,
 });
 
 export {
+    getBeer,
+    getBeers,
     rootReducer,
     getMenu,
     discoverBeers,
@@ -32,5 +36,5 @@ export {
     login,
     logout,
     rateBeer,
-    getBeer,
+    getTasteBuddies,
 };

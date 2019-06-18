@@ -12,6 +12,7 @@ import RatedBeers from './RatedBeers';
 import Review from './Review';
 import Social from './Social';
 import ShowReview from './ShowReview';
+import TasteBuddies from './TasteBuddies';
 
 export {
     Search,
@@ -28,4 +29,5 @@ export {
     Review,
     Social,
     ShowReview,
+    TasteBuddies,
 };
