@@ -19,7 +19,8 @@ npm run start:dev
 Deployment: https://beer-friends.herokuapp.com
 
 ```bash
-npm run heroku:dev #for fast deploy
+npm run heroku #deploy dev branch
+npm run heroku:dev #deploy feature
 ```
 
 1. Pushes your dev branch to heroku's master.
@@ -38,5 +39,5 @@ git push heroku dev:master
 
 ```bash
 heroku addons:create heroku-postgresql:hobby-dev #free postgres db
-heroku pg:push zerosum DATABASE_URL --app zer0sum
+heroku pg:push zerosum DATABASE_URL --app beer-friends
 ```

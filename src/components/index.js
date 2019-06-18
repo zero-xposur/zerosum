@@ -11,6 +11,7 @@ import MenuCaptureList from './MenuCaptureList';
 import RatedBeers from './RatedBeers';
 import Review from './Review';
 import Social from './Social';
+import TasteBuddies from './TasteBuddies';
 
 export {
     Search,
@@ -26,4 +27,5 @@ export {
     RatedBeers,
     Review,
     Social,
+    TasteBuddies,
 };

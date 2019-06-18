@@ -12,6 +12,10 @@ const userLinks = [
         to: '/ratedBeers',
     },
     {
+        label: 'Taste Buddies',
+        to: '/tasteBuddies',
+    },
+    {
         label: 'search',
         to: '/search',
     },
@@ -52,10 +56,10 @@ const guestLinks = [
     {
         label: 'Discover',
         to: '/discover',
-    }
+    },
 ];
 const Nav = props => {
-    let links=[];
+    let links = [];
     useEffect(() => {
         console.log('in nav', props.user);
 
@@ -70,9 +74,13 @@ const Nav = props => {
     if (props.user.name) {
         links = userLinks;
         links[0].label = `Hello, ${props.user.name}    
-            Followers (${props.user.followers? props.user.followers.length: 0}) Following (${props.user.followees? props.user.followees.length:0})`;
+            Followers (${
+                props.user.followers ? props.user.followers.length : 0
+            }) Following (${
+            props.user.followees ? props.user.followees.length : 0
+        })`;
     } else {
-         links = guestLinks;
+        links = guestLinks;
     }
 
     const [value, setValue] = React.useState(props.location.pathname);
