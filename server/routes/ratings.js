@@ -2,9 +2,8 @@ const router = require('express').Router();
 const { User, UserRating, Babeers } = require('../../db/models');
 
 router.post('/addrating', (req, res, next) => {
-    const { userId, beerId, ratings } = req.body;
-    console.log(userId, beerId, ratings);
-    return UserRating.rate(userId, beerId, ratings).then(rating =>
+    const { userId, beerId, ratings, review } = req.body;
+    return UserRating.rate(userId, beerId, ratings, review).then(rating =>
         res.send(rating)
     );
 });

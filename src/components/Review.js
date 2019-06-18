@@ -13,143 +13,86 @@ import { rateBeer, getUserBeerRatings } from '../reducers';
 
 const Review = ({ beerId, userId, addNewReview }) => {
     const [review, setReview] = React.useState('');
-
-    const ratings = {
-        appearance: 0,
-        aroma: 0,
-        mouthfeel: 0,
-        taste: 0,
-        overall: 0,
-    };
-
-    const clickHandler = (rating, cat) => {
-        ratings[cat] = rating;
-    };
+    const [appearance, setAppearance] = React.useState(0);
+    const [aroma, setAroma] = React.useState(0);
+    const [mouthfeel, setMouthfeel] = React.useState(0);
+    const [taste, setTaste] = React.useState(0);
+    const [overall, setOverall] = React.useState(0);
 
     const handleChange = evt => {
-        console.log(evt);
-        setReview(evt.value);
+        setReview(evt.target.value);
+        console.log(review);
     };
 
     const submitReview = () => {
-        addNewReview(userId, beerId, ratings, review);
-        // .then(() =>
-        //     getUserReviews(userId)
-        // );
+        const ratings = {
+            appearance,
+            aroma,
+            mouthfeel,
+            taste,
+            overall,
+        };
+        addNewReview(userId, beerId, ratings, review).catch(e =>
+            console.log(e)
+        );
     };
+
+    const categories = [
+        {
+            display: 'Appearance',
+            rating: appearance,
+            setFunc: setAppearance,
+        },
+        {
+            display: 'Aroma',
+            rating: aroma,
+            setFunc: setAroma,
+        },
+        {
+            display: 'Mouthfeel',
+            rating: mouthfeel,
+            setFunc: setMouthfeel,
+        },
+        {
+            display: 'Taste',
+            rating: taste,
+            setFunc: setTaste,
+        },
+        {
+            display: 'Overall',
+            rating: overall,
+            setFunc: setOverall,
+        },
+    ];
 
     return (
         <Container style={{ textAlign: 'center' }}>
             <Grid container>
                 <Grid item xs={12} sm={12} md={6}>
-                    <Typography variant="h5">
-                        Appearance:
-                        <Rating
-                            quiet={true}
-                            emptySymbol={
-                                <StarBorder
-                                    style={{
-                                        color: 'gold',
-                                    }}
-                                />
-                            }
-                            fullSymbol={
-                                <Star
-                                    style={{
-                                        color: 'gold',
-                                    }}
-                                />
-                            }
-                            onChange={value =>
-                                clickHandler(value, 'appearance')
-                            }
-                        />
-                    </Typography>
-                    <Typography variant="h5">
-                        Aroma:
-                        <Rating
-                            quiet={true}
-                            emptySymbol={
-                                <StarBorder
-                                    style={{
-                                        color: 'gold',
-                                    }}
-                                />
-                            }
-                            fullSymbol={
-                                <Star
-                                    style={{
-                                        color: 'gold',
-                                    }}
-                                />
-                            }
-                            onChange={value => clickHandler(value, 'aroma')}
-                        />
-                    </Typography>
-                    <Typography variant="h5">
-                        Mouthfeel:
-                        <Rating
-                            quiet={true}
-                            emptySymbol={
-                                <StarBorder
-                                    style={{
-                                        color: 'gold',
-                                    }}
-                                />
-                            }
-                            fullSymbol={
-                                <Star
-                                    style={{
-                                        color: 'gold',
-                                    }}
-                                />
-                            }
-                            onChange={value => clickHandler(value, 'mouthfeel')}
-                        />
-                    </Typography>
-                    <Typography variant="h5">
-                        Taste:
-                        <Rating
-                            quiet={true}
-                            emptySymbol={
-                                <StarBorder
-                                    style={{
-                                        color: 'gold',
-                                    }}
-                                />
-                            }
-                            fullSymbol={
-                                <Star
-                                    style={{
-                                        color: 'gold',
-                                    }}
-                                />
-                            }
-                            onChange={value => clickHandler(value, 'taste')}
-                        />
-                    </Typography>
-                    <Typography variant="h5">
-                        Overall:
-                        <Rating
-                            quiet={true}
-                            emptySymbol={
-                                <StarBorder
-                                    style={{
-                                        color: 'gold',
-                                    }}
-                                />
-                            }
-                            fullSymbol={
-                                <Star
-                                    style={{
-                                        color: 'gold',
-                                    }}
-                                />
-                            }
-                            onChange={value => clickHandler(value, 'overall')}
-                        />
-                    </Typography>
-                    <Button onClick={submitReview}>Add Review</Button>
+                    {categories.map(category => (
+                        <Typography key={category.display} variant="h5">
+                            {category.display}:
+                            <Rating
+                                initialRating={category.rating}
+                                quiet={true}
+                                emptySymbol={
+                                    <StarBorder
+                                        style={{
+                                            color: 'gold',
+                                        }}
+                                    />
+                                }
+                                fullSymbol={
+                                    <Star
+                                        style={{
+                                            color: 'gold',
+                                        }}
+                                    />
+                                }
+                                onClick={categories.setFunc}
+                            />
+                        </Typography>
+                    ))}
                 </Grid>
                 <Grid item xs={12} sm={12} md={6}>
                     <TextField
@@ -164,14 +107,15 @@ const Review = ({ beerId, userId, addNewReview }) => {
                         fullWidth
                     />
                 </Grid>
+                <Button onClick={submitReview}>Add Review</Button>
             </Grid>
         </Container>
     );
 };
 
 const mapDispatchToProps = dispatch => ({
-    addNewReview: (userId, beerId, ratings) => {
-        return dispatch(rateBeer(userId, beerId, ratings));
+    addNewReview: (userId, beerId, ratings, review) => {
+        return dispatch(rateBeer(userId, beerId, ratings, review));
     },
     getUserReviews: userId => {
         return dispatch(getUserBeerRatings(userId));
