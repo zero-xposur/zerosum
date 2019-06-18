@@ -37,62 +37,148 @@ const Review = ({ beerId, userId, addNewReview }) => {
         );
     };
 
-    const categories = [
-        {
-            display: 'Appearance',
-            rating: appearance,
-            setFunc: setAppearance,
-        },
-        {
-            display: 'Aroma',
-            rating: aroma,
-            setFunc: setAroma,
-        },
-        {
-            display: 'Mouthfeel',
-            rating: mouthfeel,
-            setFunc: setMouthfeel,
-        },
-        {
-            display: 'Taste',
-            rating: taste,
-            setFunc: setTaste,
-        },
-        {
-            display: 'Overall',
-            rating: overall,
-            setFunc: setOverall,
-        },
-    ];
+    // const categories = [
+    //     {
+    //         display: 'Appearance',
+    //         rating: appearance,
+    //         setFunc: setAppearance,
+    //     },
+    //     {
+    //         display: 'Aroma',
+    //         rating: aroma,
+    //         setFunc: setAroma,
+    //     },
+    //     {
+    //         display: 'Mouthfeel',
+    //         rating: mouthfeel,
+    //         setFunc: setMouthfeel,
+    //     },
+    //     {
+    //         display: 'Taste',
+    //         rating: taste,
+    //         setFunc: setTaste,
+    //     },
+    //     {
+    //         display: 'Overall',
+    //         rating: overall,
+    //         setFunc: setOverall,
+    //     },
+    // ];
 
     return (
         <Container style={{ textAlign: 'center' }}>
             <Grid container>
                 <Grid item xs={12} sm={12} md={6}>
-                    {categories.map(category => (
-                        <Typography key={category.display} variant="h5">
-                            {category.display}:
-                            <Rating
-                                initialRating={category.rating}
-                                quiet={true}
-                                emptySymbol={
-                                    <StarBorder
-                                        style={{
-                                            color: 'gold',
-                                        }}
-                                    />
-                                }
-                                fullSymbol={
-                                    <Star
-                                        style={{
-                                            color: 'gold',
-                                        }}
-                                    />
-                                }
-                                onClick={categories.setFunc}
-                            />
-                        </Typography>
-                    ))}
+                    <Typography variant="h5">
+                        Appearance:
+                        <Rating
+                            initialRating={appearance}
+                            quiet={true}
+                            emptySymbol={
+                                <StarBorder
+                                    style={{
+                                        color: 'gold',
+                                    }}
+                                />
+                            }
+                            fullSymbol={
+                                <Star
+                                    style={{
+                                        color: 'gold',
+                                    }}
+                                />
+                            }
+                            onClick={setAppearance}
+                        />
+                    </Typography>
+                    <Typography variant="h5">
+                        Aroma:
+                        <Rating
+                            initialRating={aroma}
+                            quiet={true}
+                            emptySymbol={
+                                <StarBorder
+                                    style={{
+                                        color: 'gold',
+                                    }}
+                                />
+                            }
+                            fullSymbol={
+                                <Star
+                                    style={{
+                                        color: 'gold',
+                                    }}
+                                />
+                            }
+                            onChange={setAroma}
+                        />
+                    </Typography>
+                    <Typography variant="h5">
+                        Mouthfeel:
+                        <Rating
+                            initialRating={mouthfeel}
+                            quiet={true}
+                            emptySymbol={
+                                <StarBorder
+                                    style={{
+                                        color: 'gold',
+                                    }}
+                                />
+                            }
+                            fullSymbol={
+                                <Star
+                                    style={{
+                                        color: 'gold',
+                                    }}
+                                />
+                            }
+                            onChange={setMouthfeel}
+                        />
+                    </Typography>
+                    <Typography variant="h5">
+                        Taste:
+                        <Rating
+                            initialRating={taste}
+                            quiet={true}
+                            emptySymbol={
+                                <StarBorder
+                                    style={{
+                                        color: 'gold',
+                                    }}
+                                />
+                            }
+                            fullSymbol={
+                                <Star
+                                    style={{
+                                        color: 'gold',
+                                    }}
+                                />
+                            }
+                            onChange={setTaste}
+                        />
+                    </Typography>
+                    <Typography variant="h5">
+                        Overall:
+                        <Rating
+                            initialRating={overall}
+                            quiet={true}
+                            emptySymbol={
+                                <StarBorder
+                                    style={{
+                                        color: 'gold',
+                                    }}
+                                />
+                            }
+                            fullSymbol={
+                                <Star
+                                    style={{
+                                        color: 'gold',
+                                    }}
+                                />
+                            }
+                            onChange={setOverall}
+                        />
+                    </Typography>
                 </Grid>
                 <Grid item xs={12} sm={12} md={6}>
                     <TextField

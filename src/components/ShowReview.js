@@ -5,6 +5,7 @@ import Rating from 'react-rating';
 
 const ShowReview = ({ review }) => {
     const { appearance, aroma, mouthfeel, taste, overall } = review;
+    console.log(review);
     const tags = [
         { category: appearance, label: 'Appearance' },
         { category: aroma, label: 'Aroma' },
@@ -15,7 +16,7 @@ const ShowReview = ({ review }) => {
     return (
         <Container>
             <Grid container>
-                <Grid item sm={12} md={6} lg={6}>
+                <Grid item xs={12} sm={12} md={6} lg={6}>
                     {tags.map(tag => (
                         <Typography key={tag.label}>
                             {tag.label}:
@@ -39,6 +40,11 @@ const ShowReview = ({ review }) => {
                             />
                         </Typography>
                     ))}
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} lg={6}>
+                    <Typography variant="p" style={{ padding: '1vw' }}>
+                        {review.review}
+                    </Typography>
                 </Grid>
             </Grid>
         </Container>
