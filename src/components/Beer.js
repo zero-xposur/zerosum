@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getBeer } from '../reducers/beer';
+import { getBeer } from '../reducers';
 import { getImageUrl } from './utils';
 import {
     Typography,
@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 import { Star, StarBorder, ExpandMore } from '@material-ui/icons';
 import Rating from 'react-rating';
-import { Review } from './index';
+import { Review, ShowReview } from './index';
 
 const mapStateToProps = state => {
     return {
@@ -33,7 +33,7 @@ const Beer = ({ match, beer, user, userReviews, fetchBeer }) => {
     useEffect(() => {
         fetchBeer(match.params.beerId);
         console.log(beer);
-    }, []);
+    }, [match.params.beerId]);
 
     let beerPage = beer;
     const yourReview = userReviews.find(review => review.babeerId === beer.id);
@@ -133,7 +133,11 @@ const Beer = ({ match, beer, user, userReviews, fetchBeer }) => {
                         </Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                        <Review userId={user.id} beerId={beerPage.id} />
+                        {yourReview ? (
+                            <ShowReview review={yourReview} />
+                        ) : (
+                            <Review userId={user.id} beerId={beerPage.id} />
+                        )}
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
             </Paper>

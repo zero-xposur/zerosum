@@ -24,14 +24,20 @@ export const getUserBeerRatings = userId => {
     };
 };
 
-export const rateBeer = (userId, beerId, ratings) => {
+export const rateBeer = (userId, beerId, ratings, review) => {
+    console.log('review in thunk', review);
+    const id = userId;
     return dispatch => {
-        return axios.post(`/api/ratings/addrating`, {
-            userId,
-            beerId,
-            ratings,
-        });
-        // .then(() => axios.get(`/api/ratings/${userId}`))
-        // .then(response => dispatch(getUserBeerRatings(response.data)));
+        return axios
+            .post(`/api/ratings/addrating`, {
+                userId,
+                beerId,
+                ratings,
+                review,
+            })
+            .then(() => {
+                return axios.get(`/api/ratings/${userId}`);
+            })
+            .then(response => dispatch(gotUserBeerRatings(response.data)));
     };
 };

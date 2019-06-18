@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { BeerList } from './index.js';
 import { discoverBeers } from '../reducers';
 import { styles } from './utils';
+import { Container } from '@material-ui/core';
 
 const DiscoverList = props => {
     console.log(styles[props.match.params.style]);
@@ -10,7 +11,11 @@ const DiscoverList = props => {
         props.getDiscoveredBeers(styles[props.match.params.style]);
     }, []);
 
-    return <BeerList beers={props.discoveredBeers} />;
+    return (
+        <Container>
+            <BeerList beers={props.discoveredBeers} />
+        </Container>
+    );
 };
 
 const mapStateToProps = state => {

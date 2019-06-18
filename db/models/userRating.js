@@ -206,7 +206,7 @@ UserRating.tasteBuddies = userId => {
 
 // checks for score 0-5, if a user and beer exists.
 // creates or updates a rating
-UserRating.rate = (userId, babeerId, ratings) => {
+UserRating.rate = (userId, babeerId, ratings, userReview) => {
     Object.keys(ratings).map(rate => {
         if (ratings[rate] > 5 || ratings[rate] < 0) {
             throw new Error(`${rate} is not >= 0 and <= 5.`);
@@ -308,6 +308,7 @@ UserRating.rate = (userId, babeerId, ratings) => {
                                     mouthfeel,
                                     taste,
                                     overall,
+                                    review: (userReview ? userReview : null),
                                 })
                             );
                     }
