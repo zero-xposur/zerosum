@@ -1,10 +1,10 @@
 import React from 'react';
-import { Container, Grid, Typography } from '@material-ui/core';
+import { Container, Grid, Typography, Paper } from '@material-ui/core';
 import { Star, StarBorder } from '@material-ui/icons';
 import Rating from 'react-rating';
 
 const ShowReview = ({ review }) => {
-    const { appearance, aroma, mouthfeel, taste, overall } = review;
+    const { appearance, aroma, mouthfeel, taste, overall, user, createdAt, score } = review;
     console.log(review);
     const tags = [
         { category: appearance, label: 'Appearance' },
@@ -14,8 +14,13 @@ const ShowReview = ({ review }) => {
         { category: overall, label: 'Overall' },
     ];
     return (
-        <Container>
+        <Paper style={{width: '100%'}}>
             <Grid container>
+                <Grid item xs={12} sm={12} md={12} lg={12}>
+                    <Typography>
+                        {user.name ? user.name : user.email} on {createdAt}: Total Score: {score}
+                    </Typography>
+                </Grid>
                 <Grid item xs={12} sm={12} md={6} lg={6}>
                     {tags.map(tag => (
                         <Typography key={tag.label}>
@@ -42,12 +47,12 @@ const ShowReview = ({ review }) => {
                     ))}
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} lg={6}>
-                    <Typography variant="p" style={{ padding: '1vw' }}>
+                    <Typography variant="body1" style={{ padding: '1vw' }}>
                         {review.review}
                     </Typography>
                 </Grid>
             </Grid>
-        </Container>
+        </Paper>
     );
 };
 
