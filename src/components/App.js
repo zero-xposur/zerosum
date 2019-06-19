@@ -13,6 +13,7 @@ import {
     RatedBeers,
     Social,
     TasteBuddies,
+    Feed,
 } from './index.js';
 import { login, getUserBeerRatings } from '../reducers';
 import { connect } from 'react-redux';

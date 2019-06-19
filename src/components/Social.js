@@ -1,6 +1,7 @@
 import React, { Component, useState, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { searchUsers, follow } from '../reducers/user';
+import Follows from './Follows.js';
 
 import {
     Container,
@@ -98,6 +99,7 @@ function Social(props){
                     </Grid>
                 </Grid>
             </Grid>
+            <Follows />
             </Fragment>
         );
 }

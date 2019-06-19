@@ -65,6 +65,7 @@ const Nav = props => {
 
         if (props.user.name) {
             userLinks[0].label = `Hello, ${props.user.name}`;
+           // userLinks[0].to = '/socialmenu'
         } else {
             userLinks[0].label = 'Home';
         }
