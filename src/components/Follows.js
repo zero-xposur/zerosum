@@ -14,12 +14,9 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 
 const useStyles = makeStyles(theme => ({
     root: {
-      width: '100%',
-      maxWidth: 360,
-      backgroundColor: theme.palette.background.paper,
-      position: 'relative',
-      overflow: 'auto',
-      maxHeight: 300,
+        width: '100%',
+        maxWidth: 360,
+        backgroundColor: theme.palette.background.paper,
     },
     listSection: {
       backgroundColor: 'inherit',
@@ -35,38 +32,32 @@ function Follows({user}) {
     const classes = useStyles();
   
     return (
-        <Paper>
-        {user.followers && user.followers.length>0?(<div><Typography>
-        Beer Friends Who Follow Me
+        <Paper className={classes.root}>
+        {user.followers && user.followers.length>0?(<div><Typography variant="h5">
+        Followers
         </Typography>
         <List className={classes.root} subheader={<li />}>
             {user.followers.map(fuser => (
             <li key={fuser.name} className={classes.listSection}>
-                <ul className={classes.ul}>
-                <ListSubheader></ListSubheader>
-                {user.followers.map(item => (
-                    <ListItem key={item.name}>
-                    <ListItemText primary={item.name} />
+               
+                    <ListItem key={fuser.name}>
+                        <ListItemText primary={fuser.name} />
                     </ListItem>
-                ))}
-                </ul>
+               
             </li>
             ))}
         </List></div>): null}
-        {user.followees && user.followees.length>0?(<div><Typography>
-        Beer Friends Who I Follow
+        {user.followees && user.followees.length>0?(<div><Typography variant="h5">
+        Following
         </Typography>
         <List className={classes.root} subheader={<li />}>
             {user.followees.map(fuser => (
             <li key={fuser.name} className={classes.listSection}>
-                <ul className={classes.ul}>
-                <ListSubheader></ListSubheader>
-                {user.followees.map(item => (
-                    <ListItem key={item.name}>
-                    <ListItemText primary={item.name} />
+                
+                    <ListItem key={fuser.name}>
+                        <ListItemText primary={fuser.name} />
                     </ListItem>
-                ))}
-                </ul>
+               
             </li>
             ))}
         </List></div>):null}

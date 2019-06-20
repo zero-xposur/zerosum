@@ -3,6 +3,7 @@ import axios from 'axios';
 const SET_USER = 'SET_USER';
 const SET_FOLLOWERS = 'SET_FOLLOWERS';
 const SET_FOLLOWEES = 'SET_FOLLOWEES';
+const SET_FEED = 'SET_FEED';
 const SET_SEARCH = 'SET_SEARCH';
 
 const setUser = user => ({
@@ -20,6 +21,11 @@ const setFollowees = followees => ({
     followees,
 });
 
+const setFeed = feed => ({
+    type: SET_FEED,
+    feed,
+});
+
 const setSearchedUsers = searchedUsers => ({
     type: SET_SEARCH,
     searchedUsers,
@@ -35,6 +41,8 @@ export const userReducer = (state = {}, action) => {
             return {...state, followees: action.followees}
         case SET_SEARCH:
             return {...state, searchedUsers: action.searchedUsers}
+        case SET_FEED:
+            return {...state, feed: action.feed}
         default:
             return state;
     }
@@ -59,7 +67,14 @@ export const login = () => dispatch => {
                         .get(`/api/follows/followees/${id}`)
                         .then((response)=>response.data)
                         .then((followees)=>dispatch(setFollowees(followees)));
+                        return id;
                 })  
+                .then((id)=>{
+                    axios
+                        .get(`/api/ratings/followees/${id}`)
+                        .then((response)=>response.data)
+                        .then((followees)=>dispatch(setFollowees(followees)));
+                }) 
 };
 
 export const logout = (history) => dispatch => {
@@ -154,6 +169,16 @@ export const follow = (userId, id) => {
     return dispatch => {
         return axios
             .post(`/api/follows/${userId}/${id}`)
+            .then(()=>axios.get(`/api/follows/followees/${id}`))
+            .then((response)=>response.data)
+            .then((followees)=>dispatch(setFollowees(followees)));
+    }
+}
+
+export const unfollow = (userId, id) => {
+    return dispatch => {
+        return axios
+            .delete(`/api/follows/${userId}/${id}`)
             .then(()=>axios.get(`/api/follows/followees/${id}`))
             .then((response)=>response.data)
             .then((followees)=>dispatch(setFollowees(followees)));

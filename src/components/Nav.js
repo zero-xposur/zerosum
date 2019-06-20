@@ -28,7 +28,7 @@ const userLinks = [
         to: '/discover',
     },
     {
-        label: 'Beer Buddies',
+        label: 'Beer Friends',
         to: '/social',
     },
     {
@@ -73,6 +73,7 @@ const Nav = props => {
 
     console.log('props user', props.user);
     if (props.user.name) {
+        console.log(props.user, 'props.user');
         links = userLinks;
         links[0].label = `Hello, ${props.user.name}    
             Followers (${

@@ -29,6 +29,14 @@ class App extends Component {
             .then(() => this.props.getUserRatings(this.props.user.id));
     }
 
+    // componentDidUpdate(prevProps) {
+    //     if(JSON.stringify(prevProps.user) !== JSON.stringify(this.props.user)){
+    //         this.props
+    //         .searchUsers()
+    //         .then(() => this.props.getUserRatings(this.props.user.id));
+    //     }
+    // }
+
     render() {
         return (
             <Router>
