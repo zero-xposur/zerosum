@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { Container, Grid, Typography, Paper } from '@material-ui/core';
 import { Star, StarBorder } from '@material-ui/icons';
@@ -23,11 +23,16 @@ const ShowReview = props => {
     } = review;
 
     const time = new Date(createdAt).toDateString();
-    console.log(props);
 
-    useEffect(() => {
+    // useEffect(() => {
+    //     console.log('fetchTaste');
+    //     props.fetchTasteBuddies(props.user.id);
+    // }, []);
+
+    // does not continuously loop.
+    useCallback(() => {
         props.fetchTasteBuddies(props.user.id);
-    }, []);
+    }, [props.review.user]);
 
     const tags = [
         { category: appearance, label: 'Appearance' },
