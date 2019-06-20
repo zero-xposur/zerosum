@@ -23,6 +23,7 @@
         "pg": "7.11.0",
         "random-number-csprng": "^1.0.2",
         "react": "^16.8.6",
+        "react-circle": "^1.1.1",
         "react-dom": "16.8.6",
         "react-rating": "^1.7.2",
         "react-redux": "7.0.3",
