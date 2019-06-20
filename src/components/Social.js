@@ -2,6 +2,7 @@ import React, { Component, useState, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { searchUsers, follow, unfollow } from '../reducers/user';
 import Follows from './Follows.js';
+import Feed from './Feed.js';
 
 import {
     Container,
@@ -13,8 +14,6 @@ import {
     IconButton,
     Button,
     Grid,
-    Link,
-    Switch,
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 
@@ -27,12 +26,6 @@ function Social(props){
             setSearch(target.value);
         };
         
-        const handleSwitch = name => event => {
-            setState({ ...state, [name]: event.target.checked });
-        }
-
-       
-    
         const handleSubmit = evt => {
             evt.preventDefault();
             const userId = props.user && props.user.id? props.user.id:null;
@@ -101,8 +94,6 @@ function Social(props){
                                 <Button style={{ textAlign: 'center' }} disabled={!state.follow} onClick={()=>{state.follow=false; return props.unfollow(user.id, props.user.id)}}>
                                     Unfollow
                                 </Button>
-                                {/* <Switch checked={state.follow} onChange={handleSwitch('follow')} value="follow" /> */}
-
                             </Grid>
                         </Grid>)) : 
                         <Typography variant="h6">
@@ -113,6 +104,7 @@ function Social(props){
                 </Grid>
             </Grid>
             <Follows />
+            <Feed />
             </Fragment>
         );
 }
