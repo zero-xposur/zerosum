@@ -1,6 +1,7 @@
 import React, { Component, useState, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { searchUsers, follow } from '../reducers/user';
+import { searchUsers, follow, unfollow } from '../reducers/user';
+import Follows from './Follows.js';
 
 import {
     Container,
@@ -13,15 +14,24 @@ import {
     Button,
     Grid,
     Link,
+    Switch,
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 
 function Social(props){
         const [search, setSearch] = useState('');
-
+        const [state, setState] = React.useState({
+            follow: false,
+          });
         const handleChange = ({ target }) => {
             setSearch(target.value);
         };
+        
+        const handleSwitch = name => event => {
+            setState({ ...state, [name]: event.target.checked });
+        }
+
+       
     
         const handleSubmit = evt => {
             evt.preventDefault();
@@ -39,7 +49,6 @@ function Social(props){
         };
     
         console.log(props);
-        //clicked=false;
         return (
             <Fragment>
                 <Container>
@@ -86,9 +95,14 @@ function Social(props){
                                 </Typography>
                             </Grid>
                             <Grid  item xs={6}>
-                                <Button  style={{ textAlign: 'center' }} onClick={()=>props.follow(user.id, props.user.id)}>
+                                <Button style={{ textAlign: 'center' }} disabled={state.follow} onClick={()=>{state.follow=true; return props.follow(user.id, props.user.id)}}>
                                     Follow
                                 </Button>
+                                <Button style={{ textAlign: 'center' }} disabled={!state.follow} onClick={()=>{state.follow=false; return props.unfollow(user.id, props.user.id)}}>
+                                    Unfollow
+                                </Button>
+                                {/* <Switch checked={state.follow} onChange={handleSwitch('follow')} value="follow" /> */}
+
                             </Grid>
                         </Grid>)) : 
                         <Typography variant="h6">
@@ -98,6 +112,7 @@ function Social(props){
                     </Grid>
                 </Grid>
             </Grid>
+            <Follows />
             </Fragment>
         );
 }
@@ -111,6 +126,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
     searchUsers: search => dispatch(searchUsers(search)),
     follow: (userId, id) => dispatch(follow(userId, id)),
+    unfollow: (userId, id) => dispatch(unfollow(userId, id)),
 });
 
 export default connect(

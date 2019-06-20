@@ -13,6 +13,7 @@ import {
     RatedBeers,
     Social,
     TasteBuddies,
+    Feed,
 } from './index.js';
 import { login, getUserBeerRatings } from '../reducers';
 import { connect } from 'react-redux';
@@ -27,6 +28,14 @@ class App extends Component {
             .searchUsers()
             .then(() => this.props.getUserRatings(this.props.user.id));
     }
+
+    // componentDidUpdate(prevProps) {
+    //     if(JSON.stringify(prevProps.user) !== JSON.stringify(this.props.user)){
+    //         this.props
+    //         .searchUsers()
+    //         .then(() => this.props.getUserRatings(this.props.user.id));
+    //     }
+    // }
 
     render() {
         return (

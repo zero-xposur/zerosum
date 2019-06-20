@@ -13,6 +13,7 @@ import Review from './Review';
 import Social from './Social';
 import ShowReview from './ShowReview';
 import TasteBuddies from './TasteBuddies';
+import Menu from './Menu';
 
 export {
     Search,
