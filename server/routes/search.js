@@ -9,10 +9,11 @@ const vision = require('@google-cloud/vision');
 // });
 
 let client = {};
-const { GOOGLE_APPLICATION_CREDENTIALS } = require('../../.env');
 try {
     if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
         console.log('local search');
+        const { GOOGLE_APPLICATION_CREDENTIALS } = require('../../.env');
+
         client = new vision.ImageAnnotatorClient({
             projectId: 'beer-app-242313',
             // credentials: process.env,
