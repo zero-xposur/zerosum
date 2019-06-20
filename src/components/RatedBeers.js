@@ -29,7 +29,7 @@ const RatedBeers = props => {
 
     console.log('final props', props);
     return (
-        <Container>
+        <Container style={{marginBottom: '60px'}}>
                         <AppBar position="sticky" style={{ margin: '0 0 0 5' }}>
 
                     <Toolbar>

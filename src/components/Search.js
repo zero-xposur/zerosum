@@ -17,6 +17,7 @@ import {
     Link,
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
+import { CameraAlt } from '@material-ui/icons';
 import { BeerList, Discover } from './index';
 
 const Search = props => {
@@ -44,7 +45,7 @@ const Search = props => {
     console.log(props);
     return (
         <Fragment>
-            <Container>
+            <Container style={{marginBottom: '50px'}}>
                 <AppBar position="sticky" style={{ margin: '0 0 0 5', paddingBottom: '2vh' }}>
                     <Typography align="center" variant="h2">
                         Discover
@@ -73,14 +74,7 @@ const Search = props => {
                             </IconButton>
                             <IconButton>
                                 <Link href="/#/menu">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path d="M19 12h-2v3h-3v2h5v-5zM7 9h3V7H5v5h2V9zm14-6H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16.01H3V4.99h18v14.02z" />
-                                    </svg>
+                                    <CameraAlt color='inherit'/>
                                 </Link>
                             </IconButton>
                         </Paper>

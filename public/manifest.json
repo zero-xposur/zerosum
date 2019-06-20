@@ -1,6 +1,6 @@
 {
-    "short_name": "Beer Buddies",
-    "name": "Beer Buddies",
+    "short_name": "Beer Friends",
+    "name": "Beer Friends",
     "icons": [
         {
             "src": "icon.png",
@@ -11,6 +11,6 @@
     "start_url": "./",
     "scope": ".",
     "background_color": "#ffffff",
-    "theme_color": "#e05a47",
+    "theme_color": "#3949ab",
     "display": "standalone"
 }
