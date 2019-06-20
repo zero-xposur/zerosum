@@ -22,12 +22,9 @@ try {
         });
     } else {
         require('dotenv').config();
-        console.log(
-            'PATHHHHH',
-            path.join(__dirname, 'gcloud-credentials.json')
-        );
+        console.log('PATHHHHH', path.join('gcloud-credentials.json'));
         fs.writeFileSync(
-            path.join(__dirname, 'gcloud-credentials.json'),
+            path.join('gcloud-credentials.json'),
             process.env.SERVICE_ACCOUNT_JSON
         );
         client = new vision.ImageAnnotatorClient({
