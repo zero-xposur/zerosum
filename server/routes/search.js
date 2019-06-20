@@ -1,11 +1,39 @@
 const router = require('express').Router();
 const Babeers = require('../../db/models/babeers');
 const vision = require('@google-cloud/vision');
+const fs = require('fs');
+const path = require('path');
 
-const client = new vision.ImageAnnotatorClient({
-    projectId: 'beer-app-242313',
-    keyFilename: './gcred.json',
-});
+// const client = new vision.ImageAnnotatorClient({
+//     projectId: 'beer-app-242313',
+//     credentials: process.env,
+//     // keyFilename: './gcred.json',
+// });
+
+let client = {};
+try {
+    if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+        console.log('local search');
+        // const { GOOGLE_APPLICATION_CREDENTIALS } = require('../../.env');
+        client = new vision.ImageAnnotatorClient({
+            projectId: 'beer-app-242313',
+            // credentials: GOOGLE_APPLICATION_CREDENTIALS,
+            keyFilename: './gcred.json',
+        });
+    } else {
+        require('dotenv').config();
+        fs.writeFileSync(
+            'gcloud-credentials.json',
+            process.env.SERVICE_ACCOUNT_JSON
+        );
+        client = new vision.ImageAnnotatorClient({
+            projectId: 'beer-app-242313',
+            keyFilename: 'gcloud-credentials.json',
+        });
+    }
+} catch (ex) {
+    console.log(ex);
+}
 
 // GET :/api/search/:search
 router.get('/:search/:userId', (req, res, next) => {
@@ -85,7 +113,8 @@ router.post('/menu', (req, res, next) => {
         .then(beers => {
             const returnBeers = beers.map(beer => beer[0]);
             res.send(returnBeers);
-        });
+        })
+        .catch(er => console.log('Search Error: ', er));
 });
 
 module.exports = router;
