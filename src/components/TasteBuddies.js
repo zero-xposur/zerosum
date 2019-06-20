@@ -5,6 +5,7 @@ import { Container, Card, Typography, Paper, Grid } from '@material-ui/core';
 import { Star, StarBorder } from '@material-ui/icons';
 import Rating from 'react-rating';
 import Circle from 'react-circle';
+import { Link } from 'react-router-dom';
 
 const mapStateToProps = state => {
     return { tasteBuddies: state.tasteBuddies, user: state.user };
@@ -90,7 +91,11 @@ const RatedBeers = props => {
                                                 padding: '2%',
                                             }}
                                         >
-                                            <Typography variant="subtitle1">
+                                            <Typography
+                                                variant="subtitle1"
+                                                component={Link}
+                                                to={`/beer/${beer.babeer.id}`}
+                                            >
                                                 {beer.babeer.name}
                                             </Typography>
                                             <Typography variant="subtitle2">
