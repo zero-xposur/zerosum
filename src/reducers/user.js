@@ -66,15 +66,17 @@ export const login = () => dispatch => {
                     axios
                         .get(`/api/follows/followees/${id}`)
                         .then((response)=>response.data)
-                        .then((followees)=>dispatch(setFollowees(followees)));
-                        return id;
+                        .then((followees)=>{dispatch(setFollowees(followees)); return followees;})
+                        .then((users)=>{
+                            return Promise.all(users.map(user=>{
+                                return axios.get(`/api/ratings/${user.id}`)
+                                            .then((res)=>res.data)
+                            }))
+                        })
+                        .then((ratings)=>{
+                            dispatch(setFeed(ratings));
+                        })
                 })  
-                .then((id)=>{
-                    axios
-                        .get(`/api/ratings/followees/${id}`)
-                        .then((response)=>response.data)
-                        .then((followees)=>dispatch(setFollowees(followees)));
-                }) 
 };
 
 export const logout = (history) => dispatch => {
@@ -144,6 +146,23 @@ export const findAllFollowers = (id) => {
             .get(`/api/follows/followers/${id}`)
             .then((response)=>response.data)
             .then((followers)=>dispatch(setFollowers(followers)));
+    }
+}
+
+export const getFeed = (id) => {
+    console.log('in getFeed thunk')
+    return dispatch => {
+        return axios.get(`/api/follows/followees/${id}`)
+            .then((res)=>res.data)
+            .then((users)=>{
+                return Promise.all(users.map(user=>{
+                    return axios.get(`/api/ratings/${user.id}`)
+                                // .then((res)=>res.data)
+                }))
+            })
+            .then((ratings)=>{
+                dispatch(setFeed(ratings));
+            })
     }
 }
 
