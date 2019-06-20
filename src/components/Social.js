@@ -2,6 +2,8 @@ import React, { Component, useState, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { searchUsers, follow, unfollow } from '../reducers/user';
 import Follows from './Follows.js';
+import Feed from './Feed.js';
+import UserFollow from './UserFollow.js';
 
 import {
     Container,
@@ -13,32 +15,44 @@ import {
     IconButton,
     Button,
     Grid,
-    Link,
-    Switch,
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 
+const mapStateToProps = state => {
+    return {
+        user: state.user,
+    };
+};
+
+const mapDispatchToProps = dispatch => ({
+    searchUsers: search => dispatch(searchUsers(search)),
+    follow: (userId, id) => dispatch(follow(userId, id)),
+    unfollow: (userId, id) => dispatch(unfollow(userId, id)),
+});
+
 function Social(props){
         const [search, setSearch] = useState('');
-        const [state, setState] = React.useState({
-            follow: false,
-          });
+        
         const handleChange = ({ target }) => {
             setSearch(target.value);
         };
         
-        const handleSwitch = name => event => {
-            setState({ ...state, [name]: event.target.checked });
-        }
-
-       
-    
         const handleSubmit = evt => {
             evt.preventDefault();
-            const userId = props.user && props.user.id? props.user.id:null;
-            console.log('userId in search component', props.user);
+            // const userId = props.user && props.user.id? props.user.id:null;
+            // console.log('userId in search component', props.user);
             props.searchUsers(search)
             .then((res)=>console.log('Show all the searched users', res))
+            // .then(()=>{
+            //     if(props.user && props.user.followees && (props.user.followees.length>0)){
+            //         props.user.followees.forEach(user=>{
+            //             if(user.id === props.user.)
+            //         })
+            //     }
+            //     else{
+            //         state.follow=false;
+            //     }
+            // })
             .catch(error=>console.log(error))
         };
     
@@ -81,30 +95,8 @@ function Social(props){
             <Grid container >
                 <Grid item>
                     <Grid>
-                    {((props.user && search && (props.user.searchedUsers))? ((typeof props.user.searchedUsers === 'object')? props.user.searchedUsers.map(user=>(
-                        <Grid container spacing={2} style={{
-                            padding: '6px 20px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            width: '100%',
-                            margin: '1vh',
-                        }} key={user.id}>
-                            <Grid  item xs={6}>
-                                <Typography variant="h6"  style={{ textAlign: 'center' }}>
-                                    {user.name}
-                                </Typography>
-                            </Grid>
-                            <Grid  item xs={6}>
-                                <Button style={{ textAlign: 'center' }} disabled={state.follow} onClick={()=>{state.follow=true; return props.follow(user.id, props.user.id)}}>
-                                    Follow
-                                </Button>
-                                <Button style={{ textAlign: 'center' }} disabled={!state.follow} onClick={()=>{state.follow=false; return props.unfollow(user.id, props.user.id)}}>
-                                    Unfollow
-                                </Button>
-                                {/* <Switch checked={state.follow} onChange={handleSwitch('follow')} value="follow" /> */}
-
-                            </Grid>
-                        </Grid>)) : 
+                    {((props.user && search && (props.user.searchedUsers))? ((typeof props.user.searchedUsers === 'object')? props.user.searchedUsers.map(currentuser=>(
+                       <UserFollow currentuser={currentuser} />)) : 
                         <Typography variant="h6">
                             No user found with this name. Send them a link to Beer Friends!
                         </Typography>
@@ -113,21 +105,10 @@ function Social(props){
                 </Grid>
             </Grid>
             <Follows />
+            {/* <Feed /> */}
             </Fragment>
         );
 }
-
-const mapStateToProps = state => {
-    return {
-        user: state.user,
-    };
-};
-
-const mapDispatchToProps = dispatch => ({
-    searchUsers: search => dispatch(searchUsers(search)),
-    follow: (userId, id) => dispatch(follow(userId, id)),
-    unfollow: (userId, id) => dispatch(unfollow(userId, id)),
-});
 
 export default connect(
     mapStateToProps,
