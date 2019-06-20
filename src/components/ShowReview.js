@@ -6,6 +6,7 @@ import Rating from 'react-rating';
 import { getTasteBuddies } from '../reducers';
 import Circle from 'react-circle';
 
+// eslint-disable-next-line complexity
 const ShowReview = props => {
     const { review } = props;
     const {
@@ -21,6 +22,7 @@ const ShowReview = props => {
     } = review;
 
     const time = new Date(createdAt).toDateString();
+    console.log(props);
 
     useEffect(() => {
         props.fetchTasteBuddies(props.user.id);
@@ -67,14 +69,12 @@ const ShowReview = props => {
                         </Typography>
                     </Grid>
 
-                    <Grid item xs={6} sm={3}>
+                    <Grid item xs={7} sm={7} md={4} lg={4} xl={4}>
                         {tags.map(tag => (
                             <Typography
                                 key={tag.label}
                                 variant="subtitle2"
-                                // align="center"
-
-                                style={{ align: 'justify' }}
+                                align="center"
                             >
                                 {tag.label}:
                                 <Rating
@@ -100,17 +100,25 @@ const ShowReview = props => {
                             </Typography>
                         ))}
                     </Grid>
-                    <Grid item xs={6} sm={3}>
-                        <Typography>User Correlation:</Typography>
-                        <Circle
-                            progress={(tasteBuddy
-                                ? tasteBuddy.correlation * 100
-                                : 0
-                            ).toFixed(2)}
-                            size={100}
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
+                    {tasteBuddy ? (
+                        tasteBuddy.correlation ? (
+                            <Grid item xs={5} sm={5} md={4} lg={4} xl={4}>
+                                <Typography align="center">
+                                    User Correlation:{' '}
+                                </Typography>
+                                <Typography align="center">
+                                    <Circle
+                                        progress={(tasteBuddy
+                                            ? tasteBuddy.correlation * 100
+                                            : 0
+                                        ).toFixed(2)}
+                                        size={75}
+                                    />
+                                </Typography>
+                            </Grid>
+                        ) : null
+                    ) : null}
+                    <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
                         <Typography variant="body1" style={{ padding: '1vw' }}>
                             {review.review}
                         </Typography>
