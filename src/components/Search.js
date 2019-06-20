@@ -45,7 +45,7 @@ const Search = props => {
     return (
         <Fragment>
             <Container>
-                <AppBar position="static" style={{ margin: '5 0 5 0' }}>
+                <AppBar position="sticky" style={{ margin: '0 0 0 5', paddingBottom: '2vh' }}>
                     <Typography align="center" variant="h2">
                         Discover
                     </Typography>
@@ -55,8 +55,8 @@ const Search = props => {
                                 padding: '2px 4px',
                                 display: 'flex',
                                 alignItems: 'center',
-                                width: '90%',
-                                margin: 'auto',
+                                width: '100%',
+                                margin: '2 2 2 5',
                             }}
                         >
                             <InputBase

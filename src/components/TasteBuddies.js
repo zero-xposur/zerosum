@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getTasteBuddies } from '../reducers';
-import { Container, Card, Typography, Paper, Grid } from '@material-ui/core';
+import { Container, Card, Typography, Paper, Grid, AppBar, Toolbar } from '@material-ui/core';
 import { Star, StarBorder } from '@material-ui/icons';
 import Rating from 'react-rating';
 import Circle from 'react-circle';
@@ -31,7 +31,13 @@ const RatedBeers = props => {
 
     return (
         <Container>
-            <Typography>Taste Buddies!</Typography>
+            <AppBar position="sticky" style={{ margin: '0 0 0 5' }}>
+               <Toolbar>
+                    <Typography align="center" style={{margin: 'auto'}} variant="h2">
+                        Taste Buddies!
+                    </Typography>
+                </Toolbar>
+            </AppBar>
             {tasteBuddies.map(user => {
                 return (
                     <Paper key={user.id} style={{ margin: '2%' }}>
