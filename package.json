@@ -1,42 +1,74 @@
 {
-  "name": "zerosum",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "dependencies": {
-    "express": "^4.17.0",
-    "pg": "^7.11.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-redux": "^7.0.3",
-    "react-router-dom": "^5.0.0",
-    "redux": "^4.0.1",
-    "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0",
-    "sequelize": "^5.8.6"
-  },
-  "babel": {
-    "presets": [
-      "react",
-      "stage-2"
-    ]
-  },
-  "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.5",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1",
-    "webpack": "^4.32.2",
-    "webpack-cli": "^3.3.2"
-  },
-  "scripts": {
-    "start": "node server.js",
-    "postinstall": "npm run webpack",
-    "webpack": "webpack",
-    "webpack:dev": "npm run webpack -- --mode=development --watch",
-    "start:dev": "npm run webpack:dev & nodemon server --ignore src/ --ignore dist/"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+    "name": "zerosum",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "dependencies": {
+        "@google-cloud/vision": "^1.0.0",
+        "@material-ui/core": "^4.1.1",
+        "@material-ui/icons": "^4.0.1",
+        "axios": "0.19.0",
+        "body-parser": "1.19.0",
+        "compression": "^1.7.4",
+        "cookie-parser": "1.4.4",
+        "cors": "^2.8.5",
+        "dotenv": "^8.0.0",
+        "eslint-plugin-react-hooks": "^1.6.0",
+        "express": "4.17.0",
+        "express-session": "1.16.1",
+        "faker": "^4.1.0",
+        "https": "^1.0.0",
+        "jquery-csv": "1.0.3",
+        "morgan": "1.9.1",
+        "passport": "0.4.0",
+        "passport-facebook": "3.0.0",
+        "pg": "7.11.0",
+        "random-number-csprng": "^1.0.2",
+        "react": "^16.8.6",
+        "react-circle": "^1.1.1",
+        "react-dom": "16.8.6",
+        "react-rating": "^1.7.2",
+        "react-redux": "7.0.3",
+        "react-router-dom": "5.0.0",
+        "react-webcam": "^1.1.1",
+        "redux": "4.0.1",
+        "redux-logger": "3.0.6",
+        "redux-thunk": "2.3.0",
+        "sequelize": "5.8.6"
+    },
+    "babel": {
+        "presets": [
+            "react",
+            "stage-2"
+        ]
+    },
+    "devDependencies": {
+        "babel-core": "6.26.3",
+        "babel-loader": "7.1.5",
+        "babel-preset-react": "6.24.1",
+        "babel-preset-stage-2": "6.24.1",
+        "webpack": "4.32.2",
+        "webpack-cli": "3.3.2"
+    },
+    "scripts": {
+        "start": "node server",
+        "sync": "node db/sync",
+        "seed:dev": "psql zerosum < db/beerAppDatababeer.sql && psql zerosum < db/beerAppDataprices.sql",
+        "syncAndSeed:dev": "npm run sync && npm run seed:dev && node db/postSeed",
+        "postinstall": "npm run webpack && npm run sync",
+        "webpack": "webpack",
+        "webpack:dev": "npm run webpack -- --mode=development --watch",
+        "start:dev": "npm run webpack:dev & nodemon server --ignore src/ --ignore dist/",
+        "heroku": "git push heroku dev:master && heroku pg:reset --confirm beer-friends && heroku pg:push zerosum DATABASE_URL --app beer-friends",
+        "heroku:dev": "git push heroku bailie-dev2:master && heroku pg:reset --confirm beer-friends && heroku pg:push zerosum DATABASE_URL --app beer-friends"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "prettier": {
+        "trailingComma": "es5",
+        "tabWidth": 4,
+        "semi": true,
+        "singleQuote": true
+    }
 }
