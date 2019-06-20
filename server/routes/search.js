@@ -9,19 +9,18 @@ const vision = require('@google-cloud/vision');
 // });
 
 let client = {};
+const { GOOGLE_APPLICATION_CREDENTIALS } = require('../../.env');
 try {
     if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
-        // client = new vision.ImageAnnotatorClient({
-        //     projectId: 'beer-app-242313',
-        //     credentials: require('../../.env').GOOGLE_APPLICATION_CREDENTIALS,
-        // });
         console.log('local search');
         client = new vision.ImageAnnotatorClient({
             projectId: 'beer-app-242313',
             // credentials: process.env,
-            keyFilename: './gcred.json',
+            credentials: GOOGLE_APPLICATION_CREDENTIALS,
+            // keyFilename: './gcred.json',
         });
     } else {
+        console.log(process.env.GOOGLE_APPLICATION_CREDENTIALS);
         client = new vision.ImageAnnotatorClient({
             projectId: 'beer-app-242313',
             credentials: process.env.GOOGLE_APPLICATION_CREDENTIALS,
