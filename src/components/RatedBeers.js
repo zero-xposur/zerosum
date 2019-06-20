@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getUserBeerRatings } from '../reducers';
+import { ShowReview } from './index';
+import { Container } from '@material-ui/core';
 
 const mapStateToProps = state => {
     return { beerRatings: state.userBeerRatings, user: state.user };
@@ -26,18 +28,11 @@ const RatedBeers = props => {
 
     console.log('final props', props);
     return (
-        <div>
-            <h1>Rated Beers</h1>
-            <ol>
-                {ratings.map(aRating => {
-                    return (
-                        <li key={aRating.id}>
-                            {aRating.babeer.name} My Score: {aRating.score}
-                        </li>
-                    );
-                })}
-            </ol>
-        </div>
+        <Container>
+            {ratings.map(rating => (
+                <ShowReview review={rating} key={rating.id} />
+            ))}
+        </Container>
     );
 };
 

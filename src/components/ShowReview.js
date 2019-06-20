@@ -13,8 +13,10 @@ const ShowReview = ({ review }) => {
         user,
         createdAt,
         score,
+        babeer,
     } = review;
-    console.log(review);
+    const time = new Date(createdAt).toDateString();
+    console.log(time);
     const tags = [
         { category: appearance, label: 'Appearance' },
         { category: aroma, label: 'Aroma' },
@@ -24,31 +26,75 @@ const ShowReview = ({ review }) => {
     ];
     return (
         <Container>
-            <Paper style={{ width: '100%' }}>
+            <Paper style={{ width: '100%', padding: '0 1% 0 1%' }}>
                 <Grid container>
-                    <Grid item xs={12} sm={12} md={12} lg={12}>
-                        <Typography>
+                    <Grid
+                        item
+                        xs={12}
+                        sm={12}
+                        md={12}
+                        lg={12}
+                        style={{ alignContent: 'justified' }}
+                    >
+                        <Typography component="span">
                             {user ? (user.name ? user.name : user.email) : null}{' '}
-                            on {createdAt}: Total Score: {score}
+                            on {time}
+                        </Typography>
+                        <Typography align="right">
+                            <Rating
+                                initialRating={score}
+                                emptySymbol={
+                                    <StarBorder
+                                        fontSize="large"
+                                        style={{
+                                            color: 'gold',
+                                        }}
+                                    />
+                                }
+                                fullSymbol={
+                                    <Star
+                                        fontSize="large"
+                                        style={{
+                                            color: 'gold',
+                                        }}
+                                    />
+                                }
+                                readonly={true}
+                            />
+                            ({score})
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                        <Typography variant="h5" align="center">
+                            {babeer ? babeer.name : null}
+                        </Typography>
+                        <Typography variant="subtitle1" align="center">
+                            {babeer ? babeer.brewery : null}
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sm={12} md={6} lg={6}>
                         {tags.map(tag => (
-                            <Typography key={tag.label}>
+                            <Typography
+                                key={tag.label}
+                                variant="subtitle2"
+                                align="center"
+                            >
                                 {tag.label}:
                                 <Rating
                                     initialRating={tag.category}
                                     emptySymbol={
                                         <StarBorder
+                                            fontSize="small"
                                             style={{
-                                                color: 'gold',
+                                                color: 'red',
                                             }}
                                         />
                                     }
                                     fullSymbol={
                                         <Star
+                                            fontSize="small"
                                             style={{
-                                                color: 'gold',
+                                                color: 'red',
                                             }}
                                         />
                                     }
