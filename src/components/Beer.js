@@ -155,13 +155,15 @@ const Beer = ({ match, beer, user, userReviews, fetchBeer }) => {
                         </Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                        {beerPage.UserRatings
-                            ? beerPage.UserRatings.length > 0
-                                ? beerPage.UserRatings.map(review => (
-                                      <ShowReview review={review} />
-                                  ))
-                                : 'No Reviews Yet!  Add Your Review Now!'
-                            : 'No Reviews Yet!  Add Your Review Now!'}
+                        <div style={{ width: '100%', contentAlign: 'center' }}>
+                            {beerPage.UserRatings
+                                ? beerPage.UserRatings.length > 0
+                                    ? beerPage.UserRatings.map(review => (
+                                          <ShowReview review={review} />
+                                      ))
+                                    : 'No Reviews Yet!  Add Your Review Now!'
+                                : 'No Reviews Yet!  Add Your Review Now!'}
+                        </div>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
             </Paper>
