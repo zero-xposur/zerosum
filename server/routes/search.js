@@ -76,7 +76,6 @@ router.post('/menu', (req, res, next) => {
                                     .join('')
                             )
                         )
-                        .flat()
                         .join(' ')
                         .split('&&&&')
                 )

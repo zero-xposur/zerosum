@@ -13,6 +13,7 @@ import {
     RatedBeers,
     Social,
     TasteBuddies,
+    Feed,
 } from './index.js';
 import { login, getUserBeerRatings } from '../reducers';
 import { connect } from 'react-redux';
@@ -28,6 +29,14 @@ class App extends Component {
             .then(() => this.props.getUserRatings(this.props.user.id));
     }
 
+    // componentDidUpdate(prevProps) {
+    //     if(JSON.stringify(prevProps.user) !== JSON.stringify(this.props.user)){
+    //         this.props
+    //         .searchUsers()
+    //         .then(() => this.props.getUserRatings(this.props.user.id));
+    //     }
+    // }
+
     render() {
         return (
             <Router>
@@ -35,12 +44,12 @@ class App extends Component {
                 <Switch>
                     <Route exact path="/home" component={Home} />
                     <Route exact path="/ratedBeers" component={RatedBeers} />
-                    <Route exact path="/search" component={Search} />
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/beer/:beerId" component={Beer} />
                     <Route exact path="/menu" component={MenuCapture} />
-                    <Route exact path="/discover" component={Discover} />
+                    <Route exact path="/discover" component={Search} />
                     <Route exact path="/social" component={Social} />
+                    <Route exact path="/search" component={Search} />
                     <Route
                         exact
                         path="/tasteBuddies"

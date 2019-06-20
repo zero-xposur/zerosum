@@ -30,13 +30,17 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const Beer = ({ match, beer, user, userReviews, fetchBeer }) => {
+    let beerPage = beer;
+    let yourReview = userReviews.find(review => review.babeerId === beer.id);
+
     useEffect(() => {
         fetchBeer(match.params.beerId);
         console.log(beer);
+        return () => {
+            beerPage = {};
+            yourReview = {};
+        };
     }, [match.params.beerId]);
-
-    let beerPage = beer;
-    const yourReview = userReviews.find(review => review.babeerId === beer.id);
 
     console.log(user);
     return (
@@ -138,6 +142,28 @@ const Beer = ({ match, beer, user, userReviews, fetchBeer }) => {
                         ) : (
                             <Review userId={user.id} beerId={beerPage.id} />
                         )}
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
+                <ExpansionPanel styles={{ width: '100%' }}>
+                    <ExpansionPanelSummary expandIcon={<ExpandMore />}>
+                        <Typography>
+                            All Reviews (
+                            {beerPage.UserRatings
+                                ? beerPage.UserRatings.length
+                                : 0}
+                            )
+                        </Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <div style={{ width: '100%', contentAlign: 'center' }}>
+                            {beerPage.UserRatings
+                                ? beerPage.UserRatings.length > 0
+                                    ? beerPage.UserRatings.map(review => (
+                                          <ShowReview review={review} />
+                                      ))
+                                    : 'No Reviews Yet!  Add Your Review Now!'
+                                : 'No Reviews Yet!  Add Your Review Now!'}
+                        </div>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
             </Paper>

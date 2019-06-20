@@ -46,28 +46,40 @@ function LoginWithFacebook({ fbLogin }) {
     };
     const classes = useStyles();
     return (
-        <Typography  color="textSecondary" align="center">
-            <Link color="inherit" variant="h5" href="/api/auth/facebook" onClick={onLogin}>
-                    Login with Facebook
+        <Typography color="textSecondary" align="center">
+            <Link
+                color="inherit"
+                variant="h5"
+                href="/api/auth/facebook"
+                onClick={onLogin}
+            >
+                Login with Facebook
             </Link>
         </Typography>
     );
 }
 
-function Login({ loginUser, createUser, history, location, fbLogin, doLogout}) {
+function Login({
+    loginUser,
+    createUser,
+    history,
+    location,
+    fbLogin,
+    doLogout,
+}) {
     const classes = useStyles();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
-    useEffect(()=>{
+    useEffect(() => {
         // console.log('history changed', location.pathname)
-        if(location.pathname==='/logout'){
-            console.log('calling the logout thunk from Login')
+        if (location.pathname === '/logout') {
+            console.log('calling the logout thunk from Login');
             doLogout(history);
-        } 
-    },[location.pathname])
+        }
+    }, [location.pathname]);
 
     const handleEmailChange = ({ target: { value } }) => {
         setEmail(value);
@@ -93,76 +105,80 @@ function Login({ loginUser, createUser, history, location, fbLogin, doLogout}) {
             .catch(ex => setErrorMessage(ex.response.data));
     };
 
-    return (<div>
-    {location.pathname==='/login'? 
-        (<Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
-                </Avatar>
-                <Box mt={5}>
-                    <LoginWithFacebook fbLogin={fbLogin} />
-                    <Typography align="center">OR</Typography>
-                </Box>
-                <Typography component="h1" variant="h5">
-                    Sign In/Create Account
-                </Typography>
-                <form className={classes.form} noValidate>
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
-                        autoFocus
-                        value={email}
-                        onChange={handleEmailChange}
-                    />
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                        value={password}
-                        onChange={handlePasswordChange}
-                    />
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
-                    />
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                        onClick={handleOnSubmit}
-                    >
-                        Submit
-                    </Button>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                        onClick={handleOnSignUp}
-                    >
-                        Sign Up
-                    </Button>
-                </form>
-            </div>
-        </Container>
-        ) : (null)}
+    return (
+        <div>
+            {location.pathname === '/login' ? (
+                <Container component="main" maxWidth="xs">
+                    <CssBaseline />
+                    <div className={classes.paper}>
+                        <Avatar className={classes.avatar} src="icon.png" />
+                        <Box mt={5}>
+                            <LoginWithFacebook fbLogin={fbLogin} />
+                            <Typography align="center">OR</Typography>
+                        </Box>
+                        <Typography component="h1" variant="h5">
+                            Sign In/Create Account
+                        </Typography>
+                        <form className={classes.form} noValidate>
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="email"
+                                label="Email Address"
+                                name="email"
+                                autoComplete="email"
+                                autoFocus
+                                value={email}
+                                onChange={handleEmailChange}
+                            />
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                                value={password}
+                                onChange={handlePasswordChange}
+                            />
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        value="remember"
+                                        color="primary"
+                                    />
+                                }
+                                label="Remember me"
+                            />
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                                onClick={handleOnSubmit}
+                            >
+                                Submit
+                            </Button>
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                                onClick={handleOnSignUp}
+                            >
+                                Sign Up
+                            </Button>
+                        </form>
+                    </div>
+                </Container>
+            ) : null}
         </div>
     );
 }
@@ -172,7 +188,7 @@ const mapDispatchToProps = dispatch => {
         fbLogin: () => dispatch(login()),
         loginUser: (email, password) => dispatch(localLogin(email, password)),
         createUser: (email, password) => dispatch(localCreate(email, password)),
-        doLogout: (history) => dispatch(logout(history)),
+        doLogout: history => dispatch(logout(history)),
     };
 };
 

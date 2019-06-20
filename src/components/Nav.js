@@ -16,19 +16,11 @@ const userLinks = [
         to: '/tasteBuddies',
     },
     {
-        label: 'search',
-        to: '/search',
-    },
-    // {
-    //     label: 'Menu Capture',
-    //     to: '/menu',
-    // },
-    {
         label: 'Discover',
         to: '/discover',
     },
     {
-        label: 'Beer Buddies',
+        label: 'Beer Friends',
         to: '/social',
     },
     {
@@ -46,14 +38,6 @@ const guestLinks = [
         to: '/login',
     },
     {
-        label: 'search',
-        to: '/search',
-    },
-    // {
-    //     label: 'Menu Capture',
-    //     to: '/menu',
-    // },
-    {
         label: 'Discover',
         to: '/discover',
     },
@@ -65,6 +49,7 @@ const Nav = props => {
 
         if (props.user.name) {
             userLinks[0].label = `Hello, ${props.user.name}`;
+           // userLinks[0].to = '/socialmenu'
         } else {
             userLinks[0].label = 'Home';
         }
@@ -72,6 +57,7 @@ const Nav = props => {
 
     console.log('props user', props.user);
     if (props.user.name) {
+        console.log(props.user, 'props.user');
         links = userLinks;
         links[0].label = `Hello, ${props.user.name}    
             Followers (${
