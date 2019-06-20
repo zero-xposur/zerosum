@@ -268,6 +268,7 @@ UserRating.rate = (userId, babeerId, ratings, userReview) => {
                                         mouthfeel,
                                         taste,
                                         overall,
+                                        review: userReview ? userReview : null,
                                     })
                                 )
                         );
@@ -308,7 +309,7 @@ UserRating.rate = (userId, babeerId, ratings, userReview) => {
                                     mouthfeel,
                                     taste,
                                     overall,
-                                    review: (userReview ? userReview : null),
+                                    review: userReview ? userReview : null,
                                 })
                             );
                     }
