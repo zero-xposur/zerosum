@@ -22,14 +22,17 @@ try {
         });
     } else {
         require('dotenv').config();
-        console.log(process.env);
+        console.log(
+            'PATHHHHH',
+            path.join(__dirname, 'gcloud-credentials.json')
+        );
         fs.writeFileSync(
             path.join(__dirname, 'gcloud-credentials.json'),
             process.env.SERVICE_ACCOUNT_JSON
         );
         client = new vision.ImageAnnotatorClient({
             projectId: 'beer-app-242313',
-            keyFilename: './gcloud-credentials.json',
+            keyFilename: 'gcloud-credentials.json',
         });
     }
 } catch (ex) {
