@@ -30,19 +30,17 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const Beer = ({ match, beer, user, userReviews, fetchBeer }) => {
-
     let beerPage = beer;
-    const yourReview = userReviews.find(review => review.babeerId === beer.id);
+    let yourReview = userReviews.find(review => review.babeerId === beer.id);
 
     useEffect(() => {
         fetchBeer(match.params.beerId);
         console.log(beer);
-        return () => { 
+        return () => {
             beerPage = {};
             yourReview = {};
         };
     }, [match.params.beerId]);
-
 
     console.log(user);
     return (
@@ -146,16 +144,24 @@ const Beer = ({ match, beer, user, userReviews, fetchBeer }) => {
                         )}
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
-                                <ExpansionPanel styles={{ width: '100%' }}>
+                <ExpansionPanel styles={{ width: '100%' }}>
                     <ExpansionPanelSummary expandIcon={<ExpandMore />}>
                         <Typography>
-                            All Reviews ({beerPage.UserRatings ? beerPage.UserRatings.length : 0})
+                            All Reviews (
+                            {beerPage.UserRatings
+                                ? beerPage.UserRatings.length
+                                : 0}
+                            )
                         </Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                        {beerPage.UserRatings ? beerPage.UserRatings.length > 0 ? beerPage.UserRatings.map(review => (
-                            <ShowReview review={review} />
-                        )) : 'No Reviews Yet!  Add Your Review Now!' : 'No Reviews Yet!  Add Your Review Now!'}
+                        {beerPage.UserRatings
+                            ? beerPage.UserRatings.length > 0
+                                ? beerPage.UserRatings.map(review => (
+                                      <ShowReview review={review} />
+                                  ))
+                                : 'No Reviews Yet!  Add Your Review Now!'
+                            : 'No Reviews Yet!  Add Your Review Now!'}
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
             </Paper>
