@@ -114,7 +114,8 @@ router.post('/menu', (req, res, next) => {
         .then(beers => {
             const returnBeers = beers.map(beer => beer[0]);
             res.send(returnBeers);
-        });
+        })
+        .catch(er => console.log(er));
 });
 
 module.exports = router;
