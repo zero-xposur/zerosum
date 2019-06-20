@@ -109,7 +109,16 @@ export const localLogin = (email, password) => {
                 axios
                     .get(`/api/follows/followees/${id}`)
                     .then((response)=>response.data)
-                    .then((followees)=>dispatch(setFollowees(followees)));
+                    .then((followees)=>{dispatch(setFollowees(followees)); return followees;})
+                    .then((users)=>{
+                        return Promise.all(users.map(user=>{
+                            return axios.get(`/api/ratings/${user.id}`)
+                                        .then((res)=>res.data)
+                        }))
+                    })
+                    .then((ratings)=>{
+                        dispatch(setFeed(ratings));
+                    })
             })  
     };
 };
@@ -134,7 +143,16 @@ export const localCreate = (email, password) => {
                 axios
                     .get(`/api/follows/followees/${id}`)
                     .then((response)=>response.data)
-                    .then((followees)=>dispatch(setFollowees(followees)));
+                    .then((followees)=>{dispatch(setFollowees(followees)); return followees;})
+                    .then((users)=>{
+                        return Promise.all(users.map(user=>{
+                            return axios.get(`/api/ratings/${user.id}`)
+                                        .then((res)=>res.data)
+                        }))
+                    })
+                    .then((ratings)=>{
+                        dispatch(setFeed(ratings));
+                    })
             })  
     };
 };
@@ -152,17 +170,19 @@ export const findAllFollowers = (id) => {
 export const getFeed = (id) => {
     console.log('in getFeed thunk')
     return dispatch => {
-        return axios.get(`/api/follows/followees/${id}`)
-            .then((res)=>res.data)
-            .then((users)=>{
-                return Promise.all(users.map(user=>{
-                    return axios.get(`/api/ratings/${user.id}`)
-                                // .then((res)=>res.data)
-                }))
-            })
-            .then((ratings)=>{
-                dispatch(setFeed(ratings));
-            })
+        return axios
+                .get(`/api/follows/followees/${id}`)
+                .then((response)=>response.data)
+                .then((followees)=>{dispatch(setFollowees(followees)); return followees;})
+                .then((users)=>{
+                    return Promise.all(users.map(user=>{
+                        return axios.get(`/api/ratings/${user.id}`)
+                                    .then((res)=>res.data)
+                    }))
+                })
+                .then((ratings)=>{
+                    dispatch(setFeed(ratings));
+                })
     }
 }
 
@@ -171,7 +191,16 @@ export const findAllFollowees = (id) => {
         return axios
             .get(`/api/follows/followees/${id}`)
             .then((response)=>response.data)
-            .then((followees)=>dispatch(setFollowees(followees)));
+                .then((followees)=>{dispatch(setFollowees(followees)); return followees;})
+                .then((users)=>{
+                    return Promise.all(users.map(user=>{
+                        return axios.get(`/api/ratings/${user.id}`)
+                                    .then((res)=>res.data)
+                    }))
+                })
+                .then((ratings)=>{
+                    dispatch(setFeed(ratings));
+                })
     }
 }
 
@@ -190,7 +219,16 @@ export const follow = (userId, id) => {
             .post(`/api/follows/${userId}/${id}`)
             .then(()=>axios.get(`/api/follows/followees/${id}`))
             .then((response)=>response.data)
-            .then((followees)=>dispatch(setFollowees(followees)));
+                .then((followees)=>{dispatch(setFollowees(followees)); return followees;})
+                .then((users)=>{
+                    return Promise.all(users.map(user=>{
+                        return axios.get(`/api/ratings/${user.id}`)
+                                    .then((res)=>res.data)
+                    }))
+                })
+                .then((ratings)=>{
+                    dispatch(setFeed(ratings));
+                })
     }
 }
 
@@ -200,6 +238,15 @@ export const unfollow = (userId, id) => {
             .delete(`/api/follows/${userId}/${id}`)
             .then(()=>axios.get(`/api/follows/followees/${id}`))
             .then((response)=>response.data)
-            .then((followees)=>dispatch(setFollowees(followees)));
+            .then((followees)=>dispatch(setFollowees(followees)))
+            .then((users)=>{
+                return Promise.all(users.map(user=>{
+                    return axios.get(`/api/ratings/${user.id}`)
+                                .then((res)=>res.data)
+                }))
+            })
+            .then((ratings)=>{
+                dispatch(setFeed(ratings));
+            });
     }
 }
