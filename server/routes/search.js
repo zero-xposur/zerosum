@@ -2,11 +2,34 @@ const router = require('express').Router();
 const Babeers = require('../../db/models/babeers');
 const vision = require('@google-cloud/vision');
 
-const client = new vision.ImageAnnotatorClient({
-    projectId: 'beer-app-242313',
-    keyFilename: './gcred.json',
-});
+// const client = new vision.ImageAnnotatorClient({
+//     projectId: 'beer-app-242313',
+//     credentials: process.env,
+//     // keyFilename: './gcred.json',
+// });
 
+let client = {};
+try {
+    if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+        // client = new vision.ImageAnnotatorClient({
+        //     projectId: 'beer-app-242313',
+        //     credentials: require('../../.env').GOOGLE_APPLICATION_CREDENTIALS,
+        // });
+        console.log('local search');
+        client = new vision.ImageAnnotatorClient({
+            projectId: 'beer-app-242313',
+            // credentials: process.env,
+            keyFilename: './gcred.json',
+        });
+    } else {
+        client = new vision.ImageAnnotatorClient({
+            projectId: 'beer-app-242313',
+            credentials: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+        });
+    }
+} catch (ex) {
+    console.log(ex);
+}
 // GET :/api/search/:search
 router.get('/:search/:userId', (req, res, next) => {
     return Babeers.search(req.params.search, req.params.userId).then(beers =>
