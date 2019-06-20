@@ -16,31 +16,35 @@ import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
-  root: {
-    width: '100%',
-    maxWidth: 1000,
-    textAlign: "center",
-    backgroundImage: `url(${"https://cdn.pixabay.com/photo/2014/01/28/15/08/beer-253791_640.jpg"})`
-  }
+    root: {
+        width: '100%',
+        maxWidth: 1000,
+        textAlign: 'center',
+        backgroundImage: `url(${'https://cdn.pixabay.com/photo/2014/01/28/15/08/beer-253791_640.jpg'})`,
+    },
 });
 
-function Home(props){
+function Home(props) {
     const classes = useStyles();
     const user = props.user;
-    return(
+    return (
         <Container className={classes.root}>
-                
-                <Grid container justify = "center" >
-                    <Grid item >
+            <Grid container justify="center">
+                <Grid item>
                     <Typography variant="h1" component="h1" gutterBottom>
-                        <Link  href='/#/search'>Discover Beers and Breweries 
-                              with Beer Friends
-                        </Link></Typography>
-                    {!user.id&&(<Link href='/#/login' ><Button>Login to rate a beer</Button></Link>)}
-                    </Grid>
+                        <Link href="/#/discover">
+                            Discover Beers and Breweries with Beer Friends
+                        </Link>
+                    </Typography>
+                    {!user.id && (
+                        <Link href="/#/login">
+                            <Button>Login to rate a beer</Button>
+                        </Link>
+                    )}
                 </Grid>
+            </Grid>
         </Container>
-    )
+    );
 }
 
 const mapStateToProps = state => {

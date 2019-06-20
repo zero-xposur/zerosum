@@ -4,10 +4,6 @@ import { Tabs, Tab } from '@material-ui/core';
 import { connect } from 'react-redux';
 const userLinks = [
     {
-        label: 'Home',
-        to: '/home',
-    },
-    {
         label: 'Rated Beers',
         to: '/ratedBeers',
     },
@@ -49,17 +45,17 @@ const Nav = props => {
 
         if (props.user.name) {
             userLinks[0].label = `Hello, ${props.user.name}`;
-           // userLinks[0].to = '/socialmenu'
+            userLinks[0].to = '/ratedBeers';
         } else {
             userLinks[0].label = 'Home';
         }
     }, [props]);
 
     console.log('props user', props.user);
-    if (props.user.name) {
+    if (props.user.email || props.user.name) {
         console.log(props.user, 'props.user');
         links = userLinks;
-        links[0].label = `Hello, ${props.user.name}    
+        links[0].label = `Hello, ${props.user.name || props.user.email}    
             Followers (${
                 props.user.followers ? props.user.followers.length : 0
             }) Following (${

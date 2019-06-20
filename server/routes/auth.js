@@ -1,4 +1,4 @@
-const { Op } = require('sequelize')
+const { Op } = require('sequelize');
 
 let _callbackURL = '';
 try {
@@ -77,7 +77,7 @@ router.get('/facebook/callback', function(request, response, next) {
                 'in fb login-what is the req.session',
                 request.session.user
             );
-            response.redirect('/#/search');
+            response.redirect('/#/discover');
         });
     })(request, response, next);
 });
@@ -106,23 +106,29 @@ router.get('/profile', function(req, res, next) {
 });
 
 router.get('/search/:query', (req, res, next) => {
-    console.log('test0')
-    if(req.session.user.id || req.session.userId){
-        console.log('test1')
+    console.log('test0');
+    if (req.session.user.id || req.session.userId) {
+        console.log('test1');
 
-        return User.findAll({ where: {[Op.or]: [{ name: { [Op.iLike]: `%${req.params.query}%` }}, 
-                                               { email: { [Op.iLike]: `%${req.params.query}%` }}]}})
-                .then((users)=>{
-                    if(users.length>0){
-                        console.log('users from express route',users)
-                        return res.json(users)
-                    }
-                    else{
-                        return res.json('No user found with this name. Send them a link to beer friends!')
-                    }
-                })
+        return User.findAll({
+            where: {
+                [Op.or]: [
+                    { name: { [Op.iLike]: `%${req.params.query}%` } },
+                    { email: { [Op.iLike]: `%${req.params.query}%` } },
+                ],
+            },
+        }).then(users => {
+            if (users.length > 0) {
+                console.log('users from express route', users);
+                return res.json(users);
+            } else {
+                return res.json(
+                    'No user found with this name. Send them a link to beer friends!'
+                );
+            }
+        });
     }
-})
+});
 
 router.post('/login', (req, res, next) => {
     console.log(req.body);

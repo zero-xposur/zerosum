@@ -144,7 +144,7 @@ const Beer = ({ match, beer, user, userReviews, fetchBeer }) => {
                         )}
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
-                <ExpansionPanel styles={{ width: '100%' }}>
+                <ExpansionPanel styles={{ width: '100%', padding: 0 }}>
                     <ExpansionPanelSummary expandIcon={<ExpandMore />}>
                         <Typography>
                             All Reviews (
