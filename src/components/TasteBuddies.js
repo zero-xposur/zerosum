@@ -39,6 +39,7 @@ const RatedBeers = props => {
                             <Grid item xs={6} sm={6} md={6} alignItems="center">
                                 <Typography
                                     variant="h3"
+                                    align="center"
                                     style={{
                                         paddingLeft: '1vw',
                                         paddingTop: '1vh',
