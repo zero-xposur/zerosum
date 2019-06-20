@@ -44,12 +44,12 @@ class App extends Component {
                 <Switch>
                     <Route exact path="/home" component={Home} />
                     <Route exact path="/ratedBeers" component={RatedBeers} />
-                    <Route exact path="/search" component={Search} />
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/beer/:beerId" component={Beer} />
                     <Route exact path="/menu" component={MenuCapture} />
-                    <Route exact path="/discover" component={Discover} />
+                    <Route exact path="/discover" component={Search} />
                     <Route exact path="/social" component={Social} />
+                    <Route exact path="/search" component={Search} />
                     <Route
                         exact
                         path="/tasteBuddies"
