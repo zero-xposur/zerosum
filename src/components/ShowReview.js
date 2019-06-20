@@ -43,7 +43,6 @@ const ShowReview = props => {
     }
     return (
         <Container>
-
             <Paper style={{ width: '100%', padding: '0 1% 0 1%' }}>
                 <Grid container spacing={1} padding={2}>
                     <Grid
@@ -55,32 +54,8 @@ const ShowReview = props => {
                         style={{ alignContent: 'justified' }}
                     >
                         <Typography component="span">
-
                             {user ? (user.name ? user.name : user.email) : null}{' '}
                             on {time}
-                        </Typography>
-                        <Typography align="right">
-                            <Rating
-                                initialRating={score}
-                                emptySymbol={
-                                    <StarBorder
-                                        fontSize="large"
-                                        style={{
-                                            color: 'gold',
-                                        }}
-                                    />
-                                }
-                                fullSymbol={
-                                    <Star
-                                        fontSize="large"
-                                        style={{
-                                            color: 'gold',
-                                        }}
-                                    />
-                                }
-                                readonly={true}
-                            />
-                            ({score})
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sm={12} md={12} lg={12}>
@@ -96,12 +71,10 @@ const ShowReview = props => {
                         {tags.map(tag => (
                             <Typography
                                 key={tag.label}
-
                                 variant="subtitle2"
-                               // align="center"
+                                // align="center"
 
                                 style={{ align: 'justify' }}
-
                             >
                                 {tag.label}:
                                 <Rating
