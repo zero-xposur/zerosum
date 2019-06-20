@@ -4,60 +4,44 @@ import { Star, StarBorder } from '@material-ui/icons';
 import Rating from 'react-rating';
 import { connect } from 'react-redux';
 import { getBeerListRating } from '../reducers/index';
-import axios from 'axios';
 
 // const SingleRating = props => {
-class SingleRating extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            beer: {},
-            userId: {},
-            rating: 0,
-        };
-        // this.onLogin = this.onLogin.bind(this);
-    }
-    componentDidMount() {
-        this.setState({
-            beer: this.props.beer,
-            userId: this.props.user.id,
-        });
-    }
-    // onLogin() {
-    //     this.props.login().catch(error => console.log(error));
-    // }
-    render() {
-        return (
-            <Fragment>
-                <Typography>
-                    <Rating
-                        initialRating={parseFloat(this.state.rating)}
-                        emptySymbol={
-                            <StarBorder
-                                style={{
-                                    color: 'gold',
-                                }}
-                            />
-                        }
-                        fullSymbol={
-                            <Star
-                                style={{
-                                    color: 'gold',
-                                }}
-                            />
-                        }
-                        readonly={true}
-                    />
-                </Typography>
-                <Typography>Your Rating{this.state.rating}</Typography>
-            </Fragment>
-        );
-    }
-}
+
+const SingleRating = props => {
+    const { userBeerRatings, beer } = props;
+    const rating = userBeerRatings.find(beerRating => {
+        return beerRating.babeerId === beer.id;
+    });
+    return (
+        <Fragment>
+            <Typography>
+                <Rating
+                    initialRating={parseFloat(rating ? rating.score : 0)}
+                    emptySymbol={
+                        <StarBorder
+                            style={{
+                                color: 'red',
+                            }}
+                        />
+                    }
+                    fullSymbol={
+                        <Star
+                            style={{
+                                color: 'red',
+                            }}
+                        />
+                    }
+                    readonly={true}
+                />
+            </Typography>
+            <Typography>Your Rating {rating ? rating.score : ''}</Typography>
+        </Fragment>
+    );
+};
 
 const mapStateToProps = state => {
     return {
-        user: state.user,
+        // user: state.user,
         beerRating: state.beerListRating,
     };
 };
