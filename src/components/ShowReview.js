@@ -5,6 +5,7 @@ import { Star, StarBorder } from '@material-ui/icons';
 import Rating from 'react-rating';
 import { getTasteBuddies } from '../reducers';
 import Circle from 'react-circle';
+import { Link } from 'react-router-dom';
 
 // eslint-disable-next-line complexity
 const ShowReview = props => {
@@ -61,15 +62,68 @@ const ShowReview = props => {
                         </Typography>
                     </Grid>
                     <Grid item xs={12} sm={12} md={12} lg={12}>
-                        <Typography variant="h5" align="center">
+                        <Typography
+                            variant="h5"
+                            align="center"
+                            // this will break the single beer page... idk why
+                            // component={Link}
+                            // to={`/beer/${babeer.id}`}
+                        >
                             {babeer ? babeer.name : null}
                         </Typography>
                         <Typography variant="subtitle1" align="center">
                             {babeer ? babeer.brewery : null}
                         </Typography>
                     </Grid>
-
+                    {/* <Grid>
+                        <Typography align="right">
+                            <Rating
+                                initialRating={score}
+                                emptySymbol={
+                                    <StarBorder
+                                        fontSize="large"
+                                        style={{
+                                            color: 'gold',
+                                        }}
+                                    />
+                                }
+                                fullSymbol={
+                                    <Star
+                                        fontSize="large"
+                                        style={{
+                                            color: 'gold',
+                                        }}
+                                    />
+                                }
+                                readonly={true}
+                            />
+                            ({score})
+                        </Typography>
+                    </Grid> */}
                     <Grid item xs={7} sm={7} md={4} lg={4} xl={4}>
+                        <Typography align="center">
+                            <Rating
+                                initialRating={score}
+                                emptySymbol={
+                                    <StarBorder
+                                        fontSize="large"
+                                        style={{
+                                            color: 'gold',
+                                        }}
+                                    />
+                                }
+                                fullSymbol={
+                                    <Star
+                                        fontSize="large"
+                                        style={{
+                                            color: 'gold',
+                                        }}
+                                    />
+                                }
+                                readonly={true}
+                            />
+                            {/* ({score}) */}
+                        </Typography>
                         {tags.map(tag => (
                             <Typography
                                 key={tag.label}
