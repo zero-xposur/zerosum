@@ -10,11 +10,6 @@ const path = require('path');
 //     // keyFilename: './gcred.json',
 // });
 
-fs.writeFileSync(
-    path.join(__dirname, 'gcloud-credentials.json'),
-    process.env.SERVICE_ACCOUNT_JSON
-);
-
 let client = {};
 try {
     if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
@@ -26,19 +21,21 @@ try {
             keyFilename: './gcred.json',
         });
     } else {
+        require('dotenv').config();
+        console.log(process.env);
         fs.writeFileSync(
             path.join(__dirname, 'gcloud-credentials.json'),
             process.env.SERVICE_ACCOUNT_JSON
         );
         client = new vision.ImageAnnotatorClient({
-            // projectId: 'beer-app-242313',
-            // credentials: process.env.GOOGLE_APPLICATION_CREDENTIALS,
-            // keyFilename: 'gcloud-credentials.json',
+            projectId: 'beer-app-242313',
+            keyFilename: './gcloud-credentials.json',
         });
     }
 } catch (ex) {
     console.log(ex);
 }
+
 // GET :/api/search/:search
 router.get('/:search/:userId', (req, res, next) => {
     return Babeers.search(req.params.search, req.params.userId).then(beers =>
