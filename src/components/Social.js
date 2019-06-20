@@ -105,7 +105,7 @@ function Social(props){
                 </Grid>
             </Grid>
             <Follows />
-            {/* <Feed /> */}
+            <Feed />
             </Fragment>
         );
 }
