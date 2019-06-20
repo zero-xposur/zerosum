@@ -16,14 +16,6 @@ const userLinks = [
         to: '/tasteBuddies',
     },
     {
-        label: 'search',
-        to: '/search',
-    },
-    // {
-    //     label: 'Menu Capture',
-    //     to: '/menu',
-    // },
-    {
         label: 'Discover',
         to: '/discover',
     },
@@ -45,14 +37,6 @@ const guestLinks = [
         label: 'Login',
         to: '/login',
     },
-    {
-        label: 'search',
-        to: '/search',
-    },
-    // {
-    //     label: 'Menu Capture',
-    //     to: '/menu',
-    // },
     {
         label: 'Discover',
         to: '/discover',
