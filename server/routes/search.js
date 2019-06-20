@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const Babeers = require('../../db/models/babeers');
 const vision = require('@google-cloud/vision');
+const fs = require('fs');
+const path = require('path');
 
 // const client = new vision.ImageAnnotatorClient({
 //     projectId: 'beer-app-242313',
@@ -8,23 +10,30 @@ const vision = require('@google-cloud/vision');
 //     // keyFilename: './gcred.json',
 // });
 
+fs.writeFileSync(
+    path.join(__dirname, 'gcloud-credentials.json'),
+    process.env.SERVICE_ACCOUNT_JSON
+);
+
 let client = {};
 try {
     if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
         console.log('local search');
-        const { GOOGLE_APPLICATION_CREDENTIALS } = require('../../.env');
-
+        // const { GOOGLE_APPLICATION_CREDENTIALS } = require('../../.env');
         client = new vision.ImageAnnotatorClient({
             projectId: 'beer-app-242313',
-            // credentials: process.env,
-            credentials: GOOGLE_APPLICATION_CREDENTIALS,
-            // keyFilename: './gcred.json',
+            // credentials: GOOGLE_APPLICATION_CREDENTIALS,
+            keyFilename: './gcred.json',
         });
     } else {
-        console.log(process.env.GOOGLE_APPLICATION_CREDENTIALS);
+        fs.writeFileSync(
+            path.join(__dirname, 'gcloud-credentials.json'),
+            process.env.SERVICE_ACCOUNT_JSON
+        );
         client = new vision.ImageAnnotatorClient({
-            projectId: 'beer-app-242313',
-            credentials: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+            // projectId: 'beer-app-242313',
+            // credentials: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+            // keyFilename: 'gcloud-credentials.json',
         });
     }
 } catch (ex) {
