@@ -44,7 +44,7 @@ const Beer = ({ match, beer, user, userReviews, fetchBeer }) => {
 
     console.log(user);
     return (
-        <Container>
+        <Container style={{marginBottom: '60px'}}>
             <Paper>
                 <Grid container>
                     <Grid

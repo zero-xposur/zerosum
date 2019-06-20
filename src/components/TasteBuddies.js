@@ -29,7 +29,7 @@ const RatedBeers = props => {
     let tasteBuddies = props.tasteBuddies || [];
 
     return (
-        <Container>
+        <Container style={{marginBottom: '50px'}}>
             <AppBar position="sticky" style={{ margin: '0 0 0 5' }}>
                <Toolbar>
                     <Typography align="center" style={{margin: 'auto'}} variant="h2">

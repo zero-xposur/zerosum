@@ -36,7 +36,7 @@ class MenuCapture extends Component {
         return (
             <Fragment>
                 <CssBaseline />
-                <Container>
+                <Container style={{height: '100%', marginBottom: '50px'}}>
                     <Webcam
                         videoConstraints={videoConstraints}
                         audio={false}

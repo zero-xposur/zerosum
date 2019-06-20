@@ -37,7 +37,7 @@ function Home(props) {
                     </Typography>
                     {!user.id && (
                         <Link href="/#/login">
-                            <Button style={{marginBottom: '20vh'}}>Login to rate a beer</Button>
+                            <Button variant='outlined' style={{marginBottom: '20vh'}}>Login to rate a beer</Button>
                         </Link>
                     )}
                 </Grid>
