@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Tabs, Tab } from '@material-ui/core';
+import { Tabs, Tab, BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import { connect } from 'react-redux';
 const userLinks = [
     {
-        label: 'Rated Beers',
+        label: 'Profile',
         to: '/ratedBeers',
     },
     {
@@ -18,10 +18,6 @@ const userLinks = [
     {
         label: 'Beer Friends',
         to: '/social',
-    },
-    {
-        label: 'Logout',
-        to: '/logout',
     },
 ];
 const guestLinks = [
@@ -43,24 +39,24 @@ const Nav = props => {
     useEffect(() => {
         console.log('in nav', props.user);
 
-        if (props.user.name) {
-            userLinks[0].label = `Hello, ${props.user.name}`;
-            userLinks[0].to = '/ratedBeers';
-        } else {
-            userLinks[0].label = 'Home';
-        }
+        // if (props.user.name) {
+        //     userLinks[0].label = `Hello, ${props.user.name}`;
+        //     userLinks[0].to = '/ratedBeers';
+        // } else {
+        //     userLinks[0].label = 'Home';
+        // }
     }, [props]);
 
     console.log('props user', props.user);
     if (props.user.email || props.user.name) {
         console.log(props.user, 'props.user');
         links = userLinks;
-        links[0].label = `Hello, ${props.user.name || props.user.email}    
-            Followers (${
-                props.user.followers ? props.user.followers.length : 0
-            }) Following (${
-            props.user.followees ? props.user.followees.length : 0
-        })`;
+        // links[0].label = `Hello, ${props.user.name || props.user.email}    
+        //     Followers (${
+        //         props.user.followers ? props.user.followers.length : 0
+        //     }) Following (${
+        //     props.user.followees ? props.user.followees.length : 0
+        // })`;
     } else {
         links = guestLinks;
     }
@@ -73,16 +69,29 @@ const Nav = props => {
     }
 
     return (
-        <Tabs
-            value={value}
-            onChange={handleChange}
-            indicatorColor="primary"
-            textColor="primary"
-            centered
-        >
-            {links.map(link => {
+        // <Tabs
+        //     value={value}
+        //     onChange={handleChange}
+        //     indicatorColor="primary"
+        //     textColor="primary"
+        //     centered
+        // >
+            // {links.map(link => {
+            //     return (
+            //         <Tab
+            //             key={link.label}
+            //             component={Link}
+            //             to={link.to}
+            //             label={link.label}
+            //             value={link.to}
+            //         />
+            //     );
+            // })}
+        // </Tabs>
+        <BottomNavigation value={value} onChange={handleChange} color='primary' showLabels style={{zIndex: 1500, width: '100%', position: 'fixed', bottom: 0,}}>
+                    {links.map(link => {
                 return (
-                    <Tab
+                    <BottomNavigationAction
                         key={link.label}
                         component={Link}
                         to={link.to}
@@ -91,7 +100,7 @@ const Nav = props => {
                     />
                 );
             })}
-        </Tabs>
+        </BottomNavigation>
     );
 };
 

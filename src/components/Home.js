@@ -18,6 +18,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles({
     root: {
         width: '100%',
+        height: 'auto',
         maxWidth: 1000,
         textAlign: 'center',
         backgroundImage: `url(${'https://cdn.pixabay.com/photo/2014/01/28/15/08/beer-253791_640.jpg'})`,
@@ -31,14 +32,12 @@ function Home(props) {
         <Container className={classes.root}>
             <Grid container justify="center">
                 <Grid item>
-                    <Typography variant="h1" component="h1" gutterBottom>
-                        <Link href="/#/discover">
-                            Discover Beers and Breweries with Beer Friends
-                        </Link>
+                    <Typography variant="h1" color='primary' gutterBottom>
+                            Discover New Beers with Beer Friends
                     </Typography>
                     {!user.id && (
                         <Link href="/#/login">
-                            <Button>Login to rate a beer</Button>
+                            <Button style={{marginBottom: '20vh'}}>Login to rate a beer</Button>
                         </Link>
                     )}
                 </Grid>
