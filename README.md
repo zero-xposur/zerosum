@@ -1,4 +1,4 @@
-# zerosum
+# Beer Friends
 
 Initilize db(once), or reseed.
 
