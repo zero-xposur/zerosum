@@ -1,25 +1,11 @@
-import React, { useEffect, Fragment, useCallback } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TablePagination,
-    TableRow,
-    TableSortLabel,
-    Typography,
-    Paper,
-    Grid,
-    Container,
-    CssBaseline,
-} from '@material-ui/core';
+import { Typography, Paper, Grid, CssBaseline } from '@material-ui/core';
 
 import { Star, StarBorder } from '@material-ui/icons';
 import Rating from 'react-rating';
-import { getBeerListRating, getUserBeerRatings } from '../reducers/index';
 import SingleRating from './SingleRating';
 
 const BeerList = props => {
@@ -30,52 +16,11 @@ const BeerList = props => {
     );
 
     useEffect(() => {
-        // console.log('beerlist', props);
         setBeers(props.beers);
-        // fetchBeerListRating()
-
-        // if (props.user.user) {
-        //     props.beers.map(beer => {
-        //         props.fetchBeerListRating(props.user.user.id, beer.id);
-        //     });
-        // }
-        // console.log('userprops', props);
-    }, [props.beers]);
-
-    useCallback(() => {
-        props.fetchUserBeerRatings(props.user.id);
-    }, [props.beers]);
-    // useEffect(() => {
-    //     console.log('beerListRating:', props);
-    // }, [props.user.user]);
-    // if (props.user.user) {
-    //     console.log('user:', props.user.user.id);
-    //     props.fetchBeerListRating(
-    //         props.user.user.id,
-    //         beer.id
-    //     );
-    //     console.log('props', props);
-    // }
-    // user stuff for ratings
-    // if (props.user.user) {
-    //     console.log(props.user.user);
-
-    //     // userLinks[0].label = `Hello, ${props.user.user.displayName}`;
-    // } else {
-    //     console.log('no user');
-    //     userId = 0;
-    //     // userLinks[0].label = 'Login';
-    // }
-
-    const labels = [
-        { id: 'name', label: 'Beer' },
-        { id: 'brewery', label: 'Brewery' },
-        { id: 'style', label: 'Style' },
-        { id: 'abv', label: 'ABV(%)' },
-        { id: 'score', label: 'Rating' },
-        { id: 'ratings', label: '# ratings' },
-        { id: 'yourRating', label: 'Your Rating' },
-    ];
+        return () => {
+            setBeers([]);
+        };
+    }, []);
 
     const sortFunc = (a, b) => {
         const first = a ? (a[orderBy] ? a[orderBy].toString() : '0') : '0';
@@ -100,40 +45,13 @@ const BeerList = props => {
         setOrderBy(column);
     };
 
-    // // ratings
-    // const setRating = newRating => {
-    //     console.log(newRating);
-    //     console.log(props);
-    //     // if (props.user) {
-    //     //     console.log('setuser');
-    //     // } else {
-    //     //     console.log('do nothing');
-    //     // }
-    // };
-
     return (
         <Fragment>
-            {/* <CssBaseline /> */}
+            <CssBaseline />
             {props.beers
                 ? props.beers.sort(sortFunc).map(beer => {
-                      //   let rating = undefined;
-                      //   console.log(props.beerListRating);
-                      //   if (Array.isArray(props.beerListRating)) {
-                      //       console.log(
-                      //           'ARRAY'
-                      //           //   props.beerListRating.find(element => element)
-                      //       );
-                      //   }
-
-                      // {
-                      //     props.length
-                      //     //   props.beerListRating.find(
-                      //     //       ele =>
-                      //     //           ele.babeerid === beer.id
-                      //     //   ).score
-                      // }
                       return !beer ? null : (
-                          <Paper key={beer.id}>
+                          <Paper key={beer.id} style={{ marginBottom: '2vh' }}>
                               <Grid
                                   container
                                   style={{
@@ -199,7 +117,6 @@ const BeerList = props => {
                                               }
                                               readonly={true}
                                           />
-                                          {/* {parseFloat(beer.score).toFixed(2)} */}
                                       </Typography>
                                       <Typography>
                                           ({beer.ratings} ratings)
@@ -213,30 +130,6 @@ const BeerList = props => {
                                           }
                                           user={props.user}
                                       />
-                                      {/* <Typography>
-                                          <Rating
-                                              initialRating={parseFloat(
-                                                  beer.score
-                                              )}`
-                                              emptySymbol={
-                                                  <StarBorder
-                                                      style={{
-                                                          color: 'gold',
-                                                      }}
-                                                  />
-                                              }
-                                              fullSymbol={
-                                                  <Star
-                                                      style={{
-                                                          color: 'gold',
-                                                      }}
-                                                  />
-                                              }
-                                              //   onClick={setRating}
-                                              readonly={true}
-                                          />
-                                      </Typography>
-                                      <Typography>Your Rating</Typography> */}
                                   </Grid>
                               </Grid>
                           </Paper>
@@ -254,15 +147,4 @@ const mapStateToProps = state => {
     };
 };
 
-const mapDispatchToProps = dispatch => ({
-    fetchUserBeerRatings: fbId => {
-        return dispatch(getUserBeerRatings(fbId));
-    },
-});
-
-export default withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(BeerList)
-);
+export default withRouter(connect(mapStateToProps)(BeerList));
