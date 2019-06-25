@@ -34,7 +34,7 @@ const SingleRating = props => {
                     readonly={true}
                 />
             </Typography>
-            <Typography>Your Rating {rating ? rating.score : ''}</Typography>
+            <Typography>Your Rating: {rating ? rating.score : ''}</Typography>
         </Fragment>
     );
 };

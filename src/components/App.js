@@ -15,18 +15,20 @@ import {
     TasteBuddies,
     Feed,
 } from './index.js';
-import { login, getUserBeerRatings } from '../reducers';
+import { login, getUserBeerRatings, getTasteBuddies } from '../reducers';
 import { connect } from 'react-redux';
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     componentDidMount() {
         this.props
             .searchUsers()
-            .then(() => this.props.getUserRatings(this.props.user.id));
+            .then(() =>
+                Promise.all([
+                    this.props.getUserRatings(this.props.user.id),
+                    this.props.fetchTasteBuddies(this.props.user.id),
+                ])
+            );
+        // .then(() => this.props.fetchTasteBuddies(this.props.user.id))
     }
 
     // componentDidUpdate(prevProps) {
@@ -82,6 +84,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
     searchUsers: () => dispatch(login()),
     getUserRatings: userId => dispatch(getUserBeerRatings(userId)),
+    fetchTasteBuddies: id => {
+        return dispatch(getTasteBuddies(id));
+    },
 });
 
 export default connect(

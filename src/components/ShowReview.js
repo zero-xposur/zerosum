@@ -24,16 +24,6 @@ const ShowReview = props => {
 
     const time = new Date(createdAt).toDateString();
 
-    // useEffect(() => {
-    //     console.log('fetchTaste');
-    //     props.fetchTasteBuddies(props.user.id);
-    // }, []);
-
-    // does not continuously loop.
-    useCallback(() => {
-        props.fetchTasteBuddies(props.user.id);
-    }, [props.review.user]);
-
     const tags = [
         { category: appearance, label: 'Appearance' },
         { category: aroma, label: 'Aroma' },
@@ -41,32 +31,37 @@ const ShowReview = props => {
         { category: taste, label: 'Taste' },
         { category: overall, label: 'Overall' },
     ];
-    // console.log('review props', props.tastebuddies);
+
     let tasteBuddy = {};
     if (props.tasteBuddies && user) {
-        //     console.log(props.tasteBuddies, user);
         tasteBuddy = props.tasteBuddies.find(
             tasteBud => tasteBud.userId === user.id
         );
     }
     return (
         <Container>
-            <Paper style={{ width: '100%', padding: '0 1% 0 1%' }}>
+            <Paper
+                style={{
+                    width: '100%',
+                    padding: '0 1% 0 1%',
+                    marginBottom: '2vh',
+                }}
+            >
                 <Grid container spacing={1} padding={2}>
+                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                        <Typography component="span">
+                            {user ? (user.name ? user.name : user.email) : null}{' '}
+                            on {time}
+                        </Typography>
+                    </Grid>
                     <Grid
                         item
                         xs={12}
                         sm={12}
                         md={12}
                         lg={12}
-                        style={{ alignContent: 'justified' }}
+                        style={{ textAlign: 'center' }}
                     >
-                        <Typography component="span">
-                            {user ? (user.name ? user.name : user.email) : null}{' '}
-                            on {time}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={12} lg={12}>
                         <Typography
                             variant="h5"
                             align="center"
@@ -79,83 +74,35 @@ const ShowReview = props => {
                         <Typography variant="subtitle1" align="center">
                             {babeer ? babeer.brewery : null}
                         </Typography>
+                        <Rating
+                            initialRating={score}
+                            emptySymbol={
+                                <StarBorder
+                                    fontSize="large"
+                                    style={{
+                                        color: 'gold',
+                                    }}
+                                />
+                            }
+                            fullSymbol={
+                                <Star
+                                    fontSize="large"
+                                    style={{
+                                        color: 'gold',
+                                    }}
+                                />
+                            }
+                            readonly={true}
+                        />
                     </Grid>
-                    {/* <Grid>
-                        <Typography align="right">
-                            <Rating
-                                initialRating={score}
-                                emptySymbol={
-                                    <StarBorder
-                                        fontSize="large"
-                                        style={{
-                                            color: 'gold',
-                                        }}
-                                    />
-                                }
-                                fullSymbol={
-                                    <Star
-                                        fontSize="large"
-                                        style={{
-                                            color: 'gold',
-                                        }}
-                                    />
-                                }
-                                readonly={true}
-                            />
-                            ({score})
-                        </Typography>
-                    </Grid> */}
                     <Grid item xs={7} sm={7} md={4} lg={4} xl={4}>
-                        <Typography align="center">
-                            <Rating
-                                initialRating={score}
-                                emptySymbol={
-                                    <StarBorder
-                                        fontSize="large"
-                                        style={{
-                                            color: 'gold',
-                                        }}
-                                    />
-                                }
-                                fullSymbol={
-                                    <Star
-                                        fontSize="large"
-                                        style={{
-                                            color: 'gold',
-                                        }}
-                                    />
-                                }
-                                readonly={true}
-                            />
-                            {/* ({score}) */}
-                        </Typography>
                         {tags.map(tag => (
                             <Typography
                                 key={tag.label}
                                 variant="subtitle2"
                                 align="center"
                             >
-                                {tag.label}:
-                                <Rating
-                                    initialRating={tag.category}
-                                    emptySymbol={
-                                        <StarBorder
-                                            fontSize="small"
-                                            style={{
-                                                color: 'red',
-                                            }}
-                                        />
-                                    }
-                                    fullSymbol={
-                                        <Star
-                                            fontSize="small"
-                                            style={{
-                                                color: 'red',
-                                            }}
-                                        />
-                                    }
-                                    readonly={true}
-                                />
+                                {tag.label}: {tag.category}
                             </Typography>
                         ))}
                     </Grid>
@@ -193,13 +140,4 @@ const mapStateToProps = state => {
     return { tasteBuddies: state.tasteBuddies, user: state.user };
 };
 
-const mapDispatchToProps = dispatch => ({
-    fetchTasteBuddies: id => {
-        return dispatch(getTasteBuddies(id));
-    },
-});
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ShowReview);
+export default connect(mapStateToProps)(ShowReview);

@@ -38,6 +38,11 @@ const useStyles = makeStyles(theme => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    facebook: {
+        margin: theme.spacing(3, 0, 2),
+        backgroundColor: '#3b5998',
+        color: 'white',
+    },
 }));
 
 function LoginWithFacebook({ fbLogin }) {
@@ -46,16 +51,20 @@ function LoginWithFacebook({ fbLogin }) {
     };
     const classes = useStyles();
     return (
-        <Typography color="textSecondary" align="center">
-            <Link
-                color="inherit"
-                variant="h5"
-                href="/api/auth/facebook"
-                onClick={onLogin}
-            >
-                Login with Facebook
-            </Link>
-        </Typography>
+        <Button
+            // <Typography color="textSecondary" align="center">
+            //     <Link
+            className={classes.facebook}
+            conponent={Link}
+            variant="contained"
+            href="/api/auth/facebook"
+            onClick={onLogin}
+            fullWidth
+        >
+            Login with Facebook
+            {/* </Link> */}
+            {/* </Typography> */}
+        </Button>
     );
 }
 
@@ -112,10 +121,10 @@ function Login({
                     <CssBaseline />
                     <div className={classes.paper}>
                         <Avatar className={classes.avatar} src="icon.png" />
-                        <Box mt={5}>
-                            <LoginWithFacebook fbLogin={fbLogin} />
-                            <Typography align="center">OR</Typography>
-                        </Box>
+                        {/* <Box mt={5}> */}
+                        <LoginWithFacebook fbLogin={fbLogin} />
+                        <Typography align="center">OR</Typography>
+                        {/* </Box> */}
                         <Typography component="h1" variant="h5">
                             Sign In/Create Account
                         </Typography>

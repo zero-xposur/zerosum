@@ -1,7 +1,15 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getTasteBuddies } from '../reducers';
-import { Container, Card, Typography, Paper, Grid, AppBar, Toolbar } from '@material-ui/core';
+import {
+    Container,
+    Card,
+    Typography,
+    Paper,
+    Grid,
+    AppBar,
+    Toolbar,
+} from '@material-ui/core';
 import { Star, StarBorder } from '@material-ui/icons';
 import Rating from 'react-rating';
 import Circle from 'react-circle';
@@ -20,20 +28,24 @@ const mapDispatchToProps = dispatch => ({
 // https://localhost:3000/api/getTasteBuddies/6
 
 const RatedBeers = props => {
-    useEffect(() => {
-        console.log('rated props', props);
-        if (props.user) {
-            props.fetchTasteBuddies(props.user.id);
-        }
-    }, [props.user]);
+    // useEffect(() => {
+    //     console.log('rated props', props);
+    //     if (props.user) {
+    //         props.fetchTasteBuddies(props.user.id);
+    //     }
+    // }, [props.user]);
 
     let tasteBuddies = props.tasteBuddies || [];
 
     return (
-        <Container style={{marginBottom: '50px'}}>
+        <Container style={{ marginBottom: '50px' }}>
             <AppBar position="sticky" style={{ margin: '0 0 0 5' }}>
-               <Toolbar>
-                    <Typography align="center" style={{margin: 'auto'}} variant="h2">
+                <Toolbar>
+                    <Typography
+                        align="center"
+                        style={{ margin: 'auto' }}
+                        variant="h2"
+                    >
                         Taste Buddies!
                     </Typography>
                 </Toolbar>
@@ -42,7 +54,7 @@ const RatedBeers = props => {
                 return (
                     <Paper key={user.id} style={{ margin: '2%' }}>
                         <Grid container alignContent="space-between">
-                            <Grid item xs={6} sm={6} md={6} alignItems="center">
+                            <Grid item xs={6} sm={6} md={6}>
                                 <Typography
                                     variant="h3"
                                     align="center"
@@ -81,7 +93,7 @@ const RatedBeers = props => {
                                     {user.name} recommends you try:
                                 </Typography>
                             </Grid>
-                            {user.bestBeers.map(beer => {
+                            {user.bestBeers.map((beer, i) => {
                                 return (
                                     <Grid
                                         item

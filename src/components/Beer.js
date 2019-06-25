@@ -30,21 +30,24 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const Beer = ({ match, beer, user, userReviews, fetchBeer }) => {
-    let beerPage = beer;
+    let [beerPage, setBeerPage] = React.useState({});
     let yourReview = userReviews.find(review => review.babeerId === beer.id);
 
     useEffect(() => {
-        fetchBeer(match.params.beerId);
+        fetchBeer(match.params.beerId).then(resp => {
+            setBeerPage(resp.beer);
+        });
         console.log(beer);
         return () => {
-            beerPage = {};
+            console.log('UNMOUNTED!!!!!!!');
+            setBeerPage({});
             yourReview = {};
         };
-    }, [match.params.beerId]);
+    }, [beer.id]);
 
     console.log(user);
     return (
-        <Container style={{marginBottom: '60px'}}>
+        <Container style={{ marginBottom: '60px' }}>
             <Paper>
                 <Grid container>
                     <Grid
