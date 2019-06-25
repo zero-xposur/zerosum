@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect, Fragment, useCallback } from 'react';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -19,7 +19,7 @@ import {
 
 import { Star, StarBorder } from '@material-ui/icons';
 import Rating from 'react-rating';
-import { getBeerListRating } from '../reducers/index';
+import { getBeerListRating, getUserBeerRatings } from '../reducers/index';
 import SingleRating from './SingleRating';
 
 const BeerList = props => {
@@ -42,6 +42,9 @@ const BeerList = props => {
         // console.log('userprops', props);
     }, [props.beers]);
 
+    useCallback(() => {
+        props.fetchUserBeerRatings(props.user.id);
+    }, [props.beers]);
     // useEffect(() => {
     //     console.log('beerListRating:', props);
     // }, [props.user.user]);
@@ -203,12 +206,18 @@ const BeerList = props => {
                                       </Typography>
                                   </Grid>
                                   <Grid item xs={12} md={6} lg={2} xl={2}>
-                                      <SingleRating beer={beer} />
+                                      <SingleRating
+                                          beer={beer}
+                                          userBeerRatings={
+                                              props.userBeerRatings
+                                          }
+                                          user={props.user}
+                                      />
                                       {/* <Typography>
                                           <Rating
                                               initialRating={parseFloat(
                                                   beer.score
-                                              )}
+                                              )}`
                                               emptySymbol={
                                                   <StarBorder
                                                       style={{
@@ -241,13 +250,13 @@ const BeerList = props => {
 const mapStateToProps = state => {
     return {
         user: state.user,
-        beerRating: state.beerListRating,
+        userBeerRatings: state.userBeerRatings,
     };
 };
 
 const mapDispatchToProps = dispatch => ({
-    fetchBeerListRating: (fbId, beerId) => {
-        return dispatch(getBeerListRating(fbId, beerId));
+    fetchUserBeerRatings: fbId => {
+        return dispatch(getUserBeerRatings(fbId));
     },
 });
 
